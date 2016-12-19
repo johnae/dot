@@ -120,7 +120,7 @@ let g:airline_powerline_fonts = 1
 let g:airline_theme = 'dark'
 
 " fzf
-nmap <c-p> :Files<return>
+nmap <leader><leader> :Files<return>
 
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
