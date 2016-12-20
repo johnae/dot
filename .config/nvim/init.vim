@@ -18,6 +18,7 @@ call dein#add('frankier/neovim-colors-solarized-truecolor-only')
 call dein#add('ervandew/supertab')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
+call dein#add('airblade/vim-gitgutter')
 call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 }) 
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 
@@ -70,10 +71,10 @@ set nowb
 
 nnoremap <esc> :noh<return><esc>
 
-nmap <leader>sw<left>  :topleft  vnew<CR>
-nmap <leader>sw<right> :botright vnew<CR>
-nmap <leader>sw<up>    :topleft  new<CR>
-nmap <leader>sw<down>  :botright new<CR>
+" nmap <leader>sw<left>  :topleft  vnew<CR>
+" nmap <leader>sw<right> :botright vnew<CR>
+" nmap <leader>sw<up>    :topleft  new<CR>
+" nmap <leader>sw<down>  :botright new<CR>
 
 set background=dark
 syntax on
@@ -92,7 +93,7 @@ ino <right> <Nop>
 ino <up> <Nop>
 
 set expandtab     " Use spaces instead of tabs
-set smarttab      " Be smart when using tabs ;)<Paste>
+set smarttab      " Be smart when using tabs ;)
 set shiftwidth=2  " Setup default ts
 set tabstop=2
 set softtabstop=2
@@ -140,17 +141,15 @@ endif
 set completeopt=longest,menuone,preview
 let g:deocomplete#enable_smart_case = 1
 let g:deoplete#enable_at_startup = 1
-let g:deopletee#omni#functions = {}
-" let g:deopletee#omni#functions.moon = []
-let g:deopletee#omni#functions.moon = []
-let g:deopletee#omni#sources = {}
-let g:deopletee#omni#sources.moon = ['buffer', 'file']
+let g:deoplete#omni#functions = {}
+let g:deoplete#omni#functions.moon = []
+let g:deoplete#omni#sources = {}
+let g:deoplete#omni#sources.moon = ['buffer', 'file']
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-
 autocmd FileType moon let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" " deoplete tab-complete
+inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
 " close the preview window when you're not using it
 let g:SuperTabClosePreviewOnPopupClose = 1
 
@@ -163,8 +162,22 @@ let g:SuperTabClosePreviewOnPopupClose = 1
 "   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " augroup 
 " 
-" " deoplete tab-complete
-inoremap <expr><tab> pumvisible() ? "\<c-n>" : "\<tab>"
+
+" resizing
+nnoremap <silent> <Leader>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
+nnoremap <silent> <Leader>- :exe "vertical resize " . (winwidth(0) * 2/3)<CR>
+
+" splits
+nmap <leader>s<left> :leftabove  vnew<CR>
+nmap <leader>s<right> :rightbelow vnew<CR>
+nmap <leader>s<up> :leftabove  new<CR>
+nmap <leader>s<down> :rightbelow new<CR>
+
+" move between splits
+nnoremap <c-j> <c-w>j
+nnoremap <c-k> <c-w>k
+nnoremap <c-h> <c-w>h
+nnoremap <c-l> <c-w>l
 
 filetype plugin indent on
 syntax enable
