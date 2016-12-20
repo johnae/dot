@@ -21,6 +21,7 @@ call dein#add('vim-airline/vim-airline-themes')
 call dein#add('airblade/vim-gitgutter')
 call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 }) 
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
+call dein#add('zchee/deoplete-go', { 'do': 'make' })
 
 call dein#end()
 
