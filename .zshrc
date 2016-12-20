@@ -64,18 +64,23 @@ NDIRS=2
 function gitpwd() {
   local -a segs splitprefix; local prefix gitbranch
   segs=("${(Oas:/:)${(D)PWD}}")
+  color="green"
+  branchcolor=$color
 
   if gitprefix=$(git rev-parse --show-prefix 2>/dev/null); then
     splitprefix=("${(s:/:)gitprefix}")
     branch=$(git name-rev --name-only HEAD 2>/dev/null)
+    if ! $(git diff-index --quiet HEAD 2>/dev/null); then
+      branchcolor="magenta"
+    fi
     if (( $#splitprefix > NDIRS )); then
-      print -n "%F{green}${segs[$#splitprefix]}@$branch%f "
+      print -n "%F{$color}${segs[$#splitprefix]}@%F{$branchcolor}$branch%f "
     else
-      segs[$#splitprefix]+="@$branch"
+      segs[$#splitprefix]+="@%F{$branchcolor}$branch"
     fi
   fi
 
-  print "%F{green}${(j:/:)${(@Oa)segs[1,NDIRS]}}%f "
+  print "%F{$color}${(j:/:)${(@Oa)segs[1,NDIRS]}}%f "
 }
 
 function cnprompt6 {
