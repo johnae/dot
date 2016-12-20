@@ -1,3 +1,26 @@
+export ZSH=$HOME/.profile.d
+export PROJECTS=~/Development
+
+if [[ -a ~/.localrc ]]
+then
+  source ~/.localrc
+fi
+
+typeset -U config_files
+config_files=($ZSH/**/*.zsh)
+
+# load paths
+for file in ${(M)config_files:#*/path.zsh}
+do
+  source $file
+done
+
+# load everything but paths
+for file in ${${config_files:#*/path.zsh}:#*/completion.zsh}
+do
+  source $file
+done
+
 # Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
@@ -16,13 +39,29 @@ compinit
 source "/usr/share/fzf/completion.zsh"
 source "/usr/share/fzf/key-bindings.zsh"
 
-alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
 alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
 PATH="$PATH:$HOME/Local/bin"
 
+eval "$(direnv hook zsh)"
+
+## Instead of something like:
+## alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
+## let's just use git like normal but with proper env vars
+## set if we're in $HOME - makes most integrations just work
+## seamlessly (like airblade/gitgutter vim plugin for example)
+function chpwd {
+  if [ "$HOME" = "$(pwd)" ]; then
+    export GIT_WORK_TREE=/home/john
+    export GIT_DIR=/home/john/.cfg
+  else
+    unset GIT_WORK_TREE
+    unset GIT_DIR
+  fi
+}
+
 NDIRS=2
-gitpwd() {
+function gitpwd() {
   local -a segs splitprefix; local prefix gitbranch
   segs=("${(Oas:/:)${(D)PWD}}")
 
@@ -51,3 +90,4 @@ function cnprompt6 {
 }
 
 cnprompt6
+chpwd
