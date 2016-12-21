@@ -57,13 +57,16 @@ bindsym $mod+s scratchpad show
 bindsym $mod+Shift+s move scratchpad
 
 # volume control
-bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 1 +10%; pkill -RTMIN+10 i3blocks"
-bindsym XF86AudioLowerVolume  exec --no-startup-id "pactl set-sink-volume 1 -10%; pkill -RTMIN+10 i3blocks"
-bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 1 toggle; pkill -RTMIN+10 i3blocks"
+#bindsym XF86AudioRaiseVolume exec --no-startup-id "pactl set-sink-volume 1 +10%; pkill -RTMIN+10 i3blocks"
+#bindsym XF86AudioLowerVolume  exec --no-startup-id "pactl set-sink-volume 1 -10%; pkill -RTMIN+10 i3blocks"
+#bindsym XF86AudioMute exec --no-startup-id "pactl set-sink-mute 1 toggle; pkill -RTMIN+10 i3blocks"
 
 # Screen brightness controls
-bindsym $mod+F6 exec --no-startup-id xbacklight -inc 30 # increase screen brightness
-bindsym $mod+F5 exec --no-startup-id xbacklight -dec 30 # decrease screen brightness
+# bindsym $mod+F6 exec --no-startup-id xbacklight -inc 30 # increase screen brightness
+# bindsym $mod+F5 exec --no-startup-id xbacklight -dec 30 # decrease screen brightness
+# Sreen brightness controls
+bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
+bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # External monitor on/off (work)
 #bindsym $mod+Shift+o exec "~/.i3blocks/external_display right; pkill -RTMIN+11 i3blocks"
