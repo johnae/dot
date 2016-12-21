@@ -146,6 +146,14 @@ let g:deoplete#omni#functions = {}
 let g:deoplete#omni#functions.moon = []
 let g:deoplete#omni#sources = {}
 let g:deoplete#omni#sources.moon = ['buffer', 'file']
+
+" deoplete golang config
+let g:deoplete#omni#sources#go#gocode_binary = $GOPATH.'/bin/gocode'
+let g:deoplete#omni#sources#go#dot = 1
+let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
+let g:deoplete#sources#go#use_cache = 1
+let g:deoplete#sources#go#json_directory = expand('~/.cache/gocode')
+
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
 autocmd FileType moon let g:SuperTabDefaultCompletionType = "<c-x><c-o>"
