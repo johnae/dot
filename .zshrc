@@ -21,20 +21,17 @@ do
   source $file
 done
 
-# Lines configured by zsh-newuser-install
 HISTFILE=~/.zsh_history
 HISTSIZE=10000
 SAVEHIST=10000
 setopt appendhistory autocd beep extendedglob nomatch banghist sharehistory hist_ignore_all_dups hist_ignore_space
 bindkey -v
-# End of lines configured by zsh-newuser-install
-# The following lines were added by compinstall
+
 fpath=(/usr/share/fzf $fpath)
 zstyle :compinstall filename ~/.zshrc
 
 autoload -Uz compinit
 compinit
-# End of lines added by compinstall
 
 source "/usr/share/fzf/completion.zsh"
 source "/usr/share/fzf/key-bindings.zsh"
