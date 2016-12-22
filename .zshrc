@@ -30,7 +30,7 @@ bindkey -v
 # End of lines configured by zsh-newuser-install
 # The following lines were added by compinstall
 fpath=(/usr/share/fzf $fpath)
-zstyle :compinstall filename '/home/john/.zshrc'
+zstyle :compinstall filename ~/.zshrc
 
 autoload -Uz compinit
 compinit
