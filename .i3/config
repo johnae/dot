@@ -188,7 +188,8 @@ assign [class="Keepassx"] $workspace8
 
 # Start applications
 exec --no-startup-id /usr/lib/notify-osd/notify-osd
-exec --no-startup-id xautolock -time 5 -locker $lockcmd
+exec --no-startup-id xautolock -detectsleep -time 5 -locker $lockcmd
+exec --no-startup-id xss-lock -- $lockcmd
 exec --no-startup-id xrandr --output eDP-1 --primary
 exec --no-startup-id ~/.i3blocks/external_display right
 exec --no-startup-id feh --bg-fill ~/Pictures/rain_dark.jpg
