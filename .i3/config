@@ -22,7 +22,7 @@ set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome 18
 #set $font pango:SFNS Display, Awesome Bold 16
 set $lockcmd "i3lock -e -n -t -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c"
-set $terminal gnome-terminal
+set $terminal terminator
 
 # Font for window titles. Will also be used by the bar unless a different font
 
@@ -44,7 +44,7 @@ workspace_layout tabbed
 bindsym $mod+Return exec $terminal 
 
 # start a dev terminal
-bindsym $mod+Shift+Return exec $terminal --role=dev -x ~/Local/bin/dev
+bindsym $mod+Shift+Return exec $terminal -l dev
 
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
