@@ -43,6 +43,9 @@ workspace_layout tabbed
 # start a terminal
 bindsym $mod+Return exec $terminal 
 
+# start a dev terminal
+bindsym $mod+Shift+Return exec $terminal --role=dev -x ~/Local/bin/dev
+
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
 
@@ -189,9 +192,6 @@ exec --no-startup-id xss-lock -- $lockcmd
 exec --no-startup-id xrandr --output eDP-1 --primary
 exec --no-startup-id ~/.i3blocks/external_display right
 exec --no-startup-id feh --bg-fill ~/Pictures/rain_dark.jpg
-#exec --no-startup-id xrandr --output DP-1 --mode "1920x1080" --right-of eDP-1
-#exec gnome-terminal --role=dev -x ssh john@localhost
-exec $terminal --role=dev -x ssh john@localhosst
 exec chromium
 exec $terminal --role=eterminal
 exec spotify --force-device-scale-factor=1.7
