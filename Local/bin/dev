@@ -1,3 +1,3 @@
 #!/bin/sh
 
-machinectl shell --uid=1337 --setenv=DISPLAY=$DISPLAY dev /usr/bin/zsh
+sudo machinectl shell --uid=1337 --setenv=DISPLAY=$DISPLAY dev /usr/bin/zsh
