@@ -201,7 +201,7 @@ exec spotify --force-device-scale-factor=1.7
 exec chromium --user-data-dir=/home/john/.config/chromium-private --app=https://inbox.google.com/u/1/
 exec chromium --user-data-dir=/home/john/.config/chromium-private --app=https://inbox.google.com/u/0/
 exec chromium --user-data-dir=/home/john/.config/chromium-private --app=https://gitter.im/AdTEN
-exec chromium --user-data-dir=/home/john/.config/chromium-private --app=http://localhost:5050/browser/ ## pgadmin4
+#exec chromium --user-data-dir=/home/john/.config/chromium-private --app=http://localhost:5050/browser/ ## pgadmin4
 for_window [title="^pgAdmin 4$"] move window to workspace $workspace4
 for_window [title="^Inbox - john.*$"] move window to workspace $workspace2
 for_window [class="Spotify"] move window to workspace $workspace7
