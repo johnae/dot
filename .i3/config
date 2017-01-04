@@ -107,16 +107,19 @@ bindsym $mod+v split v
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
 
-# calculator
-bindsym $mod+c exec calc
-
 # change container layout (stacked, tabbed, toggle split)
-#bindsym $mod+s layout stacking
+bindsym $mod+q layout stacking
 bindsym $mod+w layout tabbed
 bindsym $mod+e layout toggle split
 
 # toggle tiling / floating
 bindsym $mod+Shift+space floating toggle
+
+# use mouse + $mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+# center floating container
+bindsym $mod+o move absolute position center
 
 # change focus between tiling / floating windows
 bindsym $mod+space focus mode_toggle
@@ -202,7 +205,7 @@ exec chromium --user-data-dir=/home/john/.config/chromium-private --app=http://l
 for_window [title="^pgAdmin 4$"] move window to workspace $workspace4
 for_window [title="^Inbox - john.*$"] move window to workspace $workspace2
 for_window [class="Spotify"] move window to workspace $workspace7
-for_window [title="^AdTEN - Gitter$"] move window to scratchpad, scratchpad show, resize set 1800 1000, move position center
+for_window [title="^AdTEN - Gitter$"] move window to scratchpad, scratchpad show, resize set 2800 1600, move position center, scratchpad show
 # exec ~/Local/bin/adten-keepass
 # exec ~/Local/bin/johnae-keepass
 
