@@ -2,21 +2,13 @@
 
 These are the dotfiles I use to customize Arch Linux (mostly). I used to use something called homeshick which linked files into my home but I've since opted to use an arguably simpler approach.
 
-The .profile.d has been divided up into many files named by feature and contained within similarly named directory, eg:
+The ```.profile.d``` has been divided up into many files named by feature and contained within similarly named directory, eg:
 
-```.profile.d/zsh```
+```.profile.d/zsh``` contains the configuration directly related to zsh. In there there are several files named after what they configure,
+eg ```path.zsh``` sets up the path. Those, by the way, always run first. ```aliases.zsh``` sets up some aliases. Should be pretty straightforward.
 
-Above directory contains the configuration directly related to zsh. In there there are several files named after what they configure:
+See ```.zshrc``` for the ordering and how it runs. There's also hostname based config files.
 
-```path.zsh```
-
-Sets up the path. This (and any other files named path.zsh) runs before the rest of the files.
-
-```aliases.zsh```
-
-Some aliases.
-
-Should be pretty straightforward I think. See ```.zshrc``` for how it all runs. There's more like hostname based files that only run on a certain host.
 
 ## Installation
 
