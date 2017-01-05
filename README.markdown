@@ -6,7 +6,7 @@ The .profile.d has been divided up into many files named by feature and containe
 
 ```.profile.d/zsh```
 
-contains the configuration directly related to zsh. In there there are several files named after what they configure:
+Above directory contains the configuration directly related to zsh. In there there are several files named after what they configure:
 
 ```path.zsh```
 
