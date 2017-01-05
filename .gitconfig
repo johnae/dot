@@ -1,0 +1,29 @@
+[user]
+  name = John Axel Eriksson
+  email = john@insane.se
+[core]
+  editor = nvim
+[push]
+  # only push current branch to tracking branch
+  default = tracking
+[merge]
+  tool = vimdiff
+  conflictstyle = diff3
+  prompt = false
+[diff]
+  tool = vimdiff
+  renames = copy
+  renamelimit = 0
+[difftool]
+  prompt = false
+[color]
+  ui = auto
+  branch = auto
+  status = auto
+  diff = false
+  interactive = auto
+[mergetool "vimdiff"]
+  path = nvim
+  cmd = nvim -d "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+[difftool "vimdiff"]
+  path = nvim
