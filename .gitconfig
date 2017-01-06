@@ -1,6 +1,7 @@
 [user]
   name = John Axel Eriksson
   email = john@insane.se
+  signingkey = 78B056C67ED8F2AD
 [core]
   editor = nvim
 [push]
@@ -27,3 +28,5 @@
   cmd = nvim -d "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
 [difftool "vimdiff"]
   path = nvim
+[commit]
+  gpgsign = true
