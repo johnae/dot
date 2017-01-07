@@ -1,3 +1,7 @@
+# fix for unbearably slow git completion
+__git_files () { 
+    _wanted files expl 'local files' _files     
+}
 fpath=(/usr/share/fzf $fpath)
 zstyle :compinstall filename ~/.zshrc
 # case insensitive matching
