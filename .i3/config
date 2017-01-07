@@ -20,8 +20,7 @@ set $inactive-text-color #839496
 set $urgent-bg-color #E53935
 set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome 18
-#set $font pango:SFNS Display, Awesome Bold 16
-set $lockcmd "i3lock -e -n -t -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c"
+set $lockcmd /usr/bin/i3lock -e -n -t -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
 set $terminal terminator
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -53,7 +52,7 @@ bindsym $mod+m move workspace to output right
 bindsym $mod+Shift+q kill
 
 # lock screen
-bindsym Control+$mod+l exec xautolock -locknow
+bindsym Control+$mod+l exec loginctl lock-session
 
 # scratchpad
 bindsym $mod+s scratchpad show
@@ -190,7 +189,6 @@ assign [class="Keepassx"] $workspace8
 
 # Start applications
 exec --no-startup-id /usr/lib/notify-osd/notify-osd
-exec --no-startup-id xautolock -detectsleep -time 5 -locker $lockcmd
 exec --no-startup-id xss-lock -- $lockcmd
 exec --no-startup-id xrandr --output eDP-1 --primary
 exec --no-startup-id ~/.i3blocks/external_display right
