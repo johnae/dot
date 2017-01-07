@@ -1,7 +1,7 @@
 [user]
   name = John Axel Eriksson
   email = john@insane.se
-  signingkey = 78B056C67ED8F2AD
+  signingkey = 0x04ED6F42C62F42E9
 [core]
   editor = nvim
 [push]
