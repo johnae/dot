@@ -6,10 +6,8 @@
 function chpwd {
   if [ "$HOME" = "$(pwd)" ]; then
     export GIT_WORK_TREE=/home/john
-    export GIT_DIR=/home/john/.cfg
   else
     unset GIT_WORK_TREE
-    unset GIT_DIR
   fi
 }
 

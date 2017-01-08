@@ -17,7 +17,6 @@ alias spotify="spotify --force-device-scale-factor=1.7"
 ## can't install packages with yaourt when in
 ## home dir
 function yaourt() {
-  unset GIT_DIR
   unset GIT_WORK_TREE
   /usr/bin/yaourt $*
 }
