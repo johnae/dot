@@ -13,3 +13,11 @@ alias less="less -R"
 
 alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
+## see .profile.d/zsh/prompt.zsh chpwd function
+## can't install packages with yaourt when in
+## home dir
+function yaourt() {
+  unset GIT_DIR
+  unset GIT_WORK_TREE
+  /usr/bin/yaourt $*
+}
