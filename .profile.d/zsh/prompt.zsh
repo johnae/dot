@@ -5,9 +5,11 @@
 ## seamlessly (like airblade/gitgutter vim plugin for example)
 function chpwd {
   if [ "$HOME" = "$(pwd)" ]; then
-    export GIT_WORK_TREE=/home/john
+    export GIT_WORK_TREE=$HOME
+    export GIT_DIR=$HOME/.cfg
   else
     unset GIT_WORK_TREE
+    unset GIT_DIR
   fi
 }
 

@@ -18,5 +18,6 @@ alias spotify="spotify --force-device-scale-factor=1.7"
 ## home dir
 function yaourt() {
   unset GIT_WORK_TREE
+  unset GIT_DIR
   /usr/bin/yaourt $*
 }
