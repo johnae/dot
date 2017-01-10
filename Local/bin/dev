@@ -1,6 +1,6 @@
 #!/bin/sh
 if ! machinectl list | grep "^dev" > /dev/null; then
   sudo systemctl start systemd-nspawn@dev
-  sleep 2
 fi
-sudo machinectl shell --uid=1337 --setenv=DISPLAY=$DISPLAY dev /usr/bin/zsh
+
+sudo machinectl shell --uid=$UID --setenv=DISPLAY=$DISPLAY --setenv=CD_TO=$PWD dev /usr/bin/zsh
