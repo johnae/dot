@@ -20,7 +20,7 @@ set $inactive-text-color #839496
 set $urgent-bg-color #E53935
 set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome 18
-set $lockcmd /usr/bin/i3lock -e -n -t -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+set $lockcmd /usr/bin/i3lock -e -n -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
 set $terminal terminator
 
 # Font for window titles. Will also be used by the bar unless a different font
