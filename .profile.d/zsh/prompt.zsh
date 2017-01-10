@@ -1,9 +1,8 @@
-## Instead of something like:
-## alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
-## let's just use git like normal but with proper env vars
-## set if we're in $HOME - makes most integrations just work
-## seamlessly (like airblade/gitgutter vim plugin for example)
-function chpwd {
+## manage home
+alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
+
+## works seamlessly with gitgutter if started from homedir
+function nvim {
   if [ "$HOME" = "$(pwd)" ]; then
     export GIT_WORK_TREE=$HOME
     export GIT_DIR=$HOME/.cfg
@@ -11,19 +10,29 @@ function chpwd {
     unset GIT_WORK_TREE
     unset GIT_DIR
   fi
+  /usr/bin/nvim $*
+}
+
+## wrap it up for easier use in prompt below
+function _pgit {
+  if [ "$HOME" = "$(pwd)" ]; then
+    home $*
+  else
+    git $*
+  fi
 }
 
 NDIRS=2
-function gitpwd() {
+function _pgitpwd {
   local -a segs splitprefix; local prefix gitbranch
   segs=("${(Oas:/:)${(D)PWD}}")
   color="green"
   branchcolor=$color
 
-  if gitprefix=$(git rev-parse --show-prefix 2>/dev/null); then
+  if gitprefix=$(_pgit rev-parse --show-prefix 2>/dev/null); then
     splitprefix=("${(s:/:)gitprefix}")
-    branch=$(git name-rev --name-only HEAD 2>/dev/null)
-    if ! $(git diff-index --quiet HEAD 2>/dev/null); then
+    branch=$(_pgit name-rev --name-only HEAD 2>/dev/null)
+    if ! $(_pgit diff-index --quiet HEAD 2>/dev/null); then
       branchcolor="magenta"
     fi
     if (( $#splitprefix > NDIRS )); then
@@ -43,7 +52,7 @@ function cnprompt6 {
       preexec() { printf "\e]0;$HOST: %s\a" $1 };;
   esac
   setopt PROMPT_SUBST
-  PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(gitpwd)%B%(!.%F{red}.%F{yellow})%#${SSH_CLIENT:+%#} %b'
+  PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(_pgitpwd)%B%(!.%F{red}.%F{yellow})%#${SSH_CLIENT:+%#} %b'
   RPROMPT=''
 }
 
@@ -55,5 +64,4 @@ function zle-line-init zle-keymap-select {
 zle -N zle-line-init
 zle -N zle-keymap-select
 
-chpwd
 cnprompt6
