@@ -45,6 +45,9 @@ bindsym $mod+Return exec $terminal
 # start a dev terminal
 bindsym $mod+Shift+Return exec $terminal -l dev
 
+# project select
+bindsym $mod+Shift+p exec ~/Local/bin/project-select
+
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
 
@@ -146,17 +149,6 @@ bindsym $mod+7 workspace $workspace7
 bindsym $mod+8 workspace $workspace8
 bindsym $mod+9 workspace 9
 bindsym $mod+0 workspace 10
-
-# Dev
-bindsym $mod+Shift+d workspace $workspace3
-# Chrome
-bindsym $mod+Shift+b workspace $workspace1
-# Mail
-bindsym $mod+Shift+m workspace $workspace2
-# Db
-bindsym $mod+Shift+p workspace $workspace4
-# Local terminal
-bindsym $mod+Shift+t workspace $workspace5
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace $workspace1
