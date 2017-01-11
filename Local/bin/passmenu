@@ -2,6 +2,7 @@
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
 password_file=$(find $prefix -type f -name "*.gpg" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -dmenu "$@")
+error_icon=~/Pictures/icons/essential/error.svg
 
 if [ "$password_file" = "" ]; then
   exit
@@ -15,7 +16,14 @@ function getpass {
   echo -n $(gpg --decrypt $prefix/$1.gpg 2>/dev/null | head -1)
 }
 
-getlogin $password_file | xdotool type --clearmodifiers --file -
-xdotool key Tab
-getpass $password_file | xdotool type --clearmodifiers --file -
-xdotool key Return
+login=$(getlogin $password_file)
+pass=$(getpass $password_file)
+
+if [ "$pass" = "" ]; then
+  notify-send -i $error_icon -a "Password store" -u critical "Decrypt error" "Error decrypting password file, is your gpg card inserted?"
+else
+  echo -n $login | xdotool type --clearmodifiers --file -
+  xdotool key Tab
+  echo -n $pass | xdotool type --clearmodifiers --file -
+  xdotool key Return
+fi
