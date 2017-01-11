@@ -1,13 +1,8 @@
 #!/usr/bin/sh
 
-bg_color="#004b46"
-border_color="$bg-color"
-inactive_bg_color="#001133"
-text_color="#fdf6e3"
-inactive_text_color="#839496"
-urgent_bg_color="#E53935"
-selected_color="#9999FF"
+layout=dev
+project=$(find $HOME/Development $HOME/Development/Playad -maxdepth 1 -mindepth 1 -type d | rofi -dmenu)
 
-SEL=$(find $HOME/Development $HOME/Development/Playad -maxdepth 1 -mindepth 1 -type d | rofi -fuzzy -lines 3 -eh 2 -padding 300 -fullscreen -opacity '85' -color-normal $bg_color,$text_color,$bg_color,$bg_color,$selected_color -color-window $bg_color -font 'System San Fransisco Display 30' -dmenu)
+[[ -n $project ]] || exit
 
-exec terminator -T $(basename $SEL) -l dev --working-directory=$SEL
+exec terminator -T $(basename $project) -l $layout --working-directory=$project
