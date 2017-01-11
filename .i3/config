@@ -45,8 +45,14 @@ bindsym $mod+Return exec $terminal
 # start a dev terminal
 bindsym $mod+Shift+Return exec $terminal -l dev
 
+# passmenu
+bindsym $mod+Shift+d exec ~/Local/bin/passmenu --type
+
 # project select
 bindsym $mod+Shift+p exec ~/Local/bin/project-select
+
+# chrome history search
+bindsym $mod+Shift+h exec ~/Local/bin/chrome-hist
 
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
@@ -78,9 +84,10 @@ bindsym $mod+Shift+o exec "~/.i3/external_display right"
 bindsym $mod+Shift+x exec "~/.i3/external_display off"
 
 # start rofi (as a program launcher)
-bindsym $mod+d exec "rofi -fuzzy -lines 3 -eh 2 -padding 300 -fullscreen -opacity '85' -color-normal '$bg-color,$text-color,$bg-color,$bg-color,$selected-color' -color-window '$bg-color' -font 'System San Fransisco Display 30' -show run"
+bindsym $mod+d exec "rofi -show run"
+
 # start rofi (as a window switcher)
-bindsym $mod+Tab exec "rofi -fuzzy -lines 3 -eh 2 -padding 300 -fullscreen -opacity '85' -color-normal '$bg-color,$text-color,$bg-color,$bg-color,$selected-color' -color-window '$bg-color' -font 'System San Fransisco Display 30' -show window"
+bindsym $mod+Tab exec "rofi -show window"
 
 # change focus
 bindsym $mod+Left focus left
