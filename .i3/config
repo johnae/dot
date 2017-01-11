@@ -187,7 +187,6 @@ assign [class="Spotify"] $workspace7
 assign [class="Keepassx"] $workspace8
 
 # Start applications
-exec --no-startup-id /usr/lib/notify-osd/notify-osd
 exec --no-startup-id xss-lock -- $lockcmd
 exec --no-startup-id xrandr --output eDP-1 --primary
 exec --no-startup-id ~/.i3blocks/external_display right
@@ -205,6 +204,8 @@ for_window [class="Spotify"] move window to workspace $workspace7
 for_window [title="^AdTEN - Gitter$"] move window to scratchpad, scratchpad show, resize set 2800 1600, move position center, scratchpad show
 # exec ~/Local/bin/adten-keepass
 # exec ~/Local/bin/johnae-keepass
+
+exec --no-startup-id /usr/lib/notify-osd/notify-osd
 
 workspace_auto_back_and_forth yes
 bindsym $mod+z workspace back_and_forth
