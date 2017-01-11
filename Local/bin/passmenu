@@ -1,0 +1,21 @@
+#!/usr/bin/sh
+
+prefix=${PASSWORD_STORE_DIR-~/.password-store}
+password_file=$(find $prefix -type f -name "*.gpg" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -dmenu "$@")
+
+if [ "$password_file" = "" ]; then
+  exit
+fi
+
+function getlogin {
+  echo -n $(basename $1)
+}
+
+function getpass {
+  echo -n $(gpg --decrypt $prefix/$1.gpg 2>/dev/null | head -1)
+}
+
+getlogin $password_file | xdotool type --clearmodifiers --file -
+xdotool key Tab
+getpass $password_file | xdotool type --clearmodifiers --file -
+xdotool key Return
