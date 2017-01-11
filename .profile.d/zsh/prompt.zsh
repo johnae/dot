@@ -4,13 +4,10 @@ alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
 ## works seamlessly with gitgutter if started from homedir
 function nvim {
   if [ "$HOME" = "$(pwd)" ]; then
-    export GIT_WORK_TREE=$HOME
-    export GIT_DIR=$HOME/.cfg
+    GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg /usr/bin/nvim $*
   else
-    unset GIT_WORK_TREE
-    unset GIT_DIR
+    /usr/bin/nvim $*
   fi
-  /usr/bin/nvim $*
 }
 
 ## wrap it up for easier use in prompt below
