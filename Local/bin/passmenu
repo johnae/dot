@@ -9,15 +9,15 @@ if [ "$password_file" = "" ]; then
 fi
 
 function getlogin {
-  echo -n $(basename $1)
+  echo -n $(basename "$1")
 }
 
 function getpass {
-  echo -n $(gpg --decrypt $prefix/$1.gpg 2>/dev/null | head -1)
+  echo -n $(gpg --decrypt "$prefix/$1.gpg" 2>/dev/null | head -1)
 }
 
-login=$(getlogin $password_file)
-pass=$(getpass $password_file)
+login=$(getlogin "$password_file")
+pass=$(getpass "$password_file")
 
 if [ "$pass" = "" ]; then
   notify-send -i $error_icon -a "Password store" -u critical "Decrypt error" "Error decrypting password file, is your gpg card inserted?"
