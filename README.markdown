@@ -22,7 +22,7 @@ $ GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git --local status.showUntrackedFiles n
 If there are any complaints like files already being there, this should help:
 
 ```sh
-$ mkdir -p .cfg-backup && GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git checko 2>&1 | egrep "\s+\." | awk '{print $1}' | xargs -I{} mv {} .cfg-backup/{}
+$ mkdir -p .cfg-backup && GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git checkout 2>&1 | egrep "\s+\." | awk '{print $1}' | xargs -I{} mv {} .cfg-backup/{}
 ```
 
 Above backs up any preexisting files to .cfg-backup.
