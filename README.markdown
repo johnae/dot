@@ -1,4 +1,4 @@
-# John's Dotfiles
+# My Dotfiles
 
 These are the dotfiles I use to customize Arch Linux (mostly). I used to use something called homeshick which linked files into my home but I've since opted to use an arguably simpler approach.
 
