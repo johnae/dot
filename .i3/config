@@ -46,7 +46,10 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+Shift+Return exec $terminal -l dev
 
 # passmenu
-bindsym $mod+Shift+d exec ~/Local/bin/passmenu --type
+bindsym $mod+Shift+d exec ~/Local/bin/passmenu
+
+# notes-menu
+bindsym $mod+Shift+n exec ~/Local/bin/notes-menu
 
 # project select
 bindsym $mod+Shift+p exec ~/Local/bin/project-select
