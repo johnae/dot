@@ -3,6 +3,7 @@
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
 password_file=$(find $prefix -type f -name "*.gpg" -and -path "$prefix/notes/*" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -dmenu "$@")
 error_icon=~/Pictures/icons/essential/error.svg
+secs=15
 
 if [ "$password_file" = "" ]; then
   exit
@@ -17,5 +18,5 @@ note=$(getnote "$password_file")
 if [ "$note" = "" ]; then
   notify-send -i $error_icon -a "Password store" -u critical "Decrypt error" "Error decrypting password file, is your gpg card inserted?"
 else
-  zenity --info --title "Secure note" --text "$note" --width=1600 --height=1200
+  zenity --info --title "Secure note" --text "$note\n\nThis dialog will autoclose in $secs seconds..." --width=800 --height=600 --timeout=$secs
 fi
