@@ -26,9 +26,9 @@ function _pgitpwd {
   color="green"
   branchcolor=$color
 
-  if gitprefix=$(_pgit rev-parse --show-prefix 2>/dev/null); then
+  if gitprefix=$(_pgit rev-parse --show-prefix HEAD 2>/dev/null); then
     splitprefix=("${(s:/:)gitprefix}")
-    branch=$(_pgit name-rev --name-only HEAD 2>/dev/null)
+    branch=$(_pgit symbolic-ref HEAD 2>/dev/null | sed 's!refs\/heads\/!!')
     if ! $(_pgit diff-index --quiet HEAD 2>/dev/null); then
       branchcolor="magenta"
     fi
