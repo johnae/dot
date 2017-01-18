@@ -24,6 +24,7 @@ call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('zchee/deoplete-go', { 'do': 'make' })
 call dein#add('fatih/vim-go')
+call dein#add('fishbullet/deoplete-ruby')
 
 call dein#end()
 
@@ -155,6 +156,9 @@ let g:deoplete#omni#sources#go#dot = 1
 let g:deoplete#sources#go#sort_class = ['package', 'func', 'type', 'var', 'const']
 let g:deoplete#sources#go#use_cache = 1
 let g:deoplete#sources#go#json_directory = expand('~/.cache/gocode')
+
+" deoplete ruby config
+let g:deoplete#omni#functions.ruby = 'rubycomplete#Complete'
 
 autocmd InsertLeave,CompleteDone * if pumvisible() == 0 | pclose | endif
 
