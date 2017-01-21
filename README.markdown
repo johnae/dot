@@ -27,10 +27,23 @@ $ mkdir -p .cfg-backup && GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git checkout 2>
 
 Above backs up any preexisting files to .cfg-backup.
 
+## Neovim bootstrap
+
+I'm using dein, https://github.com/Shougo/dein.vim, to manage plugins. This needs to be somewhat manually installed first. Like this:
+
+```sh
+curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/dein-installer.sh
+sh /tmp/dein-installer.sh 
+```
+
+One neovim caveat is currently that if neovim is opened when CWD=$HOME it won't be able to install plugins because GIT_DIR and GIT_WORK_TREE will be set
+for home git repo (and will interfere with deins pulling of plugins). The reason it is this way (for now anyway) is that I enjoy git gutter in vim even
+for the things I change in my dotfiles. Maybe there's a workaround I'll implement sometime.
 
 ## Local settings
 
-The file ```~/.localrc``` is always loaded first if present.
+The file ```~/.defaultrc``` is always loaded first, after that ```~/.localrc``` will be loaded if present. That may
+override settings in .defaultrc. ~/.localrc is not checked in and shouldn't be.
 
 
 ## License
