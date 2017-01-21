@@ -16,7 +16,7 @@ See ```.zshrc``` for the ordering and how it runs. There's also hostname based c
 $ git clone --bare https://github.com/johnae/dot.git ~/.cfg
 $ cd ~
 $ GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git checkout
-$ GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git --local status.showUntrackedFiles no
+$ GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git config --local status.showUntrackedFiles no
 ```
 
 If there are any complaints like files already being there, this should help:
