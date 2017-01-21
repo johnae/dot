@@ -2,7 +2,7 @@
 __git_files () { 
     _wanted files expl 'local files' _files     
 }
-fpath=(/usr/share/fzf $fpath)
+fpath=($_FZFSH $fpath)
 zstyle :compinstall filename ~/.zshrc
 # case insensitive matching
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
@@ -17,4 +17,4 @@ zmodload zsh/complist
 autoload -Uz compinit
 compinit
 
-source "/usr/share/fzf/completion.zsh"
+source "$_FZFSH/completion.zsh"

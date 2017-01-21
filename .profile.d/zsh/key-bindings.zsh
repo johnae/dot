@@ -2,4 +2,4 @@
 bindkey -v
 
 # fzf key-bindings
-source "/usr/share/fzf/key-bindings.zsh"
+source "$_FZFSH/key-bindings.zsh"
