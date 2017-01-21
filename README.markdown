@@ -36,6 +36,19 @@ curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh >
 sh /tmp/dein-installer.sh 
 ```
 
+You will also want to install python2 and python3 + pip (for https://github.com/Shougo/deoplete.nvim). Then for both 2 and 3 install neovim. Probably a user install, like this:
+
+```sh
+pip install --user neovim ## for python2.x
+pip3 install --user neovim ## for python3.x
+```
+
+The golang completion uses gocode (see https://github.com/zchee/deoplete-go). That can be installed like this:
+
+```sh
+go get -u github.com/nsf/gocode
+```
+
 One neovim caveat is currently that if neovim is opened when CWD=$HOME it won't be able to install plugins because GIT_DIR and GIT_WORK_TREE will be set
 for home git repo (and will interfere with deins pulling of plugins). The reason it is this way (for now anyway) is that I enjoy git gutter in vim even
 for the things I change in my dotfiles. Maybe there's a workaround I'll implement sometime.
