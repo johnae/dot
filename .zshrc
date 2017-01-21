@@ -4,6 +4,13 @@ export TERM="xterm-256color"
 
 setopt promptsubst
 
+## set up environment defaults
+if [[ -a ~/.defaultrc ]]
+then
+  source ~/.defaultrc
+fi
+
+## allow environment overrides (don't check in this file)
 if [[ -a ~/.localrc ]]
 then
   source ~/.localrc
