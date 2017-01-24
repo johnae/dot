@@ -208,7 +208,7 @@ for_window [title="^AdTEN - Gitter$"] move window to scratchpad, scratchpad show
 # exec ~/Local/bin/adten-keepass
 # exec ~/Local/bin/johnae-keepass
 
-exec --no-startup-id /usr/lib/notify-osd/notify-osd
+exec --no-startup-id /usr/lib/notify-osd-customizable/notify-osd
 
 workspace_auto_back_and_forth yes
 bindsym $mod+z workspace back_and_forth
@@ -261,7 +261,8 @@ mode "(p)oweroff, (s)uspend, (r)eboot, (l)ogout" {
         bindsym p exec "i3-msg mode 'default'; systemctl poweroff"
         bindsym s exec "i3-msg mode 'default'; xautolock -locknow; systemctl suspend" 
         bindsym r exec "i3-msg mode 'default'; systemctl reboot"
-        bindsym l exec "i3-msg exit"
+        bindsym l exec "sudo machinectl poweroff dev; i3-msg exit"
+        #bindsym l exec "i3-msg exit"
 
         # back to normal: Enter or Escape
         bindsym Return mode "default"
@@ -283,44 +284,6 @@ exec --no-startup-id compton --opacity-rule '100:window_type = "dock" && class_g
 # For password prompts etc
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 
-# Start i3bar to display a workspace bar (plus the system information i3status
-# finds out, if available)
-#bar {
-#  colors {
-## Whole color settings
-#    background #000000
-#      statusline #ffffff
-#      separator  #666666
-#
-## Type             border  background font
-#      focused_workspace  #008fff #007fff #ffffff
-#      active_workspace   #333333 #5f676a #ffffff
-#      inactive_workspace #333333 #222222 #888888
-#      urgent_workspace   #aa0000 #990000 #ffffff
-#  }
-#  tray_output primary
-#  status_command i3status -c ~/i3status.conf
-##status_command /home/john/.i3/vpn-dev-status.sh
-#}
-
-# bar {
-#   colors {
-#       # Whole color settings
-#       background $inactive-bg-color
-#       statusline #ffffff
-#       separator  #666666
-# 
-#       # Type                    border                  background              font
-#       focused_workspace         $bg-color               $bg-color               $text-color
-#       active_workspace          #333333                 #5f676a                 $text-color
-#       inactive_workspace        $inactive-bg-color      $inactive-bg-color      $inactive-text-color
-#       urgent_workspace          $urgent-bg-color        $urgent-bg-color        $text-color
-#   }
-#   tray_output none
-#   position top
-#   status_command spook -w /home/john/Development/ai3
-# }
-
 bar {
   colors {
       # Whole color settings
@@ -335,10 +298,5 @@ bar {
       urgent_workspace          $urgent-bg-color        $urgent-bg-color        $text-color
   }
   tray_output primary
-  #status_command i3status -c ~/i3status.conf
-  #status_command i3blocks -c ~/.i3/blocks.conf
-  # status_command /home/john/Development/eye3/eye3 /home/john/Development/eye3/example_config
-  status_command /home/john/Development/spook/spook -w /home/john/Development/ai3
-  #status_command /home/john/Development/eye3/eye3
-#status_command /home/john/.i3/vpn-dev-status.sh
+  status_command /home/john/Local/bin/spook -w /home/john/Development/moonbar
 }
