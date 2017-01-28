@@ -1,14 +1,13 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 prefix=$HOME/Development
-layout=dev
 
 project=$(find $prefix $prefix/Playad -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -dmenu)
 
 [[ -n $project ]] || exit
 
 project_dir=$prefix/$project
-
-echo "exec i3-layout 3 $layout"
+cat << EOF | last-command
 export CD_TO=$project_dir
-exec i3-layout $layout
+exec st -e ~/Local/bin/dev
+EOF

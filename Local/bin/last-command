@@ -1,0 +1,6 @@
+#!/bin/sh
+
+last_command=$HOME/.last_command
+cat - > $last_command
+
+sh $last_command
