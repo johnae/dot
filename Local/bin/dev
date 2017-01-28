@@ -1,7 +1,19 @@
 #!/bin/sh
-if ! machinectl list | grep "^dev" > /dev/null; then
-  sudo systemctl start systemd-nspawn@dev
-  sleep 2
-fi
 
-sudo machinectl shell --uid=$UID --setenv=DISPLAY=$DISPLAY --setenv=CD_TO=$PWD dev /usr/bin/zsh
+CD_TO=${CD_TO:-$PWD}
+
+power_on() {
+  if ! machinectl list | grep "^dev" > /dev/null; then
+    sudo systemctl start systemd-nspawn@dev
+    sleep 1
+  fi
+}
+
+login() {
+  sudo machinectl shell --uid=$UID --setenv=DISPLAY="$DISPLAY" --setenv=CD_TO=$CD_TO dev /usr/bin/zsh
+}
+
+power_off_dev yes
+power_on
+login
+power_off_dev yes

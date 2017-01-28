@@ -1,0 +1,12 @@
+#!/bin/sh
+
+[ "${FLOCKER}" != "$0" ] && exec env FLOCKER="$0" flock -e "$0" "$0" "$@" || :
+
+if machinectl list | grep "^dev" > /dev/null; then
+  if ! ps aux | grep machinectl | grep CD_TO | grep -v grep > /dev/null; then
+    sudo machinectl poweroff dev
+    if [ -z "$1" ]; then
+      sleep 1
+    fi
+  fi
+fi
