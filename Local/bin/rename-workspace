@@ -1,0 +1,12 @@
+#!/usr/bin/sh
+
+WSNUM=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2 | grep -o -E '[[:digit:]]+')
+
+if [ -z "$@" ]; then
+  echo "Type the new workspace name"
+else
+  i3-msg "rename workspace to \"$WSNUM: $@\"" 2&>1 /dev/null
+  exit 0
+fi
+
+#rofi -show rnw -modi rnw:~/Local/bin/rename-workspace
