@@ -9,4 +9,6 @@ project=$(find $prefix $prefix/Playad -maxdepth 1 -mindepth 1 -type d | cut -f 5
 
 project_dir=$prefix/$project
 
-exec terminator -T $(basename $project) -l $layout --working-directory=$project_dir
+echo "exec i3-layout 3 $layout"
+export CD_TO=$project_dir
+exec i3-layout $layout
