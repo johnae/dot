@@ -1,0 +1,26 @@
+#!/usr/bin/sh
+
+#WS=$1
+NAME=$1
+LAYOUTS=$HOME/.i3/layouts
+
+#echo "WS: $WS"
+#echo "NAME: $NAME"
+#echo "LAYOUTS: $LAYOUTS"
+
+#if [ -z "$WS" ]; then
+#  echo "First parameter must be the workspace number where to load the layout..."
+#  exit 1
+#fi
+
+if [ -z "$NAME" ]; then
+  echo "Second parameter must be the name of the layout..."
+  exit 1
+fi
+
+if [ ! -d "$LAYOUTS/$NAME" ]; then
+  echo "There's no such layout '$NAME'..."
+  exit 1
+fi
+
+exec i3-load-layout $LAYOUTS/$NAME/layout.json $LAYOUTS/$NAME/programs.list

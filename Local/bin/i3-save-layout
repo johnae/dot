@@ -1,0 +1,16 @@
+#!/usr/bin/sh
+
+WS=$1
+OUT=$2
+
+if [ -z "$WS" ]; then
+  echo "First parameter must be the workspace number to save..."
+  exit 1
+fi
+
+if [ -z "$OUT" ]; then
+  echo "Second parameter must be the file in which to store the json..."
+  exit 1
+fi
+
+i3-save-tree --workspace $1 | tail -n +2 | fgrep -v '// splitv' | sed 's|//||g' > $2

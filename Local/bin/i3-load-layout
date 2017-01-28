@@ -1,0 +1,32 @@
+#!/usr/bin/sh
+
+#WS=$1
+LAYOUT=$1
+PROGRAMS=$2
+
+eval_command() {
+  "$@";
+}
+
+#if [ -z "$WS" ]; then
+#  echo "First parameter must be the workspace number where to load the layout..."
+#  exit 1
+#fi
+
+if [ -z "$LAYOUT" ]; then
+  echo "Second parameter must be the file in which the layout is stored..."
+  exit 1
+fi
+
+if [ ! -e "$LAYOUT" ]; then
+  echo "There's no such layout '$LAYOUT'..."
+  exit 1
+fi
+
+i3-msg "append_layout $LAYOUT"
+
+IFS=$'\n'
+for P in $(cat $PROGRAMS); do
+  echo "Starting '$P'..."
+  (eval $P &)
+done
