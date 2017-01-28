@@ -46,3 +46,5 @@ for file in ${${host_config_files:#*/path.zsh.$hn}:#*/completion.zsh.$hn}
 do
   source $file
 done
+
+export PATH
