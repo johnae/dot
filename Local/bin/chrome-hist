@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 DB=$HOME/.config/chromium/Default/History
 TMPDIR=$(mktemp -dt "history-search.XXXXXXXX" --tmpdir=$XDG_RUNTIME_DIR)

@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 WSNUM=$(i3-msg -t get_workspaces | jq '.[] | select(.focused==true).name' | cut -d"\"" -f2 | grep -o -E '[[:digit:]]+')
 

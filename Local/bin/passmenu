@@ -1,4 +1,4 @@
-#!/usr/bin/sh
+#!/bin/sh
 
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
 password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -dmenu "$@")

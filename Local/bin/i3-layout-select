@@ -1,0 +1,11 @@
+#!/bin/sh
+
+prefix=$HOME/.i3/layouts
+
+layout=$(find $prefix -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -dmenu)
+
+[[ -n $layout ]] || exit
+
+name=$(basename $layout)
+
+exec i3-layout $name
