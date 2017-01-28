@@ -34,8 +34,14 @@ bindsym $mod+Shift+n exec ~/Local/bin/notes-menu
 # project select
 bindsym $mod+Shift+p exec ~/Local/bin/project-select
 
+# layout select
+bindsym $mod+l exec ~/Local/bin/i3-layout-select
+
 # chrome history search
 bindsym $mod+Shift+h exec ~/Local/bin/chrome-hist
+
+# last command
+bindsym $mod+period exec /bin/sh ~/.last_command
 
 # rename workspace
 bindsym $mod+n exec rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:~/Local/bin/rename-workspace
