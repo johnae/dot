@@ -1,0 +1,40 @@
+{
+    "layout": "tabbed",
+    "percent": null,
+    "type": "con",
+    "nodes": [
+      {
+          "layout": "splitv",
+          "percent": 1.0,
+          "type": "con",
+          "nodes": [
+              {
+                  "border": "none",
+                  "name": "dev",
+                  "percent": 0.7,
+                  "type": "con",
+                  "swallows": [
+                      {
+                          "class": "^st\\-256color$",
+                          "instance": "^st\\-256color$"
+                      }
+                  ]
+              },
+              {
+                  "name": "spook",
+                  "percent": 0.3,
+                  "type": "con",
+                  "swallows": [
+                      {
+                          "class": "^st\\-256color$",
+                          "instance": "^st\\-256color$"
+                      }
+                  ]
+              }
+          ]
+      }
+    ]
+}
+
+
+
