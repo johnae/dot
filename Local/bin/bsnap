@@ -1,0 +1,33 @@
+#!/bin/sh
+
+bmount
+
+if [ ! -e "/home/.backup-latest" ]; then
+  echo "Creating initial snapshot at /home/.backup-latest"
+  btrfs subvolume snapshot -r /home /home/.backup-latest
+  sync
+  if [ ! -e "/mnt/home" ]; then
+    echo "Creating subvolume /mnt/home..."
+    btrfs subvolume create /mnt/home
+  fi
+  echo "Sending changes to /mnt/home..."
+  btrfs send /home/.backup-latest | btrfs receive /mnt/home
+else
+  echo "Snaphotting /mnt/home to /home/.backup-new"
+  btrfs subvolume snapshot -r /home /home/.backup-new
+  sync
+  echo "Sending diff to /mnt/home/.backup-new"
+  btrfs send -p /home/.backup-latest /home/.backup-new | btrfs receive /mnt/home
+  echo "Deleting old snap..."
+  btrfs subvolume delete /home/.backup-latest
+  echo "Moving new snap into position..."
+  mv /home/.backup-new /home/.backup-latest
+  echo "Deleting old backup..."
+  btrfs subvolume delete /mnt/home/.backup-latest
+  echo "Moving new backup snap into position..."
+  mv /mnt/home/.backup-new /mnt/home/.backup-latest
+fi
+
+sync
+
+bumount

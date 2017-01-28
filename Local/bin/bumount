@@ -1,0 +1,16 @@
+#!/bin/sh
+
+if mountpoint -q -- "/mnt"; then
+  echo "unmounting backup"
+  umount /mnt
+else
+  echo "/mnt is not a mountpoint"
+fi
+
+if [ -e "/dev/mapper/crypt-backup" ]; then
+  echo "closing encrypted drive /dev/mapper/crypt-backup"
+  cryptsetup close /dev/mapper/crypt-backup
+else
+  echo "crypt-backup already closed"
+fi
+

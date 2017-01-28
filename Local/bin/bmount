@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ ! -e "/dev/mapper/crypt-backup" ]; then
+  cryptsetup open /dev/sda1 crypt-backup
+else
+  echo "crypt-backup already mapped"
+fi
+
+if ! mountpoint -q -- "/mnt"; then
+  echo "mounting backup"
+  mount -o defaults,noatime,compress=lzo,space_cache /dev/mapper/crypt-backup /mnt
+else
+  echo "/mnt is already a mountpoint"
+fi
