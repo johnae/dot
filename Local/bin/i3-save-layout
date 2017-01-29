@@ -1,16 +1,18 @@
 #!/bin/sh
 
 WS=$1
-OUT=$2
+NAME=$2
+LAYOUTS=$HOME/.i3/layouts
 
 if [ -z "$WS" ]; then
   echo "First parameter must be the workspace number to save..."
   exit 1
 fi
 
-if [ -z "$OUT" ]; then
-  echo "Second parameter must be the file in which to store the json..."
+if [ -z "$NAME" ]; then
+  echo "Second parameter must be layout name in which to store the json..."
   exit 1
 fi
 
-i3-save-tree --workspace $1 | tail -n +2 | fgrep -v '// splitv' | sed 's|//||g' > $2
+mkdir -p $LAYOUTS/$NAME
+i3-save-tree --workspace $WS | tail -n +2 | grep -v -E '// (split|tabbed|stacked)*' | sed 's|//||g' > $LAYOUTS/$NAME/layout.json
