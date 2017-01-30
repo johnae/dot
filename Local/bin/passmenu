@@ -1,7 +1,9 @@
 #!/bin/sh
 
+PASSONLY=$1
+
 prefix=${PASSWORD_STORE_DIR-~/.password-store}
-password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -dmenu "$@")
+password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -p "password >" -dmenu "$@")
 error_icon=~/Pictures/icons/essential/error.svg
 
 if [ "$password_file" = "" ]; then
@@ -22,8 +24,10 @@ pass=$(getpass "$password_file")
 if [ "$pass" = "" ]; then
   notify-send -i $error_icon -a "Password store" -u critical "Decrypt error" "Error decrypting password file, is your gpg card inserted?"
 else
-  echo -n $login | xdotool type --clearmodifiers --file -
-  xdotool key Tab
+  if [ -z "$PASSONLY" ]; then
+    echo -n $login | xdotool type --clearmodifiers --file -
+    xdotool key Tab
+  fi
   echo -n $pass | xdotool type --clearmodifiers --file -
   xdotool key Return
 fi
