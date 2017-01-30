@@ -26,7 +26,10 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+Shift+Return exec $terminal -l dev
 
 # passmenu
-bindsym $mod+Shift+d exec ~/Local/bin/passmenu
+bindsym $mod+minus exec ~/Local/bin/passmenu
+
+# passmenu pass only
+bindsym $mod+Shift+minus exec ~/Local/bin/passmenu passonly
 
 # notes-menu
 bindsym $mod+Shift+n exec ~/Local/bin/notes-menu
