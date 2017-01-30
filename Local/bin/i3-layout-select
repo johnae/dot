@@ -2,7 +2,7 @@
 
 prefix=$HOME/.i3/layouts
 
-layout=$(find $prefix -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -dmenu)
+layout=$(find $prefix -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -p "i3 layout >" -dmenu)
 
 [[ -n $layout ]] || exit
 

@@ -2,7 +2,7 @@
 
 prefix=$HOME/Development
 
-project=$(find $prefix $prefix/Playad -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -dmenu)
+project=$(find $prefix $prefix/Playad -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -p "project >" -dmenu)
 
 [[ -n $project ]] || exit
 
