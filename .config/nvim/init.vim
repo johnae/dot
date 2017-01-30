@@ -136,6 +136,21 @@ autocmd Filetype *
 \	endif 
 endif 
 
+" vim-go conf
+let g:go_fmt_command = "goimports"
+let g:go_highlight_types = 1
+let g:go_highlight_fields = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_operators = 1
+let g:go_highlight_extra_types = 1
+let g:go_highlight_build_constraints = 1
+let g:go_highlight_generate_tags = 1
+
+let g:go_auto_type_info = 1
+let g:go_auto_sameids = 1
+
+autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'vsplit')
 
 let g:deocomplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
@@ -196,6 +211,9 @@ nnoremap <c-l> <c-w>l
 
 filetype plugin indent on
 syntax enable
+
+" Update more often, for vim-go auto func info for example
+set updatetime=100
 
 set termguicolors
 set background=dark
