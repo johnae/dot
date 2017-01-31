@@ -9,7 +9,8 @@ set $inactive-text-color #839496
 set $urgent-bg-color #E53935
 set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome 18
-set $lockcmd /usr/bin/i3lock -e -n -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+#set $lockcmd /usr/bin/i3lock -e -n -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+set $lockcmd /usr/local/bin/lockscreen -e -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
 set $terminal st
 
 # Font for window titles. Will also be used by the bar unless a different font
@@ -147,7 +148,7 @@ bindsym $mod+Shift+9 move container to workspace number 9
 bindsym $mod+Shift+0 move container to workspace number 10
 
 # Start applications
-exec --no-startup-id xss-lock -- $lockcmd
+exec --no-startup-id xss-lock -l -- $lockcmd
 exec --no-startup-id xrandr --output eDP-1 --primary
 exec --no-startup-id ~/.i3/external_display right
 exec --no-startup-id feh --bg-fill ~/Pictures/rain_dark.jpg
@@ -203,7 +204,7 @@ mode "(p)oweroff, (s)uspend, (r)eboot, (l)ogout" {
         # These bindings trigger as soon as you enter the system mode
 
         bindsym p exec "i3-msg mode 'default'; systemctl poweroff"
-        bindsym s exec "i3-msg mode 'default'; xautolock -locknow; systemctl suspend" 
+        bindsym s exec "i3-msg mode 'default'; systemctl suspend" 
         bindsym r exec "i3-msg mode 'default'; systemctl reboot"
         bindsym l exec "sudo machinectl poweroff dev; i3-msg exit"
         #bindsym l exec "i3-msg exit"
