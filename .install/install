@@ -1,0 +1,17 @@
+#!/bin/sh
+
+dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+
+if [ "0" != "$UID" ]; then
+  echo "Must be root"
+  exit 1
+fi
+
+for script in $(ls $dir); do
+  if [ "$script" != "install" ]; then
+    echo "Copying $dir/$script to /usr/local/bin/$script"
+    cp $dir/$script /usr/local/bin/$script
+    echo "Ensuring it is executable"
+    chmod +x /usr/local/bin/$script
+  fi
+done

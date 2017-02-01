@@ -1,0 +1,3 @@
+#!/bin/sh
+
+$HOME/.i3/genconf && /usr/bin/i3
