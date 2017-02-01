@@ -1,0 +1,13 @@
+# alt would be Mod1
+set $mod Mod4
+
+set $bg-color #004b46
+set $border-color $bg-color
+set $inactive-bg-color #001133
+set $text-color #fdf6e3
+set $inactive-text-color #839496
+set $urgent-bg-color #E53935
+set $selected-color #9999FF
+set $font pango:System San Francisco Display, Awesome 10
+set $lockcmd /usr/local/bin/lockscreen -e -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+set $terminal st

@@ -1,0 +1,55 @@
+#!/bin/sh
+
+CMD="$1"
+BUILT_IN=eDP1
+DISPLAY_NAME=DP1
+DISPLAY_SCALING=2x2
+DISPLAY_PANNING_RIGHT=3840x2160+3200+0
+DISPLAY_PANNING_LEFT=3840x2160+0+0
+
+on() {
+  xrandr -q | grep -C 20 ^$DISPLAY_NAME | grep -P '\d+mm x \d+mm' 2>&1 >/dev/null
+}
+
+off() {
+  if on; then
+    false
+  else
+    true
+  fi
+}
+
+left_of() {
+  OFFSET=$(xrandr | grep ^$DISPLAY_NAME | awk -F'+' '{print $2}')
+  [ "$OFFSET" = "0" ]
+}
+
+if [ "$BLOCK_BUTTON" = "1" ]; then
+  CMD="toggle"
+fi
+
+if [ "$CMD" = "toggle" ]; then
+  if off; then
+    CMD="right"
+  else
+    CMD="off"
+  fi
+fi
+
+if [ "$CMD" = "right" ]; then
+  xrandr --output $DISPLAY_NAME --mode "1920x1080" --right-of $BUILT_IN --scale $DISPLAY_SCALING --panning $DISPLAY_PANNING_RIGHT 2>/dev/null
+elif [ "$CMD" = "left" ]; then
+  xrandr --output $DISPLAY_NAME --mode "1920x1080" --left-of $BUILT_IN --scale $DISPLAY_SCALING --panning $DISPLAY_PANNING_LEFT 2>/dev/null
+elif [ "$CMD" = "off" ]; then
+  xrandr --output $DISPLAY_NAME --off 2>/dev/null
+fi
+
+if on; then
+  if left_of; then
+    echo ""
+  else
+    echo ""
+  fi
+else
+  echo "OFF"
+fi

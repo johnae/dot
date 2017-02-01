@@ -1,0 +1,9 @@
+#!/bin/sh
+
+HN=$(hostname)
+
+if [ -e $HOME/.i3/config.$HN ]; then
+  cat $HOME/.i3/config.$HN $HOME/.i3/config.base > $HOME/.i3/config
+else
+  cat $HOME/.i3/config.default $HOME/.i3/config.base > $HOME/.i3/config
+fi
