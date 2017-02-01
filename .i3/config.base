@@ -158,9 +158,9 @@ bindsym $mod+j workspace prev_on_output
 bindsym $mod+k workspace next_on_output
 
 # reload the configuration file
-bindsym $mod+Shift+c reload
+bindsym $mod+Shift+c exec reload-i3
 # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-bindsym $mod+Shift+r restart
+bindsym $mod+Shift+r exec restart-i3
 # exit i3 (logs you out of your X session)
 
 # resize window (you can also use the mouse for that)
