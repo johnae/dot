@@ -3,3 +3,4 @@ _FZFSH=/usr/share/fzf
 
 export VISUAL=nvim
 export EDITOR="$VISUAL"
+export _SCALING=2
