@@ -25,6 +25,7 @@ call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('zchee/deoplete-go', { 'do': 'make' })
 call dein#add('fatih/vim-go')
 call dein#add('fishbullet/deoplete-ruby')
+call dein#add('spf13/vim-autoclose')
 
 call dein#end()
 
