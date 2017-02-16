@@ -26,6 +26,9 @@ bindsym $mod+Shift+p exec ~/Local/bin/project-select
 # layout select
 bindsym $mod+l exec ~/Local/bin/i3-layout-select
 
+# screenshot
+bindsym $mod+x exec ~/Local/bin/screenshot
+
 # chrome history search
 bindsym $mod+Shift+h exec ~/Local/bin/chrome-hist
 
