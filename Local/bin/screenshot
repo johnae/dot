@@ -1,0 +1,8 @@
+#!/bin/sh
+
+NAME=$(date +%Y-%m-%d_%H:%M:%S_screen)
+OUTPUT_DIR=$HOME/Pictures/screenshots
+FMT=png
+
+mkdir -p $OUTPUT_DIR
+maim -s --format=$FMT $OUTPUT_DIR/$NAME.$FMT
