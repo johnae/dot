@@ -1,0 +1,99 @@
+#!/bin/sh
+
+if [ $# != 2 ] ; then
+  echo "Usage: $0 {up|down} {vpn-config-name}"
+  exit 1;
+fi
+
+NAME=$2
+
+echo "Using config ~/.vpns/$NAME"
+source ~/.vpns/$NAME
+
+## above file needs to contain
+# VPN_ADDR=remote-address (I'm using the actual ip here)
+# VPN_ID=remote-id (this is generally the private ip on the vpn host)
+# VPN_SECRET=your-shared-secret
+# VPN_NET=what-net-to-route-through-vpn (eg. 10.0.0.0/8 for example)
+# PPP_USERNAME=your-username
+# PPP_PASS=your-password
+# IFACE=the-local-net-interface (eg. wlan0, wlp58s0 or eth0 - whatever you have locally)
+
+iface_ip() {
+  ip addr show $1 | grep "inet "|awk '{print $2}'|awk -F '/' '{print $1}'
+}
+
+gateway() {
+  ip route | grep -m 1 "^default" |awk '{print $3}'
+}
+
+vpn_gateway() {
+  ip route | grep ppp0 | awk '{print $1}'
+}
+
+GW_ADDR=$(gateway)
+PPP_TEMPLATE=~/.vpnconf/options.l2tpd.client
+IPSEC_TEMPLATE=~/.vpnconf/ipsec.conf
+## not bothering with public/private keys etc - not using those atm
+#IPSEC_SECRETS_TEMPLATE=~/.vpnconf/ipsec.secrets
+XLT2TPD_TEMPLATE=~/.vpnconf/xl2tpd.conf
+
+up(){
+  down
+  echo "Configuring xl2tpd"
+  cat $XLT2TPD_TEMPLATE | sed "s|^lns =.*|lns = $VPN_ADDR|g" | sudo tee /etc/xl2tpd/xl2tpd.conf >/dev/null
+
+  echo "Configuring ipsec"
+  cat $IPSEC_TEMPLATE | sed "s|left=.*$|left=$(iface_ip $IFACE)|g" | sed "s|right=.*$|right=$VPN_ADDR|g" | sed "s|rightid=.*$|rightid=$VPN_ID|g" | sudo tee /etc/ipsec.conf >/dev/null
+
+  echo "Setting ipsec secrets"
+  echo -e "%any $VPN_ADDR : PSK \"$VPN_SECRET\"\n%any $VPN_ID : PSK \"$VPN_SECRET\"" | sudo tee /etc/ipsec.secrets >/dev/null
+  ## not bothering with a template - no need for public/private keys
+  #cat $IPSEC_SECRETS_TEMPLATE | echo -e "$(cat -)\n%any $VPN_ADDR : PSK \"$VPN_SECRET\"\n%any $VPN_ID : PSK \"$VPN_SECRET\"" | sudo tee /etc/ipsec.secrets >/dev/null
+  sudo chmod 0600 /etc/ipsec.secrets
+
+  echo "Configuring l2tpd ppp client"
+  cat $PPP_TEMPLATE | sed "s|^name.*|name \"$PPP_USERNAME\"|g" | sed "s|password.*|password \"$PPP_PASS\"|g" | sudo tee /etc/ppp/options.l2tpd.client >/dev/null
+  echo "Starting ipsec..."
+  sudo systemctl start openswan
+  sleep 4 #ipsec must be fully up before l2tp, therefore ugly sleep hack
+  echo "Starting xl2tpd..."
+  sudo systemctl start xl2tpd
+  sudo ipsec auto --add vpnconn || true
+  sudo ipsec auto --up vpnconn
+  echo "Negotiating access..."
+  echo "c vpn-connection" | sudo tee /var/run/xl2tpd/l2tp-control
+  sleep 4 #allow the ppp connection to come up before doing modding routes
+
+  echo "Updating routes..."
+  gw=$(vpn_gateway)
+  vpnip=$(iface_ip ppp0)
+  echo "vpn gateway: $gw"
+  echo "vpn ip: $vpnip"
+  echo sudo ip route add $VPN_NET via $gw dev ppp0
+  sudo ip route add $VPN_NET via $gw dev ppp0
+}
+
+down(){
+  echo "Removing routes..."
+  gw=$(vpn_gateway)
+  vpnip=$(iface_ip ppp0)
+  echo "vpn gateway: $gw"
+  echo "vpn ip: $vpnip"
+  if [ "$gw" != "" ]; then
+    echo sudo ip route del $VPN_NET
+    sudo ip route del $VPN_NET
+  else
+    echo "no gateway, not doing anything"
+  fi
+
+  echo "Stopping xl2tpd..."
+  sudo ipsec auto --down vpnconn || true
+  echo "d vpn-connection" | sudo tee /var/run/xl2tpd/l2tp-control
+  sudo systemctl stop xl2tpd
+  echo "Stopping ipsec..."
+  sudo systemctl stop openswan
+}
+
+$1
+exit 0
