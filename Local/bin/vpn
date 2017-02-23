@@ -56,14 +56,14 @@ up(){
   cat $PPP_TEMPLATE | sed "s|^name.*|name \"$PPP_USERNAME\"|g" | sed "s|password.*|password \"$PPP_PASS\"|g" | sudo tee /etc/ppp/options.l2tpd.client >/dev/null
   echo "Starting ipsec..."
   sudo systemctl start openswan
-  sleep 4 #ipsec must be fully up before l2tp, therefore ugly sleep hack
+  sleep 6 #ipsec must be fully up before l2tp, therefore ugly sleep hack
   echo "Starting xl2tpd..."
   sudo systemctl start xl2tpd
   sudo ipsec auto --add vpnconn || true
   sudo ipsec auto --up vpnconn
   echo "Negotiating access..."
   echo "c vpn-connection" | sudo tee /var/run/xl2tpd/l2tp-control
-  sleep 4 #allow the ppp connection to come up before doing modding routes
+  sleep 6 #allow the ppp connection to come up before doing modding routes
 
   echo "Updating routes..."
   gw=$(vpn_gateway)
