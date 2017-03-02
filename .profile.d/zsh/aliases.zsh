@@ -13,3 +13,4 @@ alias less="less -R"
 
 alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
+alias xc="xclip -selection clipboard"
