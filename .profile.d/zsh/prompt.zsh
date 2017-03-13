@@ -42,6 +42,17 @@ function _pgitpwd {
   print "%F{$color}${(j:/:)${(@Oa)segs[1,NDIRS]}}%f "
 }
 
+function _bgjobs {
+  NUMJOBS=$(jobs | wc -l)
+  if [ "$NUMJOBS" != "0" ]; then
+    msg="($NUMJOBS jobs)"
+    if [ "$NUMJOBS" = "1" ]; then
+      msg="($NUMJOBS job)"
+    fi
+    print -n "%F{"magenta"}$msg%f"
+  fi
+}
+
 function cnprompt6 {
   case "$TERM" in
     xterm*|rxvt*)
@@ -49,7 +60,7 @@ function cnprompt6 {
       preexec() { printf "\e]0;$HOST: %s\a" $1 };;
   esac
   setopt PROMPT_SUBST
-  PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(_pgitpwd)%B%(!.%F{red}.%F{yellow})%#${SSH_CLIENT:+%#} %b'
+  PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(_pgitpwd)%B%(!.%F{red}.%F{yellow})$(_bgjobs)%-#${SSH_CLIENT:+%#} %b'
   RPROMPT=''
 }
 
