@@ -18,3 +18,4 @@ autoload -Uz compinit
 compinit
 
 source "$_FZFSH/completion.zsh"
+source "$ZSH/zsh/aws_zsh_completer.sh"
