@@ -27,6 +27,7 @@ call dein#add('fatih/vim-go')
 call dein#add('fishbullet/deoplete-ruby')
 call dein#add('spf13/vim-autoclose')
 call dein#add('vim-scripts/groovy.vim')
+call dein#add('tpope/vim-fugitive')
 
 call dein#end()
 
@@ -137,6 +138,9 @@ autocmd Filetype *
 \	setlocal omnifunc=syntaxcomplete#Complete | 
 \	endif 
 endif 
+
+" fugitive
+nmap <leader>b :Gblame<return>
 
 " vim-go conf
 let g:go_fmt_command = "goimports"
