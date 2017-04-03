@@ -16,3 +16,19 @@ alias less="less -R"
 alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
 alias xc="xclip -selection clipboard"
+
+gpgsignoff() {
+  echo "gpgsign = false"
+  sed -i 's|gpgsign = true|gpgsign = false|g' ~/.gitconfig
+}
+
+gpgsignon() {
+  echo "gpgsign = true"
+  sed -i 's|gpgsign = false|gpgsign = true|g' ~/.gitconfig
+}
+
+nogpgsign() {
+  gpgsignoff
+  $@
+  gpgsignon
+}
