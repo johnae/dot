@@ -12,31 +12,31 @@ bindsym $mod+Return exec $terminal
 bindsym $mod+Shift+Return exec $terminal -l dev
 
 # passmenu
-bindsym $mod+minus exec ~/Local/bin/passmenu
+bindsym $mod+minus exec passmenu
 
 # passmenu pass only
-bindsym $mod+Shift+minus exec ~/Local/bin/passmenu passonly
+bindsym $mod+Shift+minus exec passmenu passonly
 
 # notes-menu
-bindsym $mod+Shift+n exec ~/Local/bin/notes-menu
+bindsym $mod+Shift+n exec notes-menu
 
 # project select
-bindsym $mod+Shift+p exec ~/Local/bin/project-select
+bindsym $mod+Shift+p exec project-select
 
 # layout select
-bindsym $mod+l exec ~/Local/bin/i3-layout-select
+bindsym $mod+l exec i3-layout-select
 
 # screenshot
-bindsym $mod+x exec ~/Local/bin/screenshot
+bindsym $mod+x exec screenshot
 
 # chrome history search
-bindsym $mod+Shift+h exec ~/Local/bin/chrome-hist
+bindsym $mod+Shift+h exec chrome-hist
 
 # last command
-bindsym $mod+period exec /bin/sh ~/.last_command
+bindsym $mod+period exec sh ~/.last_command
 
 # rename workspace
-bindsym $mod+n exec rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:~/Local/bin/rename-workspace
+bindsym $mod+n exec rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:rename-workspace
 
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
@@ -226,5 +226,5 @@ bar {
       urgent_workspace          $urgent-bg-color        $urgent-bg-color        $text-color
   }
   tray_output primary
-  status_command /home/john/Local/bin/spook -w /home/john/Development/moonbar
+  status_command spook -w ~/Development/moonbar
 }
