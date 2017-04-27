@@ -17,6 +17,12 @@ alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
 alias xc="xclip -selection clipboard"
 
+npm_local() {
+  pushd ~/Local/
+  npm install $@
+  popd
+}
+
 gpgsignoff() {
   echo "gpgsign = false"
   sed -i 's|gpgsign = true|gpgsign = false|g' ~/.gitconfig
