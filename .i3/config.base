@@ -24,7 +24,7 @@ bindsym $mod+Shift+n exec notes-menu
 bindsym $mod+Shift+p exec project-select
 
 # layout select
-bindsym $mod+l exec i3-layout-select
+# bindsym $mod+l exec i3-layout-select
 
 # screenshot
 bindsym $mod+x exec screenshot
@@ -72,10 +72,10 @@ bindsym $mod+Up focus up
 bindsym $mod+Right focus right
 
 # move focused window
-bindsym $mod+Shift+j move left
-bindsym $mod+Shift+k move down
-bindsym $mod+Shift+l move up
-bindsym $mod+Shift+semicolon move right
+# bindsym $mod+Shift+j move left
+# bindsym $mod+Shift+k move down
+# bindsym $mod+Shift+l move up
+# bindsym $mod+Shift+semicolon move right
 
 # alternatively, the cursor keys:
 bindsym $mod+Shift+Left move left
@@ -83,11 +83,11 @@ bindsym $mod+Shift+Down move down
 bindsym $mod+Shift+Up move up
 bindsym $mod+Shift+Right move right
 
-# split in horizontal orientation
-bindsym $mod+h split h
-
 # split in vertical orientation
 bindsym $mod+v split v
+
+# split in horizontal orientation
+bindsym $mod+Shift+v split h
 
 # enter fullscreen mode for the focused container
 bindsym $mod+f fullscreen
@@ -148,7 +148,7 @@ bindsym $mod+z workspace back_and_forth
 
 new_window pixel 1
 new_float pixel 1
-hide_edge_borders both
+hide_edge_borders smart
 
 # class                 border              background          text                    indicator
 client.focused          $bg-color           $bg-color           $text-color             #00ff00
@@ -157,8 +157,13 @@ client.unfocused        $inactive-bg-color  $inactive-bg-color  $inactive-text-c
 client.urgent           $urgent-bg-color    $urgent-bg-color    $text-color             #00ff00
 
 # next/prev workspace (within current output)
-bindsym $mod+j workspace prev_on_output
-bindsym $mod+k workspace next_on_output
+# bindsym $mod+j workspace prev_on_output
+# bindsym $mod+k workspace next_on_output
+
+bindsym $mod+h focus left
+bindsym $mod+j focus up
+bindsym $mod+k focus down
+bindsym $mod+l focus right
 
 # reload the configuration file
 bindsym $mod+Shift+c exec reload-i3
