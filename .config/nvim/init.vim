@@ -11,6 +11,7 @@ call dein#begin(expand('~/.cache/dein'))
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('leafo/moonscript-vim')
+call dein#add('neomake/neomake')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('cespare/vim-toml')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
@@ -20,7 +21,7 @@ call dein#add('ervandew/supertab')
 call dein#add('vim-airline/vim-airline')
 call dein#add('vim-airline/vim-airline-themes')
 call dein#add('airblade/vim-gitgutter')
-call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 }) 
+call dein#add('junegunn/fzf', { 'build': './install --bin', 'merged': 0 })
 call dein#add('junegunn/fzf.vim', { 'depends': 'fzf' })
 call dein#add('junegunn/goyo.vim')
 call dein#add('zchee/deoplete-go', { 'do': 'make' })
@@ -29,6 +30,9 @@ call dein#add('fishbullet/deoplete-ruby')
 call dein#add('spf13/vim-autoclose')
 call dein#add('vim-scripts/groovy.vim')
 call dein#add('tpope/vim-fugitive')
+call dein#add('HerringtonDarkholme/yats.vim')
+call dein#add('mhartington/nvim-typescript')
+call dein#add('artur-shaik/vim-javacomplete2')
 
 call dein#end()
 
@@ -40,7 +44,7 @@ set showmatch
 set cursorline
 " Ignore case when searching
 set ignorecase
-" Be a little smarter about cases when searching 
+" Be a little smarter about cases when searching
 set smartcase
 " Don't reset cursor to start of line when moving around
 set nostartofline
@@ -128,20 +132,30 @@ autocmd FileType mail setlocal fo+=aw
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'dark'
 
+" neomake
+" let g:neomake_open_list = 2
+
 " fzf
 nmap <leader><leader> :Files<return>
 
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-if has("autocmd") && exists("+omnifunc") 
-autocmd Filetype * 
-\	if &omnifunc == "" | 
-\	setlocal omnifunc=syntaxcomplete#Complete | 
-\	endif 
-endif 
+autocmd FileType java setlocal omnifunc=javacomplete#Complete
+autocmd BufWritePre *.ts Neomake
+" autocmd BufWritePre *.java silent :JCimportsAddMissing
+" autocmd BufWritePre *.java silent :JCimportsRemoveUnused
+if has("autocmd") && exists("+omnifunc")
+autocmd Filetype *
+\	if &omnifunc == "" |
+\	setlocal omnifunc=syntaxcomplete#Complete |
+\	endif
+endif
 
 " fugitive
 nmap <leader>b :Gblame<return>
+
+" go to definition (Go)
+autocmd FileType go nmap <buffer> <leader>g :GoDef<return>
 
 " vim-go conf
 let g:go_fmt_command = "goimports"
@@ -160,16 +174,17 @@ let g:go_metalinter_autosave_enabled = [
       \  'golint',
       \  'gotype',
       \  'vet',
-      \  'gocyclo',
       \  'aligncheck',
       \  'gosimple',
       \]
+"      \  'gocyclo',
 
 let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
 
 autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'vsplit')
 
+" deoplete config
 let g:deocomplete#enable_at_startup = 1
 if !exists('g:deoplete#omni#input_patterns')
   let g:deoplete#omni#input_patterns = {}
@@ -208,8 +223,11 @@ let g:SuperTabClosePreviewOnPopupClose = 1
 "   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 "   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 "   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-" augroup 
-" 
+" augroup
+"
+
+" Neomake config
+" let g:neomake_typescript_enabled_makers = ['tsc']
 
 " resizing
 nnoremap <silent> <Leader>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
