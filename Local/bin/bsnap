@@ -1,33 +1,67 @@
 #!/bin/sh
 
-bmount
+set -e
 
-if [ ! -e "/home/.backup-latest" ]; then
-  echo "Creating initial snapshot at /home/.backup-latest"
-  btrfs subvolume snapshot -r /home /home/.backup-latest
-  sync
-  if [ ! -e "/mnt/home" ]; then
-    echo "Creating subvolume /mnt/home..."
-    btrfs subvolume create /mnt/home
-  fi
-  echo "Sending changes to /mnt/home..."
-  btrfs send /home/.backup-latest | btrfs receive /mnt/home
-else
-  echo "Snaphotting /mnt/home to /home/.backup-new"
-  btrfs subvolume snapshot -r /home /home/.backup-new
-  sync
-  echo "Sending diff to /mnt/home/.backup-new"
-  btrfs send -p /home/.backup-latest /home/.backup-new | btrfs receive /mnt/home
-  echo "Deleting old snap..."
-  btrfs subvolume delete /home/.backup-latest
-  echo "Moving new snap into position..."
-  mv /home/.backup-new /home/.backup-latest
-  echo "Deleting old backup..."
-  btrfs subvolume delete /mnt/home/.backup-latest
-  echo "Moving new backup snap into position..."
-  mv /mnt/home/.backup-new /mnt/home/.backup-latest
+SOURCE=$1
+HOSTNAME=$(hostname)
+BACKUP=/mnt/$HOSTNAME
+DEST=$BACKUP$SOURCE
+
+if [ -z "$SOURCE" ]; then
+  echo "No source set (first argument - should be full path)"
+  exit 1
 fi
 
+if [ $(stat --format=%i $SOURCE) -ne 256 ]; then
+  echo "$SOURCE is not a btrfs subvolume, sorry."
+  exit 1
+fi
+
+bmount
+
+if [ ! -e "$SOURCE/.backup-latest" ]; then
+  echo "Creating initial snapshot at $SOURCE/.backup-latest"
+  btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-latest
+  sync
+fi
+
+if [ ! -e "$BACKUP" ]; then
+  echo "Creating subvolume $BACKUP since it didn't exist"
+  btrfs subvolume create $BACKUP
+fi
+
+if [ ! -e "$DEST" ]; then
+  echo "Creating subvolume $DEST since it didn't exist"
+  btrfs subvolume create $DEST
+fi
+
+if [ ! -e "$DEST/.backup-latest" ]; then
+  echo "Sending initial snapshot to $DEST since it didn't exist"
+  btrfs send $SOURCE/.backup-latest | pv | btrfs receive $DEST
+  sync
+  bumount
+  exit
+fi
+
+echo "Snapshotting $SOURCE to $SOURCE/.backup-new"
+btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
 sync
 
+echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST"
+btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | btrfs receive $DEST
+echo ""
+
+echo "Deleting old snaphost $SOURCE/.backup-latest..."
+btrfs subvolume delete $SOURCE/.backup-latest
+
+echo "Moving new snaphost $SOURCE/.backup-new to $SOURCE/.backup-latest..."
+mv $SOURCE/.backup-new $SOURCE/.backup-latest
+
+echo "Deleting old backup $DEST/.backup-latest..."
+btrfs subvolume delete $DEST/.backup-latest
+
+echo "Moving new backup $DEST/.backup-new to $DEST/.backup-latest..."
+mv $DEST/.backup-new $DEST/.backup-latest
+
+sync
 bumount
