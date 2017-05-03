@@ -1,0 +1,17 @@
+#!/bin/sh
+
+EXTENSION=$1
+
+if [ -z "$EXTENSION" ]; then
+  echo "No extension specified, should be something like .go or .rb"
+  exit 1
+fi
+
+lines=0
+
+for FILE in $(find . -type f | grep -E "*$EXTENSION\$"); do
+  file_lines=$(cat $FILE|wc -l)
+  lines=$(($lines + $file_lines))
+done
+
+echo "$lines lines in files with extension '$EXTENSION' in project"
