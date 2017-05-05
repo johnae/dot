@@ -8,7 +8,7 @@
   # only push current branch to tracking branch
   default = tracking
 [merge]
-  tool = vimdiff
+  tool = fugitive
   conflictstyle = diff3
   prompt = false
 [diff]
@@ -30,6 +30,8 @@
 [mergetool "vimdiff"]
   path = nvim
   cmd = nvim -d "$BASE" "$LOCAL" "$REMOTE" "$MERGED"
+[mergetool "fugitive"]
+  cmd = nvim -f -c \"Gvdiff\" \"$MERGED\"
 [difftool "vimdiff"]
   path = nvim
 [commit]
