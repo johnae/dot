@@ -34,10 +34,10 @@ if [ "$CMD" = "receive" -o "$CMD" = "setup" -o "$CMD" = "exists" ]; then
 	sync
 
 	if [ -e $DEST/.backup-new ]; then
-		echo "Deleting old backup $DEST/.backup-latest..."
+		echo "Deleting old remote backup $DEST/.backup-latest..."
 		sudo btrfs subvolume delete $DEST/.backup-latest
 
-		echo "Moving new backup $DEST/.backup-new to $DEST/.backup-latest..."
+		echo "Moving new remote backup $DEST/.backup-new to $DEST/.backup-latest..."
 		sudo mv $DEST/.backup-new $DEST/.backup-latest
 	fi
 else
