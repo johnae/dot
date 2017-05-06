@@ -5,14 +5,6 @@ set -e
 SOURCE=$1
 DEST=$2
 PORT=$3
-HOSTNAME=$(hostname)
-BASEDIR=Backup
-BACKUP=$BASEDIR/$HOSTNAME
-SSH="ssh"
-if [ ! -z "$PORT" ]; then
-  SSH="$SSH -p $PORT"
-fi
-SSH="$SSH -C $DEST"
 
 command -v pv >/dev/null 2>&1 || { echo >&2 "Even though I don't have to require pv I require it anyway :-)? Please install pv. Aborting."; exit 1; }
 
@@ -31,7 +23,18 @@ if [ $(stat --format=%i $SOURCE) -ne 256 ]; then
   exit 1
 fi
 
-echo "ssh cmd: $SSH"
+HOSTNAME=$(hostname)
+BASEDIR=Backup
+NOLEADINGSLASH=$(echo $SOURCE | sed -s 's|^\/||g')
+BACKUP=$BASEDIR/$HOSTNAME/$NOLEADINGSLASH
+SSH="ssh"
+if [ ! -z "$PORT" ]; then
+  SSH="$SSH -p $PORT"
+fi
+SSH="$SSH -C $DEST"
+
+echo "BACKUP: $BACKUP"
+echo "SSH CMD: $SSH"
 
 if [ ! -e "$SOURCE/.backup-latest" ]; then
   echo "Creating initial snapshot at $SOURCE/.backup-latest"
@@ -46,7 +49,7 @@ if $SSH "test -e $BACKUP/.backup-latest"; then
   fi
   sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
   sync
-  echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST"
+  echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST:$BACKUP"
 
   sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | $SSH "sudo btrfs receive $BACKUP"
 
@@ -64,7 +67,9 @@ else
   echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
 
 $SSH << EOF
-sudo btrfs subvolume create $BASEDIR || true
+echo "sudo mkdir -p $(dirname $BACKUP)"
+sudo mkdir -p $(dirname $BACKUP)
+echo "sudo btrfs subvolume create $BACKUP"
 sudo btrfs subvolume create $BACKUP || true
 EOF
 
