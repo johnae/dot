@@ -1,0 +1,74 @@
+#!/bin/sh
+
+set -e
+
+SOURCE=$1
+DEST=$2
+PORT=${3:-22}
+HOSTNAME=$(hostname)
+BASEDIR=Backup
+BACKUP=$BASEDIR/$HOSTNAME
+
+if [ -z "$SOURCE" ]; then
+  echo "No source set (first argument - should be full path)"
+  exit 1
+fi
+
+if [ -z "$DEST" ]; then
+  echo "No dest set (second argument - should be in the form <user>@<host>:<optional_port>)"
+  exit 1
+fi
+
+if [ $(stat --format=%i $SOURCE) -ne 256 ]; then
+  echo "$SOURCE is not a btrfs subvolume, sorry."
+  exit 1
+fi
+
+if [ ! -e "$SOURCE/.backup-latest" ]; then
+  echo "Creating initial snapshot at $SOURCE/.backup-latest"
+  sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-latest
+  sync
+fi
+
+if ssh -p $PORT $DEST "test -e $BACKUP/.backup-latest"; then
+  echo "Snapshotting $SOURCE to $SOURCE/.backup-new"
+  if [ -e $SOURCE/.backup-new ]; then
+    sudo btrfs subvolume delete $SOURCE/.backup-new
+  fi
+  sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
+  sync
+  echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST"
+
+  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | ssh -p $PORT -C $DEST "sudo btrfs receive $BACKUP"
+
+ssh -p $PORT $DEST << EOF
+sync
+
+echo "Deleting old backup $BACKUP/.backup-latest..."
+sudo btrfs subvolume delete $BACKUP/.backup-latest
+
+echo "Moving new backup $BACKUP/.backup-new to $BACKUP/.backup-latest..."
+sudo mv $BACKUP/.backup-new $BACKUP/.backup-latest
+EOF
+
+else
+  echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
+
+ssh -p $PORT -C $DEST << EOF
+sudo btrfs subvolume create $BASEDIR || true
+sudo btrfs subvolume create $BACKUP || true
+EOF
+
+sudo btrfs send $SOURCE/.backup-latest | pv | ssh -p $PORT -C $DEST "sudo btrfs receive $BACKUP"
+
+fi
+
+if [ -e $SOURCE/.backup-new ]; then
+  echo "Deleting old local snaphost $SOURCE/.backup-latest..."
+  sudo btrfs subvolume delete $SOURCE/.backup-latest
+
+  echo "Moving new local snapshot $SOURCE/.backup-new to $SOURCE/.backup-latest..."
+  sudo mv $SOURCE/.backup-new $SOURCE/.backup-latest
+fi
+
+sync
