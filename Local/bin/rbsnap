@@ -14,7 +14,7 @@ if [ -z "$SOURCE" ]; then
 fi
 
 if [ -z "$DEST" ]; then
-  echo "No dest set (second argument - should be in the form <user>@<host>)"
+  echo "No dest set (second argument - should be in a form suitable for the ssh command)"
   exit 1
 fi
 
