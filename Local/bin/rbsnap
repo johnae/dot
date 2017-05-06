@@ -53,6 +53,8 @@ if $SSH exists $BACKUP; then
   echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST:$BACKUP"
   sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | $SSH "receive $BACKUP"
 else
+  echo "Setting up remote $DEST"
+  $SSH setup $BACKUP
   echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
   sudo btrfs send $SOURCE/.backup-latest | pv | $SSH "receive $BACKUP"
 fi
