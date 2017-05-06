@@ -2,6 +2,7 @@
 
 set -e
 
+unset SSH_AUTH_SOCK
 SOURCE=$1
 DEST=$2
 PORT=$3
@@ -27,7 +28,7 @@ HOSTNAME=$(hostname)
 BASEDIR=Backup
 NOLEADINGSLASH=$(echo $SOURCE | sed -s 's|^\/||g')
 BACKUP=$BASEDIR/$HOSTNAME/$NOLEADINGSLASH
-SSH="ssh"
+SSH="ssh -i $HOME/.ssh/id_rsa_backup"
 if [ ! -z "$PORT" ]; then
   SSH="$SSH -p $PORT"
 fi
@@ -42,7 +43,7 @@ if [ ! -e "$SOURCE/.backup-latest" ]; then
   sync
 fi
 
-if $SSH "test -e $BACKUP/.backup-latest"; then
+if $SSH exists $BACKUP; then
   echo "Snapshotting $SOURCE to $SOURCE/.backup-new"
   if [ -e $SOURCE/.backup-new ]; then
     sudo btrfs subvolume delete $SOURCE/.backup-new
@@ -50,39 +51,8 @@ if $SSH "test -e $BACKUP/.backup-latest"; then
   sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
   sync
   echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST:$BACKUP"
-
-  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | $SSH "sudo btrfs receive $BACKUP"
-
-$SSH << EOF
-sync
-
-echo "Deleting old backup $BACKUP/.backup-latest..."
-sudo btrfs subvolume delete $BACKUP/.backup-latest
-
-echo "Moving new backup $BACKUP/.backup-new to $BACKUP/.backup-latest..."
-sudo mv $BACKUP/.backup-new $BACKUP/.backup-latest
-EOF
-
+  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | $SSH "receive $BACKUP"
 else
   echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
-
-$SSH << EOF
-echo "sudo mkdir -p $(dirname $BACKUP)"
-sudo mkdir -p $(dirname $BACKUP)
-echo "sudo btrfs subvolume create $BACKUP"
-sudo btrfs subvolume create $BACKUP || true
-EOF
-
-sudo btrfs send $SOURCE/.backup-latest | pv | $SSH "sudo btrfs receive $BACKUP"
-
+  sudo btrfs send $SOURCE/.backup-latest | pv | $SSH "receive $BACKUP"
 fi
-
-if [ -e $SOURCE/.backup-new ]; then
-  echo "Deleting old local snaphost $SOURCE/.backup-latest..."
-  sudo btrfs subvolume delete $SOURCE/.backup-latest
-
-  echo "Moving new local snapshot $SOURCE/.backup-new to $SOURCE/.backup-latest..."
-  sudo mv $SOURCE/.backup-new $SOURCE/.backup-latest
-fi
-
-sync
