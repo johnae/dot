@@ -58,3 +58,11 @@ else
   echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
   sudo btrfs send $SOURCE/.backup-latest | pv | $SSH "receive $BACKUP"
 fi
+
+if [ -e $SOURCE/.backup-new ]; then
+  echo "Deleting old local backup $SOURCE/.backup-latest..."
+  sudo btrfs subvolume delete $SOURCE/.backup-latest
+
+  echo "Moving new local backup $SOURCE/.backup-new to $SOURCE/.backup-latest..."
+  sudo mv $SOURCE/.backup-new $SOURCE/.backup-latest
+fi
