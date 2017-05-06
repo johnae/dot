@@ -15,7 +15,7 @@ if [ -z "$SOURCE" ]; then
 fi
 
 if [ -z "$DEST" ]; then
-  echo "No dest set (second argument - should be in the form <user>@<host>:<optional_port>)"
+  echo "No dest set (second argument - should be in the form <user>@<host>)"
   exit 1
 fi
 
