@@ -1,0 +1,10 @@
+[Unit]
+Description=Automatic Update Downloader
+After=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/pacman -Syuwq --noconfirm
+
+[Install]
+WantedBy=multi-user.target

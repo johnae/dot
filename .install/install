@@ -1,17 +1,33 @@
 #!/bin/sh
 
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 
 if [ $(id -u) -ne 0 ]; then
   echo "Must be root"
   exit 1
 fi
 
-for script in $(ls $dir); do
-  if [ "$script" != "install" ]; then
-    echo "Copying $dir/$script to /usr/local/bin/$script"
-    cp $dir/$script /usr/local/bin/$script
-    echo "Ensuring it is executable"
-    chmod +x /usr/local/bin/$script
-  fi
+for script in $(ls $dir/scripts); do
+  echo "Copying $dir/scripts/$script to /usr/local/bin/$script"
+  cp $dir/scripts/$script /usr/local/bin/$script
+  echo "Ensuring it is executable"
+  chmod +x /usr/local/bin/$script
 done
+
+if [ "$kernel" = "linux" ]; then
+  if [ -d /etc/systemd/system ]; then
+    echo "Installing systemd units"
+    for unit in $(ls $dir/systemd/install); do
+      echo "Installing $unit"
+      cp $dir/systemd/install/$unit /etc/systemd/system/$unit
+    done
+    for unit in $(ls $dir/systemd/enable); do
+      echo "Installing, enabling and starting $unit"
+      cp $dir/systemd/enable/$unit /etc/systemd/system/$unit
+      systemctl enable $unit
+      systemctl start $unit
+    done
+    systemctl daemon-reload
+  fi
+fi
