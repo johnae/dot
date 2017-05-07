@@ -3,44 +3,107 @@ set -- $SSH_ORIGINAL_COMMAND
 
 CMD=$1
 DEST=$2
+MAXDAILY=5
+KEEPDAILY=1
+TODAY=$(date +%Y%m%d)
+for i in {0..7}; do ((keep[$(date +%Y%m%d -d "-$i day")]++)); done
 
-if [ "$CMD" = "receive" -o "$CMD" = "setup" -o "$CMD" = "exists" ]; then
-
-	if [ -z "$DEST" ]; then
-		echo "Sorry, you must provide a destination as second argument"
-		exit 1
-	fi
-
-	if [ "$CMD" = "exists" ]; then
-		if test -e "$DEST" && test -e "$DEST/.backup-latest"; then
-			echo "$DEST and $DEST/.backup-latest exists"
-			exit 0
-		else
-			echo "$DEST and $DEST/.backup-latest does not exist"
-			exit 1
-		fi
-	fi
-
-	if [ "$CMD" = "setup" ]; then
-		echo "sudo mkdir -p \"$(dirname $DEST)\""
-		sudo mkdir -p "$(dirname $DEST)"
-		echo "sudo btrfs subvolume create \"$DEST\""
-		sudo btrfs subvolume create "$DEST" || true
-		exit 0
-	fi
-
-	echo "sudo btrfs receive \"$DEST\""
-	sudo btrfs receive "$DEST"
-	sync
-
-	if [ -e $DEST/.backup-new ]; then
-		echo "Deleting old remote backup $DEST/.backup-latest..."
-		sudo btrfs subvolume delete $DEST/.backup-latest
-
-		echo "Moving new remote backup $DEST/.backup-new to $DEST/.backup-latest..."
-		sudo mv $DEST/.backup-new $DEST/.backup-latest
-	fi
-else
-	echo "Sorry only receive, exists and setup commands are allowed - they all take the destination path"
-	exit 1
+if [ -z "$DEST" ]; then
+  echo "Sorry, you must provide a destination as second argument"
+  exit 1
 fi
+
+cleanup() {
+  BACKUP=$1
+  if [ -e $BACKUP/.backup-new ]; then
+    latest=$(date +%Y%m%d%H%M -d @$(stat -c %Y $BACKUP/.backup-latest))
+    if [ -e $BACKUP/.backup-$latest ]; then
+      echo "Preexisting $BACKUP/.backup-$latest, removing first"
+      sudo btrfs subvolume delete $BACKUP/.backup-$latest
+    fi
+    echo "Move $BACKUP/.backup-latest to $BACKUP/.backup-$latest"
+    sudo mv $BACKUP/.backup-latest $BACKUP/.backup-$latest
+ 
+    echo "Moving new remote backup $BACKUP/.backup-new to $BACKUP/.backup-latest..."
+    sudo mv $BACKUP/.backup-new $BACKUP/.backup-latest
+
+    echo "Cleaning out old daily snapshots"
+    for snap in $(ls -da $BACKUP/.backup-$TODAY* | sort -r | tail -n +$((MAXDAILY+1))); do
+      echo "Removing old daily snapshot: '$snap'"
+      echo "sudo btrfs subvolume delete $snap"
+      sudo btrfs subvolume delete $snap
+    done
+
+    echo "Cleaning out snapshots older than today, keeping a weeks worth ($KEEPDAILY per day)"
+    for snap in $(ls -da $BACKUP/.backup-2* | sort -r); do
+      name=$(basename $snap)
+      when=$(echo $name | sed 's|\.backup-||g')
+      day=$(echo $when | cut -c1-8)
+      if [ "$day" = "$TODAY" ]; then
+        echo "Skip $snap (today)"
+        continue
+      fi
+      k=${keep[$day]}
+      if [ "$k" != "1" ]; then
+        echo "Removing snap older than a week: $snap"
+        echo "sudo btrfs subvolume delete $snap"
+        sudo btrfs subvolume delete $snap
+      else
+        for dailysnap in $(ls -da $BACKUP/.backup-$day* | sort -r | tail -n +$((KEEPDAILY+1))); do
+          echo "Remove old snap $dailysnap (keeping one per day)"
+          echo "sudo btrfs subvolume delete $dailysnap"
+          sudo btrfs subvolume delete $dailysnap
+        done
+      fi
+    done
+  fi
+}
+
+receive() {
+  BACKUP=$1
+  echo "sudo btrfs receive \"$BACKUP\""
+  sudo btrfs receive "$BACKUP"
+  sync
+  cleanup $BACKUP
+}
+
+exists() {
+  BACKUP=$1
+  if test -e "$BACKUP" && test -e "$BACKUP/.backup-latest"; then
+    echo "$BACKUP and $BACKUP/.backup-latest exists"
+    exit 0
+  else
+    echo "$BACKUP and $BACKUP/.backup-latest does not exist"
+    exit 1
+  fi
+}
+
+setup() {
+  BACKUP=$1
+  echo "Setting up backup '$BACKUP'"
+  echo "sudo mkdir -p \"$(dirname $BACKUP)\""
+  sudo mkdir -p "$(dirname $BACKUP)"
+  echo "sudo btrfs subvolume create \"$BACKUP\""
+  sudo btrfs subvolume create "$BACKUP" || true
+  exit 0
+}
+
+nocommand() {
+  echo "Sorry only receive, exists and setup commands are allowed - they all take the destination path"
+  exit 1
+}
+
+case "$CMD" in
+  receive)
+    receive $DEST
+    ;;
+  setup)
+    setup $DEST
+    ;;
+  exists)
+    exists $DEST
+    ;;
+  *)
+    nocommand $DEST
+    ;;
+esac
