@@ -7,7 +7,17 @@ SOURCE=$1
 DEST=$2
 PORT=$3
 
-command -v pv >/dev/null 2>&1 || { echo >&2 "Even though I don't have to require pv I require it anyway :-)? Please install pv. Aborting."; exit 1; }
+## When we've got a tty, show some transfer stats
+## otherwise just pass through the data (using cat)
+if [ -t 1 ] ; then
+  PROGRESS_CMD=pv
+else
+  PROGRESS_CMD=cat
+fi
+
+command -v $PROGRESS_CMD >/dev/null 2>&1 || { echo >&2 "'$PROGRESS_CMD' is a required command. Please install it. Aborting."; exit 1; }
+command -v btrfs >/dev/null 2>&1 || { echo >&2 "'btrfs' is a required command. Please install it. Aborting."; exit 1; }
+command -v ssh >/dev/null 2>&1 || { echo >&2 "'ssh' is a required command. Please install it. Aborting."; exit 1; }
 
 if [ -z "$SOURCE" ]; then
   echo "No source set (first argument - should be full path)"
@@ -51,12 +61,12 @@ if $SSH exists $BACKUP; then
   sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
   sync
   echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST:$BACKUP"
-  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | pv | $SSH "receive $BACKUP"
+  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | $PROGRESS_CMD | $SSH "receive $BACKUP"
 else
   echo "Setting up remote $DEST"
   $SSH setup $BACKUP
   echo "Sending initial snapshot to $DEST:$BACKUP since no preexisting snapshot was found"
-  sudo btrfs send $SOURCE/.backup-latest | pv | $SSH "receive $BACKUP"
+  sudo btrfs send $SOURCE/.backup-latest | $PROGRESS_CMD | $SSH "receive $BACKUP"
 fi
 
 if [ -e $SOURCE/.backup-new ]; then
