@@ -12,6 +12,13 @@ See ```.zshrc``` for the ordering and how it runs. There's also hostname based c
 
 ## Installation
 
+First off, this is only for zsh since that's the shell I use. So it wont' work with anything else. In addition, off the top of my head, these tools are required for it to work reasonanly well:
+
+- fzf - the fuzzy finder, https://github.com/junegunn/fzf (usually installable through package manager)
+- direnv - unclutter your .profile, https://github.com/direnv/direnv (on arch can be installed through yaourt for example)
+
+Then git clone something like this:
+
 ```sh
 $ git clone --bare https://github.com/johnae/dot.git ~/.cfg
 $ cd ~
@@ -25,7 +32,15 @@ If there are any complaints like files already being there, this should help:
 $ mkdir -p .cfg-backup && GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg git checkout 2>&1 | egrep "\s+\." | awk '{print $1}' | xargs -I{} mv {} .cfg-backup/{}
 ```
 
-Above backs up any preexisting files to .cfg-backup.
+Above backs up any preexisting files to .cfg-backup. After all this, your home can be managed using:
+
+```sh
+home add
+home pull
+home push
+```
+
+Etc. It's just git with some special env vars for management. It's all in the repo files.
 
 ## Neovim bootstrap
 
