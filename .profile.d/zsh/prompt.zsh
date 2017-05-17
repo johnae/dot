@@ -26,6 +26,12 @@ function _pgitpwd {
   color="green"
   branchcolor=$color
 
+  ## gets around the issue of touching a file (eg. mod time)
+  ## and git diff returning non-zero exit code. If one does a
+  ## "git status" that doesn't happen after for some reason.
+  ## Not entirely sure why.
+  _pgit status > /dev/null
+
   if gitprefix=$(_pgit rev-parse --show-prefix HEAD 2>/dev/null); then
     splitprefix=("${(s:/:)gitprefix}")
     branch=$(_pgit symbolic-ref HEAD 2>/dev/null | sed 's!refs\/heads\/!!')
