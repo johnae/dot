@@ -29,11 +29,11 @@ Above backs up any preexisting files to .cfg-backup.
 
 ## Neovim bootstrap
 
-I'm using dein, https://github.com/Shougo/dein.vim, to manage plugins. This needs to be somewhat manually installed first. Like this:
+I'm using dein, https://github.com/Shougo/dein.vim, to manage plugins. This needs to be somewhat manually installed first. Like this (when in home dir):
 
 ```sh
 curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/dein-installer.sh
-sh /tmp/dein-installer.sh 
+sh /tmp/dein-installer.sh .cache/dein
 ```
 
 You will also want to install python2 and python3 + pip (for https://github.com/Shougo/deoplete.nvim). Then for both 2 and 3 install neovim. Probably a user install, like this:
