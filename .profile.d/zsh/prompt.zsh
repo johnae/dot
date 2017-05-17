@@ -48,13 +48,13 @@ function _pgitpwd {
 }
 
 function _bgjobs {
-  NUMJOBS=$(jobs | wc -l)
+  NUMJOBS=$(jobs | wc -l | tr -d ' ')
   if [ "$NUMJOBS" != "0" ]; then
     msg="($NUMJOBS jobs)"
     if [ "$NUMJOBS" = "1" ]; then
       msg="($NUMJOBS job)"
     fi
-    print -n "%F{"magenta"}$msg%f"
+    print -n "%F{magenta}$msg%f"
   fi
 }
 
