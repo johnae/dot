@@ -1,7 +1,5 @@
 #!/bin/sh
 
-set -e
-
 unset SSH_AUTH_SOCK
 SOURCE=$1
 DEST=$2
@@ -33,6 +31,11 @@ if [ $(stat --format=%i $SOURCE) -ne 256 ]; then
   echo "$SOURCE is not a btrfs subvolume, sorry."
   exit 1
 fi
+
+MAXDAILY=5
+KEEPDAILY=1
+TODAY=$(date +%Y%m%d)
+for i in {0..7}; do ((keep[$(date +%Y%m%d -d "-$i day")]++)); done
 
 HOSTNAME=$(hostname)
 BASEDIR=Backup
@@ -70,9 +73,41 @@ else
 fi
 
 if [ -e $SOURCE/.backup-new ]; then
-  echo "Deleting old local backup $SOURCE/.backup-latest..."
-  sudo btrfs subvolume delete $SOURCE/.backup-latest
+  latest=$(date +%Y%m%d%H%M -d @$(stat -c %Y $SOURCE/.backup-latest))
+  echo "Moving old local backup $SOURCE/.backup-latest to $SOURCE/.backup-$latest"
+  sudo mv $SOURCE/.backup-latest $SOURCE/.backup-$latest
 
   echo "Moving new local backup $SOURCE/.backup-new to $SOURCE/.backup-latest..."
   sudo mv $SOURCE/.backup-new $SOURCE/.backup-latest
+
+  echo "Cleaning out old daily local snapshots"
+  for snap in $(ls -da $SOURCE/.backup-$TODAY* | sort -r | tail -n +$((MAXDAILY+1))); do
+    echo "Removing old local daily snapshot: '$snap'"
+    echo "sudo btrfs subvolume delete $snap"
+    sudo btrfs subvolume delete $snap
+  done
+
+  echo "Cleaning out local snapshots older than today, keeping a weeks worth ($KEEPDAILY per day)"
+  for snap in $(ls -da $SOURCE/.backup-2* | sort -r); do
+    name=$(basename $snap)
+    when=$(echo $name | sed 's|\.backup-||g')
+    day=$(echo $when | cut -c1-8)
+    if [ "$day" = "$TODAY" ]; then
+      echo "Skip local $snap (today)"
+      continue
+    fi
+    k=${keep[$day]}
+    if [ "$k" != "1" ]; then
+      echo "Removing local snap older than a week: $snap"
+      echo "sudo btrfs subvolume delete $snap"
+      sudo btrfs subvolume delete $snap
+    else
+      for dailysnap in $(ls -da $SOURCE/.backup-$day* | sort -r | tail -n +$((KEEPDAILY+1))); do
+        echo "Remove old local snap $dailysnap (keeping one per day)"
+        echo "sudo btrfs subvolume delete $dailysnap"
+        sudo btrfs subvolume delete $dailysnap
+      done
+    fi
+  done
+
 fi
