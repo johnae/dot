@@ -76,4 +76,4 @@ override settings in .defaultrc. ~/.localrc is not checked in and shouldn't be.
 
 ## License
 
-The code is available under the [MIT license](LICENSE).
+This code is released under the [MIT License](http://opensource.org/licenses/MIT)
