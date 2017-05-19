@@ -16,7 +16,7 @@ fi
 cleanup() {
   BACKUP=$1
   if [ -e $BACKUP/.backup-new ]; then
-    latest=$(date +%Y%m%d%H%M -d @$(stat -c %Y $BACKUP/.backup-latest))
+    latest=$(date +%Y%m%d%H%M -d @$(stat -c %Z $BACKUP/.backup-latest))
     if [ -e $BACKUP/.backup-$latest ]; then
       echo "Preexisting $BACKUP/.backup-$latest, removing first"
       sudo btrfs subvolume delete $BACKUP/.backup-$latest

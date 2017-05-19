@@ -73,8 +73,11 @@ else
 fi
 
 if [ -e $SOURCE/.backup-new ]; then
-  latest=$(date +%Y%m%d%H%M -d @$(stat -c %Y $SOURCE/.backup-latest))
+  latest=$(date +%Y%m%d%H%M -d @$(stat -c %Z $SOURCE/.backup-latest))
   echo "Moving old local backup $SOURCE/.backup-latest to $SOURCE/.backup-$latest"
+  if [ -e $SOURCE/.backup-$latest ]; then
+    sudo btrfs subvolume delete $SOURCE/.backup-$latest
+  fi
   sudo mv $SOURCE/.backup-latest $SOURCE/.backup-$latest
 
   echo "Moving new local backup $SOURCE/.backup-new to $SOURCE/.backup-latest..."
