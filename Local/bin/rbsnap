@@ -45,10 +45,18 @@ SSH="ssh -i $HOME/.ssh/id_rsa_backup"
 if [ ! -z "$PORT" ]; then
   SSH="$SSH -p $PORT"
 fi
-SSH="$SSH -C $DEST"
+SSH="$SSH -C"
 
 echo "BACKUP: $BACKUP"
 echo "SSH CMD: $SSH"
+echo "TEST SSH CMD: $SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKUP"
+
+remote_status=$($SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKUP 2>&1)
+
+if [ "$remote_status" != "ok" ]; then
+  echo "Couldn't connect to $DEST, skipping this backup (got '$remote_status')"
+  exit 1
+fi
 
 if [ ! -e "$SOURCE/.backup-latest" ]; then
   echo "Creating initial snapshot at $SOURCE/.backup-latest"
