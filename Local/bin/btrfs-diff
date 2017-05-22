@@ -1,0 +1,20 @@
+#!/bin/sh
+usage() { echo "Usage: $0 <older-snapshot> <newer-snapshot> ($1)"; exit 1; }
+
+[ $# -eq 2 ] || usage "two arguments required"
+
+SNAPSHOT_OLD=$1
+SNAPSHOT_NEW=$2
+
+[ -d $SNAPSHOT_OLD ] || usage "$SNAPSHOT_OLD does not exist"
+[ -d $SNAPSHOT_NEW ] || usage "$SNAPSHOT_NEW does not exist"
+
+[ $(stat --format=%i $SNAPSHOT_OLD) -eq 256 ] || usage "$SNAPSHOT_OLD is not a btrfs subvolume, sorry."
+[ $(stat --format=%i $SNAPSHOT_NEW) -eq 256 ] || usage "$SNAPSHOT_NEW is not a btrfs subvolume, sorry."
+
+OLD_TRANSID=$(btrfs subvolume find-new "$SNAPSHOT_OLD" 9999999)
+OLD_TRANSID=${OLD_TRANSID#transid marker was }
+
+[ -n "$OLD_TRANSID" -a "$OLD_TRANSID" -gt 0 ] || usage "failed to find generation for $SNAPSHOT_NEW"
+
+btrfs subvolume find-new "$SNAPSHOT_NEW" $OLD_TRANSID | sed '$d' | cut -f17- -d' ' | sort | uniq
