@@ -78,6 +78,11 @@ exists() {
   fi
 }
 
+check() {
+  echo "ok"
+  exit 0
+}
+
 setup() {
   BACKUP=$1
   echo "Setting up backup '$BACKUP'"
@@ -89,7 +94,7 @@ setup() {
 }
 
 nocommand() {
-  echo "Sorry only receive, exists and setup commands are allowed - they all take the destination path"
+  echo "Sorry only receive, exists, check and setup commands are allowed - they all take the destination path"
   exit 1
 }
 
@@ -102,6 +107,9 @@ case "$CMD" in
     ;;
   exists)
     exists $DEST
+    ;;
+  check)
+    check $DEST
     ;;
   *)
     nocommand $DEST
