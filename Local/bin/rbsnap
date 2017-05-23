@@ -18,17 +18,17 @@ command -v btrfs >/dev/null 2>&1 || { echo >&2 "'btrfs' is a required command. P
 command -v ssh >/dev/null 2>&1 || { echo >&2 "'ssh' is a required command. Please install it. Aborting."; exit 1; }
 
 if [ -z "$SOURCE" ]; then
-  echo "No source set (first argument - should be full path)"
+  echo >&2 "No source set (first argument - should be full path)"
   exit 1
 fi
 
 if [ -z "$DEST" ]; then
-  echo "No dest set (second argument - should be in a form suitable for the ssh command)"
+  echo >&2 "No dest set (second argument - should be in a form suitable for the ssh command)"
   exit 1
 fi
 
 if [ $(stat --format=%i $SOURCE) -ne 256 ]; then
-  echo "$SOURCE is not a btrfs subvolume, sorry."
+  echo >&2 "$SOURCE is not a btrfs subvolume, sorry."
   exit 1
 fi
 
@@ -54,7 +54,7 @@ echo "TEST SSH CMD: $SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKU
 remote_status=$($SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKUP 2>&1)
 
 if [ "$remote_status" != "ok" ]; then
-  echo "Couldn't connect to $DEST, skipping this backup (got '$remote_status')"
+  echo >&2 "Couldn't connect to $DEST, skipping this backup (got '$remote_status')"
   exit 1
 fi
 
