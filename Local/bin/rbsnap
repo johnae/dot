@@ -58,6 +58,8 @@ if [ "$remote_status" != "ok" ]; then
   exit 1
 fi
 
+SSH="$SSH $DEST"
+
 if [ ! -e "$SOURCE/.backup-latest" ]; then
   echo "Creating initial snapshot at $SOURCE/.backup-latest"
   sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-latest
