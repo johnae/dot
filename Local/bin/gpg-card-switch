@@ -5,4 +5,7 @@ command -v $GPG2 > /dev/null 2>&1 || { echo >&2 "'$GPG2' is required for this sc
 
 echo "Removing cached keys and restarting gpg-agent"
 rm -rf ~/.gnupg/private-keys-v1.d && killall gpg-agent && source ~/.profile.d/gnupg/start.zsh
+KEY=$(gpg2 --card-status | grep "sec#" | awk '{print $2}' | awk -F'/' '{print $2}')
+echo "Receiving key '$KEY' on card"
+gpg2 --receive-keys $KEY
 echo "Done"
