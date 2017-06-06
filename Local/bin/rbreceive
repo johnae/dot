@@ -62,7 +62,10 @@ cleanup() {
 receive() {
   BACKUP=$1
   echo "sudo btrfs receive \"$BACKUP\""
-  sudo btrfs receive "$BACKUP"
+  if ! sudo btrfs receive "$BACKUP"; then
+    echo >&2 "error receiving backup"
+    exit 1
+  fi
   sync
   cleanup $BACKUP
 }
@@ -94,7 +97,7 @@ setup() {
 }
 
 nocommand() {
-  echo "Sorry only receive, exists, check and setup commands are allowed - they all take the destination path"
+  echo >&2 "Sorry only receive, exists, check and setup commands are allowed - they all take the destination path"
   exit 1
 }
 
