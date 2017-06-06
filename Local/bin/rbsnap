@@ -49,9 +49,9 @@ SSH="$SSH -C"
 
 echo "BACKUP: $BACKUP"
 echo "SSH CMD: $SSH"
-echo "TEST SSH CMD: $SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKUP"
+echo "TEST SSH CMD: $SSH -o BatchMode=yes -o ConnectTimeout=2 $DEST check $BACKUP"
 
-remote_status=$($SSH -o BatchMode=yes -o ConnectTimeout=5 $DEST check $BACKUP 2>&1)
+remote_status=$($SSH -o BatchMode=yes -o ConnectTimeout=2 $DEST check $BACKUP 2>&1)
 
 if [ "$remote_status" != "ok" ]; then
   echo >&2 "Couldn't connect to $DEST, skipping this backup (got '$remote_status')"
@@ -74,7 +74,11 @@ if $SSH exists $BACKUP; then
   sudo btrfs subvolume snapshot -r $SOURCE $SOURCE/.backup-new
   sync
   echo "Sending diff between $SOURCE/.backup-latest and $SOURCE/.backup-new to $DEST:$BACKUP"
-  sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | $PROGRESS_CMD | $SSH "receive $BACKUP"
+  if ! sudo btrfs send -p $SOURCE/.backup-latest $SOURCE/.backup-new | $PROGRESS_CMD | $SSH "receive $BACKUP"; then
+    sudo btrfs subvolume delete $SOURCE/.backup-new
+    echo >&2 "Error sending backup to $DEST, bailing..."
+    exit 1
+  fi
 else
   echo "Setting up remote $DEST"
   $SSH setup $BACKUP
