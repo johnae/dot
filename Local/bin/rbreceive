@@ -28,14 +28,14 @@ cleanup() {
     sudo mv $BACKUP/.backup-new $BACKUP/.backup-latest
 
     echo "Cleaning out old daily snapshots"
-    for snap in $(ls -da $BACKUP/.backup-$TODAY* | sort -r | tail -n +$((MAXDAILY+1))); do
+    for snap in $(ls -da $BACKUP/.backup-$TODAY* || true | sort -r | tail -n +$((MAXDAILY+1))); do
       echo "Removing old daily snapshot: '$snap'"
       echo "sudo btrfs subvolume delete $snap"
       sudo btrfs subvolume delete $snap
     done
 
     echo "Cleaning out snapshots older than today, keeping a weeks worth ($KEEPDAILY per day)"
-    for snap in $(ls -da $BACKUP/.backup-2* | sort -r); do
+    for snap in $(ls -da $BACKUP/.backup-2* || true | sort -r); do
       name=$(basename $snap)
       when=$(echo $name | sed 's|\.backup-||g')
       day=$(echo $when | cut -c1-8)
@@ -49,7 +49,7 @@ cleanup() {
         echo "sudo btrfs subvolume delete $snap"
         sudo btrfs subvolume delete $snap
       else
-        for dailysnap in $(ls -da $BACKUP/.backup-$day* | sort -r | tail -n +$((KEEPDAILY+1))); do
+        for dailysnap in $(ls -da $BACKUP/.backup-$day* || true | sort -r | tail -n +$((KEEPDAILY+1))); do
           echo "Remove old snap $dailysnap (keeping one per day)"
           echo "sudo btrfs subvolume delete $dailysnap"
           sudo btrfs subvolume delete $dailysnap

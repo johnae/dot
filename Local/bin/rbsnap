@@ -98,14 +98,14 @@ if [ -e $SOURCE/.backup-new ]; then
   sudo mv $SOURCE/.backup-new $SOURCE/.backup-latest
 
   echo "Cleaning out old daily local snapshots"
-  for snap in $(ls -da $SOURCE/.backup-$TODAY* | sort -r | tail -n +$((MAXDAILY+1))); do
+  for snap in $(ls -da $SOURCE/.backup-$TODAY* || true | sort -r | tail -n +$((MAXDAILY+1))); do
     echo "Removing old local daily snapshot: '$snap'"
     echo "sudo btrfs subvolume delete $snap"
     sudo btrfs subvolume delete $snap
   done
 
   echo "Cleaning out local snapshots older than today, keeping a weeks worth ($KEEPDAILY per day)"
-  for snap in $(ls -da $SOURCE/.backup-2* | sort -r); do
+  for snap in $(ls -da $SOURCE/.backup-2* || true | sort -r); do
     name=$(basename $snap)
     when=$(echo $name | sed 's|\.backup-||g')
     day=$(echo $when | cut -c1-8)
@@ -119,7 +119,7 @@ if [ -e $SOURCE/.backup-new ]; then
       echo "sudo btrfs subvolume delete $snap"
       sudo btrfs subvolume delete $snap
     else
-      for dailysnap in $(ls -da $SOURCE/.backup-$day* | sort -r | tail -n +$((KEEPDAILY+1))); do
+      for dailysnap in $(ls -da $SOURCE/.backup-$day* || true | sort -r | tail -n +$((KEEPDAILY+1))); do
         echo "Remove old local snap $dailysnap (keeping one per day)"
         echo "sudo btrfs subvolume delete $dailysnap"
         sudo btrfs subvolume delete $dailysnap
