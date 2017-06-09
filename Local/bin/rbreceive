@@ -61,6 +61,10 @@ cleanup() {
 
 receive() {
   BACKUP=$1
+  if [ -e $BACKUP/.backup-$latest ]; then
+    echo "Preexisting $BACKUP/.backup-new, removing before receiving..."
+    sudo btrfs subvolume delete $BACKUP/.backup-$latest
+  fi
   echo "sudo btrfs receive \"$BACKUP\""
   if ! sudo btrfs receive "$BACKUP"; then
     echo >&2 "error receiving backup"
