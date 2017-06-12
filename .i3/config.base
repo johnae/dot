@@ -134,7 +134,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 
 # Start applications
 exec --no-startup-id xss-lock -l -- $lockcmd
-exec --no-startup-id xrandr --output eDP-1 --primary
+exec --no-startup-id ~/.i3/primary_display
 exec --no-startup-id ~/.i3/external_display right
 exec --no-startup-id feh --bg-fill ~/Pictures/wallpaper.jpg
 

@@ -1,0 +1,4 @@
+#!/bin/sh
+
+BUILT_IN=$(xrandr | grep "connected" | awk '{print $1}' | head -n +1)
+exec xrandr --output $BUILT_IN --primary
