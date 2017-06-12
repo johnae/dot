@@ -44,9 +44,6 @@ bindsym $mod+m move workspace to output right
 # kill focused window
 bindsym $mod+Shift+q kill
 
-# lock screen
-bindsym Control+$mod+l exec loginctl lock-session
-
 # scratchpad
 bindsym $mod+s scratchpad show
 bindsym $mod+Shift+s move scratchpad

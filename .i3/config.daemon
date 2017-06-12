@@ -13,4 +13,4 @@ set $lockcmd /usr/local/bin/lockscreen -e -i /home/john/Pictures/lock.png --text
 set $terminal st
 
 # lock screen
-bindsym Control+$mod+l exec loginctl lock-session
+bindsym Control+$mod+l exec i3lock
