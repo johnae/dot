@@ -1,6 +1,6 @@
 #!/bin/sh
 
-HN=$(hostname)
+HN=$(hostname -s)
 
 if [ -e $HOME/.i3/config.$HN ]; then
   cat $HOME/.i3/config.$HN $HOME/.i3/config.base > $HOME/.i3/config
