@@ -10,11 +10,11 @@ if [ "$password_file" = "" ]; then
   exit
 fi
 
-function getlogin {
+getlogin() {
   echo -n $(basename "$1")
 }
 
-function getpass {
+getpass() {
   echo -n $(gpg --decrypt "$prefix/$1.gpg" 2>/dev/null | head -1)
 }
 
