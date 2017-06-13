@@ -15,7 +15,7 @@ getlogin() {
 }
 
 getpass() {
-  echo -n $(gpg --decrypt "$prefix/$1.gpg" 2>/dev/null | head -1)
+  echo -n $(gpg --decrypt "$1.gpg" 2>/dev/null | head -1)
 }
 
 login=$(getlogin "$password_file")
