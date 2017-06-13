@@ -15,4 +15,4 @@ set $terminal st
 # lock screen
 bindsym Control+$mod+l exec i3lock
 
-exec --no-startup-id ~/Local/bin/syncthing
+exec --no-startup-id ~/Local/bin/syncthing -no-browser
