@@ -19,6 +19,10 @@ source ~/.vpns/$NAME
 # PPP_PASS=your-password
 # IFACE=the-local-net-interface (eg. wlan0, wlp58s0 or eth0 - whatever you have locally)
 
+echo "Ensuring vpn addr is an actual ip, resolving: $VPN_ADDR"
+VPN_ADDR=$(dig +short $VPN_ADDR | tail -n 1)
+echo "resolved to: $VPN_ADDR"
+
 iface_ip() {
   ip addr show $1 | grep "inet "|awk '{print $2}'|awk -F '/' '{print $1}'
 }
