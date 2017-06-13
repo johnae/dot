@@ -2,7 +2,7 @@
 
 PASSONLY=$1
 
-prefix=${PASSWORD_STORE_DIR-~/.password-store}
+prefix=$(readlink -f ${PASSWORD_STORE_DIR-~/.password-store})
 password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | rev | cut -f 2- -d '.' | rev | cut -f 5- -d '/' | rofi -p "password >" -dmenu "$@")
 error_icon=~/Pictures/icons/essential/error.svg
 
@@ -15,7 +15,7 @@ getlogin() {
 }
 
 getpass() {
-  echo -n $(gpg --decrypt "$1.gpg" 2>/dev/null | head -1)
+  echo -n $(gpg --decrypt "$prefix/$1.gpg" 2>/dev/null | head -1)
 }
 
 login=$(getlogin "$password_file")
