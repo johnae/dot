@@ -5,7 +5,7 @@ TMPDIR=$(mktemp -dt "history-search.XXXXXXXX" --tmpdir=$XDG_RUNTIME_DIR)
 TMPDB=$TMPDIR/History
 BROWSER=chromium
 
-function finish {
+finish() {
   rm -rf $TMPDIR
 }
 trap finish EXIT
