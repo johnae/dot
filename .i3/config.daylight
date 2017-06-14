@@ -14,5 +14,3 @@ set $terminal st
 
 # lock screen
 bindsym Control+$mod+l exec loginctl lock-session
-
-exec --no-startup-id ~/Local/bin/syncthing -no-browser
