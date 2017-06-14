@@ -2,7 +2,7 @@
 
 CMD="$1"
 BUILT_IN=$(xrandr | grep " connected" | awk '{print $1}' | head -n +1)
-DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $0}' | tail -n +2 | head -n +1)
+DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $1}' | tail -n +2 | head -n +1)
 
 if [ "" = "$DISPLAY_NAME" ]; then
   exit 1

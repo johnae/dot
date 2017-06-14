@@ -2,7 +2,7 @@
 
 CMD="$1"
 BUILT_IN=$(xrandr | grep " connected" | awk '{print $1}' | head -n +1)
-DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $0}' | tail -n +2 | head -n +1)
+DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $1}' | tail -n +2 | head -n +1)
 DISPLAY_SCALING=2x2
 DISPLAY_PANNING_RIGHT=3840x2160+3200+0
 DISPLAY_PANNING_LEFT=3840x2160+0+0
