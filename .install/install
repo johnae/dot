@@ -28,6 +28,8 @@ if [ "$kernel" = "linux" ]; then
       systemctl enable $unit
       systemctl start $unit
     done
+    echo "Please note that user services (eg. the ones with @ in"
+    echo "their names) may need to be enabled after install!"
     systemctl daemon-reload
   fi
 fi
