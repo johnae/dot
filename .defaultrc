@@ -4,3 +4,42 @@ _FZFSH=/usr/share/fzf
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 export _SCALING=2
+
+## only do this when logged in over ssh
+if [ ! -z "$SSH_CONNECTION" ]; then
+  ## also only do this when NOT inside tmux
+  if [ -z "$TMUX" ]; then
+    _SSH_AUTH_SOCK=$SSH_AUTH_SOCK
+    SSH_AUTH_SOCK=/tmp/ssh-auth.$USER
+    ## if the "real" auth sock is present (eg. NOT empty)
+    if [ ! -z "$_SSH_AUTH_SOCK" ]; then
+      ## check if there is a link present at the static location
+      ## this script is trying to provide
+      if [ -h $SSH_AUTH_SOCK ]; then
+        ## follow that link if present
+        ACTUAL_SSH_SOCK=$(readlink $SSH_AUTH_SOCK)
+        ## now check if the actual linked to socket path
+        ## is different from what we've put away in $_SSH_AUTH_SOCK (the initial value)
+        ## if it is different, remove the link
+        if [ "$ACTUAL_SSH_SOCK" != "$_SSH_AUTH_SOCK" ]; then
+          rm -f $SSH_AUTH_SOCK
+        fi
+        ## now check if the actual linked to socket is present on disk
+        ## if not, remove the link
+        if [ ! -e $ACTUAL_SSH_SOCK ]; then
+          rm -f $SSH_AUTH_SOCK
+        fi
+      fi
+      ## if there is no static link to auth socket, create it
+      ## above we may have removed it because it was no longer
+      ## usable
+      if [ ! -h $SSH_AUTH_SOCK ]; then
+        ln -s $_SSH_AUTH_SOCK $SSH_AUTH_SOCK
+      fi
+    fi
+    export SSH_AUTH_SOCK
+    if tmux has-session 2>/dev/null; then
+      exec tmux attach
+    fi
+  fi
+fi
