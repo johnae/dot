@@ -2,14 +2,14 @@
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font $font
 
-# Map caps-lock to ctrl
-exec_always --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt; sleep 1; setxkbmap -variant mac"
+# Map caps-lock to ctrl etc
+exec_always --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
+
+# Shortcut to just redo above when external keyboard is reattached (without reloading i3)
+bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
 
 # start a terminal
 bindsym $mod+Return exec $terminal 
-
-# start a dev terminal
-bindsym $mod+Shift+Return exec $terminal -l dev
 
 # passmenu
 bindsym $mod+minus exec passmenu
@@ -53,7 +53,7 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # External monitor on/off (work)
-bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display right"
+bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display right && touch ~/Pictures/lock.jpg"
 bindsym $mod+Shift+x exec --no-startup-id "~/.i3/external_display off"
 
 # start rofi (as a program launcher)
@@ -136,7 +136,7 @@ bindsym $mod+Shift+0 move container to workspace number 10
 exec --no-startup-id xss-lock -l -- $lockcmd
 exec --no-startup-id ~/.i3/primary_display
 exec --no-startup-id ~/.i3/external_display right
-exec --no-startup-id feh --bg-fill ~/Pictures/wallpaper.jpg
+exec --no-startup-id ~/.i3/wallpaper
 
 exec --no-startup-id /usr/lib/notify-osd-customizable/notify-osd
 

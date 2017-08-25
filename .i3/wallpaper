@@ -1,0 +1,5 @@
+#!/bin/sh
+
+## This helps with a garbled image
+sleep 1
+feh --bg-fill ~/Pictures/wallpaper.jpg
