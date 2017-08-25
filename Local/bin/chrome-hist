@@ -11,7 +11,7 @@ finish() {
 trap finish EXIT
 
 cp $DB $TMPDB
-item=$(sqlite3 $TMPDB "select title, url from urls" | rofi -p "url >" -dmenu)
+item=$(sqlite3 $TMPDB "SELECT title, url FROM urls ORDER BY last_visit_time DESC" | rofi -p "url >" -dmenu)
 url=$(echo -n "$item" | rev | cut -f 1 -d '|' | rev)
 
 if [ "$url" = "" ]; then
