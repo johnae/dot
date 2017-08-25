@@ -27,6 +27,11 @@ alias vim=nvim
 alias spotify="spotify --force-device-scale-factor=1.7"
 alias xc="xclip -selection clipboard"
 
+## httpie aliases
+for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
+  alias "$method"="http $method"
+done
+
 npm_local() {
   pushd ~/Local/
   npm install $@
