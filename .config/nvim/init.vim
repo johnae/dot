@@ -34,6 +34,9 @@ call dein#add('tpope/vim-git')
 call dein#add('HerringtonDarkholme/yats.vim')
 call dein#add('mhartington/nvim-typescript')
 call dein#add('artur-shaik/vim-javacomplete2')
+call dein#add('rust-lang/rust.vim')
+call dein#add('sebastianmarkow/deoplete-rust')
+call dein#add('udalov/kotlin-vim')
 
 call dein#end()
 
@@ -184,6 +187,14 @@ let g:go_auto_type_info = 1
 let g:go_auto_sameids = 1
 
 autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'vsplit')
+
+" rust.vim
+let g:rustfmt_autosave = 1
+
+" rust deoplete
+" let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
+let g:deoplete#sources#rust#racer_binary = '/home/john/.cargo/bin/racer'
+let g:deoplete#sources#rust#rust_source_path = $HOME.'/Development/rust/src'
 
 " deoplete config
 let g:deocomplete#enable_at_startup = 1
