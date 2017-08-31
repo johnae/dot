@@ -1,7 +1,9 @@
 #!/bin/sh
 
 DB=$HOME/.config/chromium/Default/History
-TMPDIR=$(mktemp -dt "history-search.XXXXXXXX" --tmpdir=$XDG_RUNTIME_DIR)
+HOMETMP=$HOME/.tmp
+mkdir -p $HOMETMP
+TMPDIR=$(mktemp -dt "history-search.XXXXXXXX" --tmpdir=$HOMETMP)
 TMPDB=$TMPDIR/History
 BROWSER=chromium
 
@@ -10,7 +12,7 @@ finish() {
 }
 trap finish EXIT
 
-cp $DB $TMPDB
+cp --reflink=always $DB $TMPDB
 item=$(sqlite3 $TMPDB "SELECT title, url FROM urls ORDER BY last_visit_time DESC" | rofi -p "url >" -dmenu)
 url=$(echo -n "$item" | rev | cut -f 1 -d '|' | rev)
 
