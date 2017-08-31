@@ -10,7 +10,7 @@ set $urgent-bg-color #E53935
 set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome 18
 set $lockcmd /usr/local/bin/lockscreen -e -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
-set $terminal st
+set $terminal alacritty
 
 # lock screen
 bindsym Control+$mod+l exec loginctl lock-session
