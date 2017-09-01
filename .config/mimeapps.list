@@ -1,0 +1,4 @@
+[Added Associations]
+image/jpeg=gimp.desktop;
+text/plain=org.gnome.gedit.desktop;
+application/pdf=evince.desktop;
