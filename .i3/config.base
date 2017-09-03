@@ -36,7 +36,7 @@ bindsym $mod+Shift+h exec chrome-hist
 bindsym $mod+period exec sh ~/.last_command
 
 # rename workspace
-bindsym $mod+n exec rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:rename-workspace
+bindsym $mod+n exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:rename-workspace
 
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
