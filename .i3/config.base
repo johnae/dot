@@ -146,6 +146,7 @@ bindsym $mod+z workspace back_and_forth
 new_window pixel 1
 new_float pixel 1
 hide_edge_borders none
+no_focus [window_role="browser"]
 
 # class                 border              background          text                    indicator
 client.focused          $bg-color           $bg-color           $text-color             #00ff00
