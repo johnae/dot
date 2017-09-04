@@ -11,7 +11,6 @@ call dein#begin(expand('~/.cache/dein'))
 call dein#add('Shougo/dein.vim')
 call dein#add('Shougo/deoplete.nvim')
 call dein#add('leafo/moonscript-vim')
-call dein#add('neomake/neomake')
 call dein#add('kchmck/vim-coffee-script')
 call dein#add('cespare/vim-toml')
 call dein#add('Matt-Deacalion/vim-systemd-syntax')
@@ -37,6 +36,8 @@ call dein#add('artur-shaik/vim-javacomplete2')
 call dein#add('rust-lang/rust.vim')
 call dein#add('sebastianmarkow/deoplete-rust')
 call dein#add('udalov/kotlin-vim')
+call dein#add('justinmk/vim-syntax-extra')
+call dein#add('w0rp/ale')
 
 call dein#end()
 
@@ -136,18 +137,12 @@ autocmd FileType mail setlocal fo+=aw
 let g:airline_powerline_fonts = 1
 let g:airline_theme = 'dark'
 
-" neomake
-" let g:neomake_open_list = 2
-
 " fzf
 nmap <leader><leader> :Files<return>
 
 set omnifunc=syntaxcomplete#Complete
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType java setlocal omnifunc=javacomplete#Complete
-autocmd BufWritePre *.ts Neomake
-" autocmd BufWritePre *.java silent :JCimportsAddMissing
-" autocmd BufWritePre *.java silent :JCimportsRemoveUnused
 if has("autocmd") && exists("+omnifunc")
 autocmd Filetype *
 \	if &omnifunc == "" |
@@ -237,9 +232,6 @@ let g:SuperTabClosePreviewOnPopupClose = 1
 "   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
 " augroup
 "
-
-" Neomake config
-" let g:neomake_typescript_enabled_makers = ['tsc']
 
 " resizing
 nnoremap <silent> <Leader>+ :exe "vertical resize " . (winwidth(0) * 3/2)<CR>
