@@ -31,25 +31,3 @@ alias xc="xclip -selection clipboard"
 for method in GET HEAD POST PUT DELETE TRACE OPTIONS; do
   alias "$method"="http $method"
 done
-
-npm_local() {
-  pushd ~/Local/
-  npm install $@
-  popd
-}
-
-gpgsignoff() {
-  echo "gpgsign = false"
-  sed -i 's|gpgsign = true|gpgsign = false|g' ~/.gitconfig
-}
-
-gpgsignon() {
-  echo "gpgsign = true"
-  sed -i 's|gpgsign = false|gpgsign = true|g' ~/.gitconfig
-}
-
-nogpgsign() {
-  gpgsignoff
-  $@
-  gpgsignon
-}

@@ -10,11 +10,7 @@ function mark() {
     echo $@ : $(pwd) >> $BOOKMARKS_FILE
 }
 
-fzfcmd() {
-   [ ${FZF_TMUX:-1} -eq 1 ] && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
-function jump() {
+function jump_to_mark() {
     local jumpline
     jumpline=$(cat ${BOOKMARKS_FILE} | $(fzfcmd) --bind=ctrl-y:accept --tac)
     if [[ -n ${jumpline} ]]; then
@@ -26,7 +22,7 @@ function jump() {
     zle && zle reset-prompt
 }
 
-function dmark()  {
+function delete_mark()  {
     local marks_to_delete line
     marks_to_delete=$(cat $BOOKMARKS_FILE | $(fzfcmd) -m --bind=ctrl-y:accept,ctrl-t:toggle-up --tac)
 
@@ -40,5 +36,5 @@ function dmark()  {
     fi
 }
 
-zle -N jump
-bindkey '^g' jump
+zle -N jump_to_mark
+bindkey '^g' jump_to_mark

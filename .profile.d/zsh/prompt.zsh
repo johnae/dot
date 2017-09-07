@@ -1,15 +1,6 @@
 ## manage home
 alias home="GIT_DIR=$HOME/.cfg GIT_WORK_TREE=$HOME git"
 
-## works seamlessly with gitgutter if started from homedir
-function nvim {
-  if [ "$HOME" = "$(pwd)" ]; then
-    GIT_WORK_TREE=$HOME GIT_DIR=$HOME/.cfg $_NVIM $*
-  else
-    $_NVIM $*
-  fi
-}
-
 ## wrap it up for easier use in prompt below
 function _pgit {
   if [ "$HOME" = "$(pwd)" ]; then

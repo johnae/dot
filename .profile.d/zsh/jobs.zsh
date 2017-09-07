@@ -1,7 +1,3 @@
-fzfcmd() {
-   [ ${FZF_TMUX:-1} -eq 1 ] && echo "fzf-tmux -d${FZF_TMUX_HEIGHT:-40%}" || echo "fzf"
-}
-
 function listjobs() {
   job=$(jobs | $(fzfcmd) --bind=ctrl-y:accept --tac)
   if [[ -n ${job} ]]; then
