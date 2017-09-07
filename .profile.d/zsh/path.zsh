@@ -4,3 +4,4 @@ PATH="$HOME/.luarocks/bin:$PATH"
 PATH="$HOME/.cargo/bin:$PATH"
 PATH="$HOME/.local/bin:$PATH"
 PATH="$HOME/Local/bin:$PATH"
+export PATH
