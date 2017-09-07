@@ -54,13 +54,13 @@ function cnprompt6 {
     xterm*|rxvt*)
       precmd() {  print -Pn "\e]0;%m: %~\a" }
       preexec() { printf "\e]0;$HOST: %s\a" $1 };;
-  esac
-  setopt PROMPT_SUBST
-  PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(_pgitpwd)%B%(!.%F{red}.%F{yellow})$(_bgjobs)%-#${SSH_CLIENT:+%#} %b'
-  RPROMPT=''
-}
+    esac
+    setopt PROMPT_SUBST
+    PS1='%B%m%(?.. %??)%(1j. %j&.)%b $(_pgitpwd)%B%(!.%F{red}.%F{yellow})$(_bgjobs)%-#${SSH_CLIENT:+%#} %b'
+    RPROMPT=''
+  }
 
-function zle-line-init zle-keymap-select {
+  function zle-line-init zle-keymap-select {
   VIM_PROMPT="%{$fg_bold[yellow]%} [% NORMAL]% %{$reset_color%}"
   RPS1="${${KEYMAP/vicmd/$VIM_PROMPT}/(main|viins)/} $(cnprompt6) $EPS1"
   zle reset-prompt

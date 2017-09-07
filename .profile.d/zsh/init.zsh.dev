@@ -1,5 +1,0 @@
-## only runs on host "dev"
-
-if [[ "$CD_TO" != "" ]]; then
-  cd $CD_TO
-fi
