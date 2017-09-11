@@ -38,6 +38,7 @@ call dein#add('sebastianmarkow/deoplete-rust')
 call dein#add('udalov/kotlin-vim')
 call dein#add('justinmk/vim-syntax-extra')
 call dein#add('w0rp/ale')
+call dein#add('elzr/vim-json')
 
 call dein#end()
 
@@ -132,6 +133,8 @@ autocmd Filetype rspec setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype javascript setlocal ts=2 sw=2 sts=2 expandtab
 autocmd Filetype sh setlocal ts=2 sw=2 sts=2 expandtab
 autocmd FileType mail setlocal fo+=aw
+
+au BufNewFile,BufRead *.cf set filetype=yaml
 
 " airline
 let g:airline_powerline_fonts = 1
