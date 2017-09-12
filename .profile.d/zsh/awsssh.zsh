@@ -13,7 +13,8 @@ function aws_instance_ssh() {
   cache=~/.aws/instances-$AWS_PROFILE.json
   if [ -e "$cache" ]; then
     age=$(( $(date +%s) - $(stat -c "%Z" $cache) ))
-    if [ "$age" -gt 600 ]; then
+    ## cache for an hour
+    if [ "$age" -gt 3600 ]; then
       rm $cache
     fi
   fi
@@ -22,6 +23,11 @@ function aws_instance_ssh() {
   fi
   tmp=$(mktemp /tmp/instances.XXXXXX.json)
   cat $cache | jq -c ".Reservations[].Instances[] | (.Tags[] | select(.Key == \"Name\")).Value, .InstanceId, .PrivateDnsName, .PublicDnsName" | xargs -n4 echo > $tmp
+  if [ "$(cat $tmp | wc -l)" -le 1 ]; then
+    echo "\nNo instances found for profile $AWS_PROFILE...\n"
+    zle && zle reset-prompt
+    return 1
+  fi
   bastion=$(cat $tmp | grep -i bastion | tail -n1 | awk -F' ' '{print $NF}')
   instance=$(cat $tmp | grep -iv bastion | $(fzfcmd) --bind=ctrl-y:accept --tac | awk -F' ' '{print $NF}')
   rm -f $tmp
