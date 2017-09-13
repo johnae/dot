@@ -22,7 +22,7 @@ function aws_instance_ssh() {
     aws ec2 describe-instances > $cache
   fi
   tmp=$(mktemp /tmp/instances.XXXXXX.json)
-  cat $cache | jq -c ".Reservations[].Instances[] | (.Tags[] | select(.Key == \"Name\")).Value, .InstanceId, .PrivateDnsName, .PublicDnsName" | xargs -n4 echo > $tmp
+  cat $cache | jq -c ".Reservations[].Instances[] | select(.State.Name == \"running\") | (.Tags[] | select(.Key == \"Name\")).Value, .InstanceId, .PrivateDnsName, .PublicDnsName" | xargs -n4 echo > $tmp
   if [ "$(cat $tmp | wc -l)" -le 1 ]; then
     echo "\nNo instances found for profile $AWS_PROFILE...\n"
     zle && zle reset-prompt
