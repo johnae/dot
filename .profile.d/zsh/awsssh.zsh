@@ -23,19 +23,23 @@ function aws_instance_ssh() {
   fi
   tmp=$(mktemp /tmp/instances.XXXXXX.json)
   cat $cache | jq -c ".Reservations[].Instances[] | select(.State.Name == \"running\") | (.Tags[] | select(.Key == \"Name\")).Value, .InstanceId, .PrivateDnsName, .PublicDnsName" | xargs -n4 echo > $tmp
-  if [ "$(cat $tmp | wc -l)" -le 1 ]; then
+  if [ "$(cat $tmp | wc -c)" -le 10 ]; then
     echo "\nNo instances found for profile $AWS_PROFILE...\n"
     zle && zle reset-prompt
     return 1
   fi
   bastion=$(cat $tmp | grep -i bastion | tail -n1 | awk -F' ' '{print $NF}')
-  instance=$(cat $tmp | grep -iv bastion | $(fzfcmd) --bind=ctrl-y:accept --tac | awk -F' ' '{print $NF}')
+  instance=$(cat $tmp | $(fzfcmd) --bind=ctrl-y:accept --tac | awk -F' ' '{print $NF}')
   rm -f $tmp
   if [[ -n ${instance} ]]; then
     bastion=$EC2USER@$bastion
     instance=$EC2USER@$instance
     zle kill-whole-line
-    zle -U "bastion $instance $bastion"
+    if [ "$instance" = "$bastion" ]; then
+      zle -U "ssh $bastion"
+    else
+      zle -U "bastion $instance $bastion"
+    fi
     zle accept-line
   fi
   zle && zle reset-prompt
