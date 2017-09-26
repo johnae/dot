@@ -13,8 +13,8 @@ function aws_instance_ssh() {
   cache=~/.aws/instances-$AWS_PROFILE.json
   if [ -e "$cache" ]; then
     age=$(( $(date +%s) - $(stat -c "%Z" $cache) ))
-    ## cache for an hour
-    if [ "$age" -gt 3600 ]; then
+    ## cache for 10 seconds
+    if [ "$age" -gt 10 ]; then
       rm $cache
     fi
   fi
@@ -25,6 +25,7 @@ function aws_instance_ssh() {
   cat $cache | jq -c ".Reservations[].Instances[] | select(.State.Name == \"running\") | (.Tags[] | select(.Key == \"Name\")).Value, .InstanceId, .PrivateDnsName, .PublicDnsName" | xargs -n4 echo > $tmp
   if [ "$(cat $tmp | wc -c)" -le 10 ]; then
     echo "\nNo instances found for profile $AWS_PROFILE...\n"
+    rm $cache
     zle && zle reset-prompt
     return 1
   fi

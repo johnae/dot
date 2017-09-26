@@ -9,7 +9,10 @@ SSHOPTS="-o ForwardAgent=yes -t"
 SSHHOP=$1
 
 if [ -z "$2" ]; then
-  ssh $SSHOPTS $BASTION ssh $1
+  CMD="ssh $SSHOPTS $BASTION ssh $1"
 else
-  ssh $SSHOPTS $2 ssh $1
+  CMD="ssh $SSHOPTS $2 ssh $1"
 fi
+
+echo $CMD
+$CMD
