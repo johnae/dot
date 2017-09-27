@@ -3,7 +3,7 @@ set $mod Mod4
 
 set $bg-color #4A90E2
 set $border-color $bg-color
-set $inactive-bg-color #00000000
+set $inactive-bg-color #000000
 set $text-color #fdf6e3
 set $inactive-text-color #839496
 set $urgent-bg-color #d24939
