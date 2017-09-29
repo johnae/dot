@@ -1,13 +1,20 @@
 #!/bin/sh
 
-prefix=$HOME/Development
+if [ "$1" = "light" ]; then
+  config=$HOME/.config/alacritty/alacritty-light.yml
+else
+  config=$HOME/.config/alacritty/alacritty.yml
+fi
 
-project=$(find $prefix $prefix/Playad -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -p "project >" -dmenu)
+prefix=$HOME/Development
+projects=$prefix
+projects="$projects $prefix/eyeonid/core $prefix/eyeonid/deploy $prefix/eyeonid/hoard"
+
+project=$(find $projects -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -p "project >" -dmenu)
 
 [[ -n $project ]] || exit
 
 project_dir=$prefix/$project
 cat << EOF | last-command
-export CD_TO=$project_dir
-exec st -e ~/Local/bin/dev
+exec alacritty --config-file $config --working-directory $project_dir
 EOF
