@@ -11,6 +11,9 @@ bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:noc
 # start a terminal
 bindsym $mod+Return exec $terminal 
 
+# start a light bg terminal
+bindsym $mod+Shift+Return exec $terminal --config-file ~/.config/alacritty/alacritty-light.yml
+
 # passmenu
 bindsym $mod+minus exec passmenu
 
@@ -22,6 +25,9 @@ bindsym $mod+Shift+n exec notes-menu
 
 # project select
 bindsym $mod+Shift+p exec project-select
+
+# light background project select
+bindsym $mod+Shift+l exec project-select light
 
 # layout select
 # bindsym $mod+l exec i3-layout-select
