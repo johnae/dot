@@ -94,7 +94,11 @@ nnoremap <esc> :noh<return><esc>
 " nmap <leader>sw<up>    :topleft  new<CR>
 " nmap <leader>sw<down>  :botright new<CR>
 
+if exists("$LIGHTBG")
+set background=light
+else
 set background=dark
+endif
 syntax on
 scriptencoding utf-8
 set encoding=utf-8
@@ -259,5 +263,4 @@ syntax enable
 set updatetime=100
 
 set termguicolors
-set background=dark
 colorscheme solarized
