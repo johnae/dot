@@ -1,7 +1,12 @@
 #!/bin/sh
 
+BROWSER=chromium
+if ! command -v $BROWSER &> /dev/null; then
+  BROWSER=chrome
+fi
+
 if [ "$_SCALING" != "1" ]; then
-  exec chromium --force-device-scale-factor=$_SCALING "$@"
+  exec $BROWSER --force-device-scale-factor=$_SCALING "$@"
 else
-  exec chromium "$@"
+  exec $BROWSER "$@"
 fi
