@@ -39,6 +39,7 @@ call dein#add('udalov/kotlin-vim')
 call dein#add('justinmk/vim-syntax-extra')
 call dein#add('w0rp/ale')
 call dein#add('elzr/vim-json')
+call dein#add('jeffkreeftmeijer/vim-numbertoggle')
 
 call dein#end()
 
