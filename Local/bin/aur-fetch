@@ -4,9 +4,6 @@ AURDIR=${AURDIR:-~/.aur}
 mkdir -p $AURDIR
 DIR=$(pwd)
 
-echo $AURDIR
-
-exit 0
 at_exit() {
   cd $DIR
 }
