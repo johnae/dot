@@ -1,0 +1,32 @@
+#!/bin/sh
+
+AURDIR=${AURDIR:-~/.aur}
+mkdir -p $AURDIR
+DIR=$(pwd)
+
+at_exit() {
+  cd $DIR
+}
+
+sig_at_exit() {
+  trap '' EXIT
+  at_exit
+}
+
+trap at_exit EXIT
+trap sig_at_exit INT QUIT TERM
+
+if [ -z "$1" ]; then
+  echo "Provide package as first argument"
+  exit 1
+fi
+
+if [ ! -e $1 ]; then
+  echo "Please fetch '$1' first (aur fetch)"
+  exit 1
+fi
+
+cd $AURDIR/$1
+
+makepkg -Ccs
+makepkg -si

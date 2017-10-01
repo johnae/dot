@@ -1,0 +1,16 @@
+#!/bin/sh
+
+WHAT=$1
+
+if [ -z "$WHAT" ]; then
+  echo "Provide the package to search for as the first argument"
+  exit 1
+fi
+
+for P in "$(curl -s "https://aur.archlinux.org/rpc/?v=5&type=search&arg=$WHAT" | jq -rc ".results[] | .Name, .Version, .NumVotes, .Popularity" | xargs -n4 echo)"; do
+  name=$(echo $P | awk '{print $1}')
+  version=$(echo $P | awk '{print $2}')
+  votes=$(echo $P | awk '{print $3}')
+  popularity=$(echo $P | awk '{print $4}')
+  echo "$name - version: $version, votes: $votes, popularity: $popularity"
+done

@@ -1,0 +1,58 @@
+#!/bin/sh
+
+set -e
+
+BASE_DIR=$(cd $(dirname $0) && pwd)
+
+help() {
+  cat <<HELP
+$0 <command> args
+
+Available commands:
+
+install (short: s)        Install fetched package
+fetch   (short: f)        Fetch or update checkout of fetched package
+remove  (short: r)        Removes a previously installed package
+search  (short: s)        Searches the package database (requires curl and jq)
+
+The env var AURDIR controls where packages are checked out (default is ~/.aur)
+HELP
+}
+
+if [ $# -lt 1 ]; then
+  help
+  exit 1
+fi
+
+subcommand=$1
+shift
+
+case "$subcommand" in
+  install|i)
+    subcommand=install
+  ;;
+
+  fetch|f)
+    subcommand=fetch
+  ;;
+
+  remove|r)
+    subcommand=remove
+  ;;
+
+  search|s)
+    subcommand=search
+  ;;
+
+  help)
+    help
+    exit 0
+    ;;
+
+  *)
+    help
+    exit 1
+    ;;
+esac
+
+exec $BASE_DIR/aur-$subcommand $@

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+AURDIR=${AURDIR:-~/.aur}
+mkdir -p $AURDIR
+DIR=$(pwd)
+
+echo $AURDIR
+
+exit 0
+at_exit() {
+  cd $DIR
+}
+
+sig_at_exit() {
+  trap '' EXIT
+  at_exit
+}
+
+trap at_exit EXIT
+trap sig_at_exit INT QUIT TERM
+
+if [ -e $AURDIR/$1 ]; then
+  cd $AURDIR/$1
+  git reset HEAD --hard
+  git pull
+else
+  cd $AURDIR
+  git clone https://aur.archlinux.org/$1.git
+fi
