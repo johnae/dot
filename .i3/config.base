@@ -32,6 +32,12 @@ bindsym $mod+Shift+l exec project-select light
 # layout select
 # bindsym $mod+l exec i3-layout-select
 
+# mark / goto
+bindsym $mod+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show goto -modi goto:i3-goto
+
+
+bindsym $mod+Shift+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show mark -modi mark:i3-mark
+
 # screenshot
 bindsym $mod+x exec screenshot
 

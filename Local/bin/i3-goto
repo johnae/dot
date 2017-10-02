@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -z "$@" ]; then
+  echo "Goto window"
+else
+  i3-msg "[con_mark=\"$@\"] focus" 2>&1 >/dev/null
+  exit 0
+fi
+
+#rofi -show go -modi go:~/Local/bin/i3-mark
