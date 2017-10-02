@@ -195,9 +195,17 @@ autocmd Filetype go command! -bang A call go#alternate#Switch(<bang>0, 'vsplit')
 let g:rustfmt_autosave = 1
 
 " rust deoplete
-" let g:deoplete#sources#rust#racer_binary = $HOME.'/.cargo/bin/racer'
-let g:deoplete#sources#rust#racer_binary = '/home/john/.cargo/bin/racer'
-let g:deoplete#sources#rust#rust_source_path = $HOME.'/Development/rust/src'
+if executable('racer')
+  let g:deoplete#sources#rust#racer_binary = systemlist('which racer')[0]
+endif
+
+if executable('rustc')
+  let rustc_root = systemlist('rustc --print sysroot')[0]
+  let rustc_src_dir = rustc_root . '/lib/rustlib/src/rust/src'
+  if isdirectory(rustc_src_dir)
+    let g:deoplete#sources#rust#rust_source_path = rustc_src_dir
+  endif
+endif
 
 " deoplete config
 let g:deocomplete#enable_at_startup = 1
