@@ -11,6 +11,7 @@ $0 <command> args
 Available commands:
 
 install (short: s)        Install fetched package
+update  (short: u)        Update installed package
 fetch   (short: f)        Fetch or update checkout of fetched package
 remove  (short: r)        Removes a previously installed package
 search  (short: s)        Searches the package database (requires curl and jq)
@@ -30,6 +31,10 @@ shift
 case "$subcommand" in
   install|i)
     subcommand=install
+  ;;
+
+  update|u)
+    subcommand=update
   ;;
 
   fetch|f)
