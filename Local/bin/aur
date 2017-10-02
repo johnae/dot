@@ -2,6 +2,21 @@
 
 set -e
 
+if [ "$(uname -s)" != "Linux" ]; then
+  echo "Only meaningful on Linux"
+  exit 1
+fi
+
+if ! command -v makepkg 2>&1 >/dev/null; then
+  echo "No makepkg command - are you on Arch Linux?"
+  exit 1
+fi
+
+if ! command -v git 2>&1 >/dev/null; then
+  echo "No git command - I need that."
+  exit 1
+fi
+
 BASE_DIR=$(cd $(dirname $0) && pwd)
 
 help() {
