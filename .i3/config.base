@@ -42,7 +42,10 @@ bindsym $mod+Shift+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1
 bindsym $mod+x exec screenshot
 
 # chrome history search
-bindsym $mod+Shift+h exec chrome-hist
+# bindsym $mod+Shift+h exec chrome-hist
+
+# firefox history search
+bindsym $mod+Shift+h exec ff-hist
 
 # last command
 bindsym $mod+period exec sh ~/.last_command
@@ -224,7 +227,7 @@ exec --no-startup-id ~/.i3/touch_pad_conf
 
 exec --no-startup-id /usr/lib/gnome-settings-daemon/gnome-settings-daemon
 exec --no-startup-id dropbox start
-exec --no-startup-id compton --opacity-rule '100:window_type = "dock" && class_g = "i3bar"' --config ~/.i3/compton.conf -b
+exec --no-startup-id ~/.i3/compton
 exec --no-startup-id /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1
 exec --no-startup-id /usr/bin/gnome-keyring-daemon --start --components=pkcs11,secrets
 exec --no-startup-id pulseaudio --start
