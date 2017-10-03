@@ -7,10 +7,4 @@ if [ -z "$WHAT" ]; then
   exit 1
 fi
 
-for P in "$(curl -s "https://aur.archlinux.org/rpc/?v=5&type=search&arg=$WHAT" | jq -rc ".results[] | .Name, .Version, .NumVotes, .Popularity" | xargs -n4 echo)"; do
-  name=$(echo $P | awk '{print $1}')
-  version=$(echo $P | awk '{print $2}')
-  votes=$(echo $P | awk '{print $3}')
-  popularity=$(echo $P | awk '{print $4}')
-  echo "$name - version: $version, votes: $votes, popularity: $popularity"
-done
+curl -s "https://aur.archlinux.org/rpc/?v=5&type=search&arg=$WHAT" | jq -rc ".results[] | [.Name, .Version, .NumVotes, .Popularity] | @tsv" | tr '\t' ' ' | sort -r -k 3,4 -n | column -t -N Name,Version,Votes,Popularity | less
