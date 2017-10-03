@@ -1,3 +1,40 @@
 #compdef aur
 
-_arguments "1: :(fetch search install update remove)"
+_aur() { 
+
+    local curcontext="$curcontext" state line
+    typeset -A opt_args
+
+    local aurdir=${AURDIR:-~/.aur}
+    mkdir -p $aurdir
+ 
+    _arguments \
+        '1: :->cmd'\
+        '*: :->package'
+ 
+    case $state in
+    cmd)
+        _arguments "1: :(fetch search install update remove)"
+    ;;
+    *)
+        case $words[2] in
+          update)
+            compadd "$@" $(ls $aurdir)
+            ;;
+          install)
+            compadd "$@" $(ls $aurdir)
+            ;;
+          remove)
+            compadd "$@" $(ls $aurdir)
+            ;;
+          fetch)
+            if [ ! -z "$words[3]" ]; then
+              what=$(aur-search $words[3] | $(fzfcmd) --bind=ctrl-y:accept --tac | awk '{print $1}')
+              compadd "$@" $what
+            fi
+            ;;
+        esac
+    esac
+}
+ 
+_aur "$@"
