@@ -3,6 +3,7 @@ __git_files () {
   _wanted files expl 'local files' _files
 }
 fpath=($_FZFSH $fpath)
+fpath=($ZSH/zsh/completion $fpath)
 zstyle :compinstall filename ~/.zshrc
 # case insensitive matching
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'

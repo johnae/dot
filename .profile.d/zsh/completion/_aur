@@ -1,0 +1,3 @@
+#compdef aur
+
+_arguments "1: :(fetch search install update remove)"
