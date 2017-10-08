@@ -28,8 +28,9 @@ _aur() {
             compadd "$@" $(ls $aurdir)
             ;;
           fetch)
-            if [ ! -z "$words[3]" ]; then
-              what=$(aur-search $words[3] | $(fzfcmd) --bind=ctrl-y:accept --tac | awk '{print $1}')
+            local pkg=$words[3]
+            if [ ! -z "$pkg" -a ${#pkg} -ge 3 ]; then
+              what=$(aur-search $pkg | $(fzfcmd) --bind=ctrl-y:accept --tac | awk '{print $1}')
               compadd "$@" $what
             fi
             ;;
