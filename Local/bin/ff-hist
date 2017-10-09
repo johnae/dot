@@ -1,0 +1,14 @@
+#!/bin/sh
+
+DB=$HOME/.mozilla/firefox/*.dev-edition-default/places.sqlite
+SELECT="select title, url from moz_places ORDER BY last_visit_date DESC"
+BROWSER=firefox-developer
+
+item=$(sqlite3 $DB "$SELECT" | rofi -p "url >" -dmenu)
+url=$(echo -n "$item" | rev | cut -f 1 -d '|' | rev)
+
+if [ "$url" = "" ]; then
+  exit
+fi
+
+$BROWSER $url & disown
