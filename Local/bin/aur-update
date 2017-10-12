@@ -48,5 +48,7 @@ else
   git merge origin/master
 fi
 
+echo "running 'makepkg -fCcs'"
 makepkg -fCcs
+echo "running 'makepkg -si'"
 makepkg -si

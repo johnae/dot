@@ -7,4 +7,12 @@ if [ -z "$WHAT" ]; then
   exit 1
 fi
 
-curl -s "https://aur.archlinux.org/rpc/?v=5&type=search&arg=$WHAT" | jq -rc ".results[] | [.Name, .Version, .NumVotes, .Popularity] | @tsv" | tr '\t' ' ' | sort -r -k 3,4 -n | column -t -N Name,Version,Votes,Popularity | less
+search() {
+  curl -s "https://aur.archlinux.org/rpc/?v=5&type=search&arg=$1" | jq -rc ".results[] | [.Name, .Version, .NumVotes, .Popularity] | @tsv" | tr '\t' ' ' | sort -r -k 3,4 -n | column -t -N Name,Version,Votes,Popularity
+}
+
+if [ -t 1 ]; then
+  search $WHAT | fzf
+else
+  search $WHAT
+fi
