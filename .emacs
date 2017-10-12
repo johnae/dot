@@ -22,7 +22,7 @@
     ("3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
  '(package-selected-packages
    (quote
-    (helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))))
+    (jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))))
 
 (defun prelude-packages-installed-p ()
   (cl-every 'package-installed-p prelude-packages))
@@ -144,6 +144,18 @@
   :ensure t
   :config
   (add-hook 'haskell-mode-hook 'intero-mode))
+
+(use-package elm-mode
+  :ensure t
+  :config
+  (require 'elm-mode))
+
+(use-package jdee
+  :ensure t
+  :config
+  (require 'jdee)
+  (custom-set-variables
+   '(jdee-server-dir "/home/john/.jars")))
 
 (use-package groovy-mode
   :ensure t
@@ -282,12 +294,17 @@
 (unless (file-exists-p "~/.emacs.d/tmp")
   (make-directory "~/.emacs.d/tmp"))
 
-(when (hostname-is "daylight")
-  (add-to-list 'default-frame-alist '(font . "Source Code Pro-28"))
-  (set-face-attribute 'default t :font "Source Code Pro-28")
-  )
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
+(set-face-attribute 'default t :font "Source Code Pro-12")
 
-(when (hostname-is "starlight")
-  (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
-  (set-face-attribute 'default t :font "Source Code Pro-12")
-  )
+(when (hostname-is "daylight")
+  (when (version< emacs-version "26.0")
+    (add-to-list 'default-frame-alist '(font . "Source Code Pro-28"))
+    (set-face-attribute 'default t :font "Source Code Pro-28")))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
