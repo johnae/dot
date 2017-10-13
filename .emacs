@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -40,7 +40,7 @@
   )
 
 (defun system-type-is-freebsd ()
-  "Return true if system is FreeBSD" 
+  "Return true if system is FreeBSD"
   (string-equal system-type "freebsd")
   )
 
@@ -70,6 +70,11 @@
   :config
   (require 'helm-projectile)
   (helm-projectile-on))
+
+(use-package pos-tip
+  :ensure t
+  :config
+  (require 'pos-tip))
 
 (use-package web-mode
   :ensure t
@@ -110,10 +115,14 @@
   :config
   (require 'magit-wip))
 
-(use-package ethan-wspace
-  :ensure t
-  :config
-  (require 'ethan-wspace))
+;;(use-package ethan-wspace
+;;  :ensure t
+;;  :config
+;;  (eval-after-load "solarized-theme"
+;;    '(progn
+;;        (require 'ethan-wspace)
+;;        (setq ethan-wspace-against-background "#ff4436")
+;;        (global-ethan-wspace-mode 1))))
 
 (use-package evil
   :ensure t
@@ -191,6 +200,14 @@
   :config
   (require 'json-mode))
 
+(use-package go-mode
+  :ensure t
+  :config
+  (require 'go-mode)
+  (add-hook 'go-mode-hook
+            (lambda()
+              (set (make-local-variable 'company-backends) '(company-go)))))
+
 (use-package company
   :ensure t
   :config
@@ -206,6 +223,16 @@
   (require 'company-quickhelp)
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0))
+
+(use-package company-go
+  :ensure t
+  :config
+  (require 'company-go))
+
+(use-package company-shell
+  :ensure t
+  :config
+  (require 'company-shell))
 
 (use-package helm-company
   :ensure t
@@ -281,11 +308,15 @@
 
 ;;(windmove-default-keybindings)
 
+(setq whitespace-space 'underline)
+(require 'whitespace)
+
 (global-set-key (kbd "C-<up>") 'windmove-up)
 (global-set-key (kbd "C-<down>") 'windmove-down)
 (global-set-key (kbd "C-<left>") 'windmove-left)
 (global-set-key (kbd "C-<right>") 'windmove-right)
 
+(setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
 (setq inhibit-startup-message t)
 (setq redisplay-dont-pause t
@@ -301,6 +332,9 @@
 (setq temporary-file-directory "~/.emacs.d/tmp/")
 (unless (file-exists-p "~/.emacs.d/tmp")
   (make-directory "~/.emacs.d/tmp"))
+
+(setq make-backup-files nil) ; don't create backup~ files
+(setq auto-save-default nil) ; don't create #autosave# files
 
 (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
 (set-face-attribute 'default t :font "Source Code Pro-12")
