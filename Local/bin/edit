@@ -1,0 +1,8 @@
+#!/bin/sh
+
+if [ "$(basename $0)" = "edit" ]; then
+  exec emacsclient -a "" -c $@ 2>&1 >/dev/null & disown
+else
+  export TERM=xterm-24bits
+  exec emacsclient -a "" -t $@
+fi

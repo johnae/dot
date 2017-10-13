@@ -18,5 +18,8 @@ zmodload zsh/complist
 autoload -Uz compinit
 compinit
 
+autoload -U +X bashcompinit && bashcompinit
+eval "$(stack --bash-completion-script stack)"
+
 source "$_FZFSH/completion.zsh"
 source "$ZSH/zsh/aws_zsh_completer.sh"

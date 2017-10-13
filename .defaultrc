@@ -1,7 +1,7 @@
 _NVIM=/usr/bin/nvim
 _FZFSH=/usr/share/fzf
 
-export VISUAL=nvim
+export VISUAL=vim
 export EDITOR="$VISUAL"
 export _SCALING=2
 

@@ -23,7 +23,7 @@ else
   export LSCOLORS
 fi
 
-alias vim=nvim
+alias vim=edit
 alias spotify="spotify --force-device-scale-factor=1.7"
 alias xc="xclip -selection clipboard"
 

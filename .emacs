@@ -20,9 +20,11 @@
  '(custom-safe-themes
    (quote
     ("3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
+ '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))))
+    (git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+ '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
   (cl-every 'package-installed-p prelude-packages))
@@ -90,7 +92,12 @@
   :ensure t
   :config
   (require 'powerline)
-  (powerline-default-theme))
+  (powerline-default-theme)
+  (if (display-graphic-p)
+      (progn
+        (setq powerline-default-separator 'curve)
+        (setq powerline-height 20)))
+  (setq powerline-default-separator-dir '(right . left)))
 
 (use-package airline-themes
   :ensure t
@@ -119,7 +126,10 @@
   (eval-after-load "helm-projectile"
     '(define-key evil-normal-state-map (kbd ", <RET>") 'helm-projectile-ag)))
 
-(use-package git-gutter
+(use-package fringe-helper
+  :ensure t)
+
+(use-package git-gutter-fringe+
   :ensure t
   :config
   (global-git-gutter-mode +1))
@@ -127,7 +137,9 @@
 (use-package nlinum
   :ensure t
   :config
-  (require 'nlinum))
+  (require 'nlinum)
+  (setq nlinum-format " %d ")
+  (global-nlinum-mode 1))
 
 (use-package nlinum-relative
   :ensure t
@@ -179,33 +191,29 @@
   :config
   (require 'json-mode))
 
-(defun auto-complete-mode-maybe ()
-  "No maybe for you. Only AC!"
-  (unless (minibufferp (current-buffer))
-    (auto-complete-mode 1)))
-
-(use-package auto-complete
-  :init
-  (setq ac-auto-show-menu 0.2
-        ac-candidate-limit 50
-        ac-delay 0.1
-        ac-auto-start 1
-        ac-quick-help-delay 0.2
-        ac-quick-help-height 10
-        ac-ignore-case nil)
+(use-package company
   :ensure t
   :config
-  (require 'auto-complete)
-  (require 'auto-complete-config)
-  (ac-config-default)
-  (auto-complete-mode-maybe)
-  ;;(global-auto-complete-mode t)
-  (setq-default ac-sources '(ac-source-yasnippet
-                             ac-source-dictionary
-                             ac-source-abbrev
-                             ac-source-words-in-same-mode-buffers))
-  (ac-set-trigger-key "TAB")
-  (ac-set-trigger-key "<tab>"))
+  (setq company-idle-delay 0
+        company-minimum-prefix-length 2
+        company-dabbrev-ignore-case nil
+        company-dabbrev-downcase nil)
+  (add-hook 'after-init-hook 'global-company-mode))
+
+(use-package company-quickhelp
+  :ensure t
+  :config
+  (require 'company-quickhelp)
+  (company-quickhelp-mode 1)
+  (setq company-quickhelp-delay 0))
+
+(use-package helm-company
+  :ensure t
+  :config
+  (eval-after-load 'company
+    '(progn
+       (define-key company-mode-map (kbd "C-:") 'helm-company)
+       (define-key company-active-map (kbd "C-:") 'helm-company))))
 
 (use-package elec-pair
   :init
