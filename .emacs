@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -190,14 +190,6 @@
   :config
   (require 'json-mode))
 
-(use-package go-mode
-  :ensure t
-  :config
-  (require 'go-mode)
-  (add-hook 'go-mode-hook
-            (lambda()
-              (set (make-local-variable 'company-backends) '(company-go)))))
-
 (use-package company
   :ensure t
   :config
@@ -218,6 +210,53 @@
   :ensure t
   :config
   (require 'company-go))
+
+(use-package go-mode
+  :ensure t
+  :config
+  (require 'go-mode)
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (add-hook 'go-mode-hook
+            (lambda()
+              (set (make-local-variable 'company-backends) '(company-go))
+              (company-mode))))
+
+(use-package flycheck-gometalinter
+  :ensure t
+  :config
+  ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
+  (setq flycheck-gometalinter-vendor t)
+  ;; only show errors
+  (setq flycheck-gometalinter-errors-only t)
+  ;; only run fast linters
+  (setq flycheck-gometalinter-fast t)
+  ;; use in tests files
+  (setq flycheck-gometalinter-test t)
+  ;; disable linters
+  (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
+  ;; Only enable selected linters
+  (setq flycheck-gometalinter-disable-all t)
+  (setq flycheck-gometalinter-enable-linters '("golint"))
+  ;; Set different deadline (default: 5s)
+  (setq flycheck-gometalinter-deadline "10s")
+  (progn
+    (flycheck-gometalinter-setup)))
+
+(use-package rust-mode
+  :ensure t
+  :config
+  (require 'rust-mode)
+  (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
+  (setq company-tooltip-align-annotations t)
+  (setq rust-format-on-save t))
+
+(use-package racer
+  :ensure t
+  :config
+  (add-hook 'rust-mode-hook #'racer-mode)
+  (add-hook 'racer-mode-hook #'eldoc-mode)
+  (add-hook 'racer-mode-hook #'company-mode))
 
 (use-package company-shell
   :ensure t
