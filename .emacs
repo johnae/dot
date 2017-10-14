@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscript lua-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -52,24 +52,17 @@
     )
   )
 
-(menu-bar-mode -1)
-(tool-bar-mode -1)
-
-(use-package helm
+(use-package ivy
   :ensure t
   :config
-  (require 'helm-config))
+  (setq ivy-use-virtual-buffers t
+        ivy-count-format "%d/%d "))
 
-(use-package helm-ag
+(use-package counsel-projectile
   :ensure t
   :config
-  (require 'helm-ag))
-
-(use-package helm-projectile
-  :ensure t
-  :config
-  (require 'helm-projectile)
-  (helm-projectile-on))
+  (require 'counsel-projectile)
+  (counsel-projectile-on))
 
 (use-package pos-tip
   :ensure t
@@ -115,25 +108,22 @@
   :config
   (require 'magit-wip))
 
-;;(use-package ethan-wspace
-;;  :ensure t
-;;  :config
-;;  (eval-after-load "solarized-theme"
-;;    '(progn
-;;        (require 'ethan-wspace)
-;;        (setq ethan-wspace-against-background "#ff4436")
-;;        (global-ethan-wspace-mode 1))))
-
 (use-package evil
   :ensure t
   :config
   (require 'evil)
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd ", <right>") 'split-window-horizontally)
-  (define-key evil-normal-state-map (kbd ", <SPC>") 'helm-mini)
+  (define-key evil-normal-state-map (kbd ", <SPC>") 'ivy-switch-buffer)
+  (define-key evil-normal-state-map (kbd ", p") 'counsel-projectile-find-file)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
-  (eval-after-load "helm-projectile"
-    '(define-key evil-normal-state-map (kbd ", <RET>") 'helm-projectile-ag)))
+  (define-key evil-normal-state-map (kbd ", <RET>") 'counsel-ag))
+
+(use-package evil-nerd-commenter
+  :ensure t
+  :config
+  (require 'evil-nerd-commenter)
+  (evilnc-default-hotkeys))
 
 (use-package fringe-helper
   :ensure t)
@@ -234,13 +224,10 @@
   :config
   (require 'company-shell))
 
-(use-package helm-company
+(use-package company-statistics
   :ensure t
   :config
-  (eval-after-load 'company
-    '(progn
-       (define-key company-mode-map (kbd "C-:") 'helm-company)
-       (define-key company-active-map (kbd "C-:") 'helm-company))))
+  (require 'company-statistics))
 
 (use-package elec-pair
   :init
@@ -268,8 +255,7 @@
 
 (use-package org
   :bind (:map org-mode-map
-              ("C-c e" . org-edit-src-code)
-              ("C-c d" . helm-org-in-buffer-headings))
+              ("C-c e" . org-edit-src-code))
   :init
   (setq org-log-done 'time
         org-capture-templates '()
@@ -308,8 +294,8 @@
 
 ;;(windmove-default-keybindings)
 
-(setq whitespace-space 'underline)
-(require 'whitespace)
+(menu-bar-mode -1)
+(tool-bar-mode -1)
 
 (global-set-key (kbd "C-<up>") 'windmove-up)
 (global-set-key (kbd "C-<down>") 'windmove-down)
@@ -323,11 +309,19 @@
       scroll-margin 1
       scroll-conservatively 10000
       scroll-step 1
+      scroll-preserve-screen-position t
       auto-window-vscroll nil)
 
 (setq tab-stop-list (number-sequence 2 120 2))
 (setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
+(setq tabify nil)
+
+;; Highlight trailing whitespace.
+(setq-default show-trailing-whitespace t)
+(set-face-background 'trailing-whitespace "yellow")
+
+
 
 (setq temporary-file-directory "~/.emacs.d/tmp/")
 (unless (file-exists-p "~/.emacs.d/tmp")
