@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -125,31 +125,29 @@
   (require 'evil-nerd-commenter)
   (evilnc-default-hotkeys))
 
+(use-package linum-relative
+  :ensure t
+  :config
+  (require 'linum-relative)
+  (setq linum-relative-format "%s")
+  (setq linum-relative-current-symbol "")
+  (global-linum-mode t)
+  (linum-relative-mode t))
+
 (use-package fringe-helper
-  :ensure t)
-
-(use-package git-gutter-fringe+
+  :init
+  (setq-default left-fringe-width  30)
+  (setq-default right-fringe-width 30)
   :ensure t
   :config
-  (global-git-gutter-mode +1))
+  )
 
-(use-package nlinum
+(use-package diff-hl
   :ensure t
   :config
-  (require 'nlinum)
-  (setq nlinum-format " %d ")
-  (global-nlinum-mode 1))
-
-(use-package nlinum-relative
-  :ensure t
-  :config
-  (require 'nlinum-relative)
-  (nlinum-relative-setup-evil)
-  (global-nlinum-relative-mode 1)
-  ;;(add-hook 'prog-mode-hook 'nlinum-relative-mode)
-  (setq nlinum-relative-redisplay-delay 0)
-  (setq nlinum-relative-current-symbol "")
-  (setq nlinum-relative-offset 0))
+  (require 'diff-hl)
+  (global-diff-hl-mode t)
+  (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
 (use-package intero
   :ensure t
