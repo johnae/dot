@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -52,6 +52,25 @@
     )
   )
 
+(use-package which-key
+  :diminish (which-key-mode . "")
+  :init
+  (which-key-mode)
+  :ensure t
+  :config
+  (which-key-setup-side-window-right-bottom)
+  (setq which-key-sort-order 'which-key-key-order-alpha
+        which-key-side-window-max-width 0.33
+        which-key-idle-delay 0.05)
+  )
+
+(use-package ranger :ensure t
+  :commands (ranger)
+  :bind (("C-x d" . deer))
+  :config
+  (setq ranger-cleanup-eagerly t)
+  )
+
 (use-package ivy
   :ensure t
   :config
@@ -61,24 +80,19 @@
 (use-package counsel-projectile
   :ensure t
   :config
-  (require 'counsel-projectile)
   (counsel-projectile-on))
 
 (use-package pos-tip
-  :ensure t
-  :config
-  (require 'pos-tip))
+  :ensure t)
 
 (use-package web-mode
   :ensure t
   :config
-  (require 'web-mode)
   (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
 
 (use-package dockerfile-mode
   :ensure t
   :config
-  (require 'dockerfile-mode)
   (add-to-list 'auto-mode-alist '("Dockerfile.*\\'" . dockerfile-mode)))
 
 (use-package solarized-theme
@@ -89,7 +103,6 @@
 (use-package powerline
   :ensure t
   :config
-  (require 'powerline)
   (powerline-default-theme)
   (if (display-graphic-p)
       (progn
@@ -100,35 +113,32 @@
 (use-package airline-themes
   :ensure t
   :config
-  (require 'airline-themes)
   (load-theme 'airline-dark))
 
 (use-package magit
   :ensure t
   :config
-  (require 'magit-wip))
+  )
 
 (use-package evil
   :ensure t
   :config
-  (require 'evil)
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd ", <right>") 'split-window-horizontally)
   (define-key evil-normal-state-map (kbd ", <SPC>") 'ivy-switch-buffer)
   (define-key evil-normal-state-map (kbd ", p") 'counsel-projectile-find-file)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
+  (define-key evil-normal-state-map (kbd ", g") 'magit-status)
   (define-key evil-normal-state-map (kbd ", <RET>") 'counsel-ag))
 
 (use-package evil-nerd-commenter
   :ensure t
   :config
-  (require 'evil-nerd-commenter)
   (evilnc-default-hotkeys))
 
 (use-package linum-relative
   :ensure t
   :config
-  (require 'linum-relative)
   (setq linum-relative-format "%s")
   (setq linum-relative-current-symbol "")
   (global-linum-mode t)
@@ -145,13 +155,11 @@
 (use-package direnv
   :ensure t
   :config
-  (require 'direnv)
   (direnv-mode))
 
 (use-package diff-hl
   :ensure t
   :config
-  (require 'diff-hl)
   (global-diff-hl-mode t)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
@@ -162,37 +170,31 @@
 
 (use-package elm-mode
   :ensure t
-  :config
-  (require 'elm-mode))
+  :config)
 
 (use-package jdee
   :ensure t
   :config
-  (require 'jdee)
   (custom-set-variables
    '(jdee-server-dir "/home/john/.jars")))
 
 (use-package groovy-mode
   :ensure t
   :config
-  (require 'groovy-mode)
   (setq groovy-indent-offset 2))
 
 (use-package moonscript
  :ensure t
  :config
- (require 'moonscript)
  (add-to-list 'auto-mode-alist '("Spookfile$" . moonscript-mode)))
 
 (use-package lua-mode
   :ensure t
-  :config
-  (require 'lua-mode))
+  :config)
 
 (use-package json-mode
   :ensure t
-  :config
-  (require 'json-mode))
+  :config)
 
 (use-package company
   :ensure t
@@ -206,19 +208,16 @@
 (use-package company-quickhelp
   :ensure t
   :config
-  (require 'company-quickhelp)
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0))
 
 (use-package company-go
   :ensure t
-  :config
-  (require 'company-go))
+  :config)
 
 (use-package go-mode
   :ensure t
   :config
-  (require 'go-mode)
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (add-hook 'go-mode-hook
@@ -250,7 +249,6 @@
 (use-package rust-mode
   :ensure t
   :config
-  (require 'rust-mode)
   (define-key rust-mode-map (kbd "TAB") #'company-indent-or-complete-common)
   (setq company-tooltip-align-annotations t)
   (setq rust-format-on-save t))
@@ -264,8 +262,7 @@
 
 (use-package company-shell
   :ensure t
-  :config
-  (require 'company-shell))
+  :config)
 
 (use-package company-statistics
   :ensure t
@@ -329,7 +326,6 @@
 (use-package ac-slime
   :ensure t
   :config
-  (require 'ac-slime)
   (add-hook 'slime-mode-hook 'set-up-slime-ac)
   (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
   (eval-after-load "auto-complete"
