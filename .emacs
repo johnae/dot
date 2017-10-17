@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -310,18 +310,39 @@
               ("C-c e" . org-edit-src-code))
   :init
   (setq org-log-done 'time
+        org-log-reschedule 'time
         org-capture-templates '()
         org-src-fontify-natively t
         org-ellipsis " ⤵"
+        org-agenda-files '("~/Sync/org/")
+        org-directory '("~/Sync/org/")
+        org-enforce-todo-dependencies t
         org-todo-keywords
-        '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
+        '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
+  (setq org-capture-templates
+        '(("a" "My TODO task format." entry
+            (file "~/Sync/org/things.org")
+            "* TODO %?
+        SCHEDULED: %t")))
   :ensure t)
+
+(defun insane-org-task-capture ()
+  "Capture a task with the default template."
+  (interactive)
+  (org-capture nil "a"))
+
+(defun insane-things-todo ()
+  (interactive)
+  (find-file (expand-file-name "~/Sync/org/things.org")))
 
 (use-package org-bullets
   :ensure t
   :init
   (setq org-bullets-bullet-list '("◉"))
   (add-hook 'org-mode-hook 'org-bullets-mode))
+
+(use-package syndicate
+  :ensure t)
 
 (use-package paren
   :ensure t
@@ -357,6 +378,8 @@
 (global-set-key (kbd "C-h") 'windmove-left)
 (global-set-key (kbd "C-<right>") 'windmove-right)
 (global-set-key (kbd "C-l") 'windmove-right)
+(define-key global-map (kbd "C-c t") 'insane-org-task-capture)
+(define-key global-map (kbd "C-c C-t") 'insane-things-todo)
 
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
