@@ -80,6 +80,7 @@
 (use-package counsel-projectile
   :ensure t
   :config
+  (projectile-mode)
   (counsel-projectile-on))
 
 (use-package pos-tip
@@ -106,10 +107,10 @@
       (progn
         (setq powerline-default-separator 'curve)
         (setq powerline-height 20)))
-  (setq powerline-default-separator-dir '(right . left)))
+  (setq powerline-default-separator-dir '(right . left))
   :ensure t
   :config
-  (powerline-default-theme)
+  (powerline-default-theme))
 
 (use-package airline-themes
   :ensure t
@@ -119,6 +120,7 @@
 (use-package magit
   :ensure t
   :config
+  (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   )
 
 (use-package evil
@@ -149,8 +151,8 @@
 
 (use-package fringe-helper
   :init
-  (setq-default left-fringe-width  30)
-  (setq-default right-fringe-width 30)
+  (setq-default left-fringe-width  16)
+  (setq-default right-fringe-width 16)
   :ensure t
   :config
   )
@@ -164,6 +166,7 @@
   :ensure t
   :config
   (global-diff-hl-mode t)
+  (diff-hl-flydiff-mode)
   (add-hook 'dired-mode-hook 'diff-hl-dired-mode))
 
 (use-package intero
@@ -317,6 +320,9 @@
 (use-package paren
   :ensure t
   :config
+  (set-face-background 'show-paren-match (face-background 'default))
+  (set-face-foreground 'show-paren-match "#def")
+  (set-face-attribute 'show-paren-match nil :weight 'extra-bold)
   (show-paren-mode t))
 
 (use-package yaml-mode
@@ -338,9 +344,13 @@
 (tool-bar-mode -1)
 
 (global-set-key (kbd "C-<up>") 'windmove-up)
+(global-set-key (kbd "C-k") 'windmove-up)
 (global-set-key (kbd "C-<down>") 'windmove-down)
+(global-set-key (kbd "C-j") 'windmove-down)
 (global-set-key (kbd "C-<left>") 'windmove-left)
+(global-set-key (kbd "C-h") 'windmove-left)
 (global-set-key (kbd "C-<right>") 'windmove-right)
+(global-set-key (kbd "C-l") 'windmove-right)
 
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
