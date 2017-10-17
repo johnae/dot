@@ -210,7 +210,7 @@ mode "(p)oweroff, (s)uspend, (r)eboot, (l)ogout" {
         # These bindings trigger as soon as you enter the system mode
 
         bindsym p exec "i3-msg mode 'default'; systemctl poweroff"
-        bindsym s exec "i3-msg mode 'default'; systemctl suspend" 
+        bindsym s exec "i3-msg mode 'default'; systemctl suspend"
         bindsym r exec "i3-msg mode 'default'; systemctl reboot"
         bindsym l exec "sudo machinectl poweroff dev; i3-msg exit"
         #bindsym l exec "i3-msg exit"
