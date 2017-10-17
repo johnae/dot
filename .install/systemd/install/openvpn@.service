@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenVPN service
+After=local-fs.target network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/openvpn --config /etc/openvpn/%i.ovpn
+Restart=on-failure
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target
