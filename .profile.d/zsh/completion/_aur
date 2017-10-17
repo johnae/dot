@@ -1,17 +1,17 @@
 #compdef aur
 
-_aur() { 
+_aur() {
 
     local curcontext="$curcontext" state line
     typeset -A opt_args
 
     local aurdir=${AURDIR:-~/.aur}
     mkdir -p $aurdir
- 
+
     _arguments \
         '1: :->cmd'\
         '*: :->package'
- 
+
     case $state in
     cmd)
         _arguments "1: :(fetch search install update remove)"
@@ -37,5 +37,5 @@ _aur() {
         esac
     esac
 }
- 
+
 _aur "$@"
