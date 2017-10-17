@@ -101,14 +101,15 @@
   (load-theme 'solarized-dark t))
 
 (use-package powerline
-  :ensure t
-  :config
-  (powerline-default-theme)
+  :init
   (if (display-graphic-p)
       (progn
         (setq powerline-default-separator 'curve)
         (setq powerline-height 20)))
   (setq powerline-default-separator-dir '(right . left)))
+  :ensure t
+  :config
+  (powerline-default-theme)
 
 (use-package airline-themes
   :ensure t
@@ -127,6 +128,8 @@
   (define-key evil-normal-state-map (kbd ", <right>") 'split-window-horizontally)
   (define-key evil-normal-state-map (kbd ", <SPC>") 'ivy-switch-buffer)
   (define-key evil-normal-state-map (kbd ", p") 'counsel-projectile-find-file)
+  (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
+  (define-key evil-normal-state-map (kbd ", s") 'swiper)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
   (define-key evil-normal-state-map (kbd ", g") 'magit-status)
   (define-key evil-normal-state-map (kbd ", <RET>") 'counsel-ag))
