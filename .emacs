@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -51,6 +51,13 @@
     (string-equal system-name (concat hn ".lan"))
     )
   )
+
+(use-package auto-package-update
+  :ensure t
+  :config
+  (setq auto-package-update-delete-old-versions t
+        auto-package-update-interval 4)
+  (auto-package-update-maybe))
 
 (use-package which-key
   :diminish (which-key-mode . "")
@@ -139,6 +146,7 @@
   (define-key evil-normal-state-map (kbd ", s") 'swiper)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
   (define-key evil-normal-state-map (kbd ", g") 'magit-status)
+  (define-key evil-normal-state-map (kbd ", w") 'whitespace-cleanup)
   (define-key evil-normal-state-map (kbd ", <RET>") 'counsel-ag))
 
 (use-package evil-nerd-commenter
@@ -314,14 +322,15 @@
         org-capture-templates '()
         org-src-fontify-natively t
         org-ellipsis " ⤵"
-        org-agenda-files '("~/Sync/org/")
-        org-directory '("~/Sync/org/")
+        org-agenda-files '("~/Dropbox/org/")
+        org-directory '("~/Dropbox/org/")
         org-enforce-todo-dependencies t
+        org-startup-with-beamer-mode t
         org-todo-keywords
         '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
   (setq org-capture-templates
         '(("a" "My TODO task format." entry
-            (file "~/Sync/org/things.org")
+            (file "~/Dropbox/org/todos.org")
             "* TODO %?
         SCHEDULED: %t")))
   :ensure t)
@@ -333,7 +342,7 @@
 
 (defun insane-things-todo ()
   (interactive)
-  (find-file (expand-file-name "~/Sync/org/things.org")))
+  (find-file (expand-file-name "~/Dropbox/org/todos.org")))
 
 (use-package org-bullets
   :ensure t
