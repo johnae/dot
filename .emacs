@@ -23,32 +23,32 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
   (cl-every 'package-installed-p prelude-packages))
 
 (defun system-type-is-darwin ()
-  "Return true if system is darwin-based (Mac OS X)"
+  "Return true if system is darwin-based (Mac OS X)."
   (string-equal system-type "darwin")
   )
 
 (defun system-type-is-linux ()
-  "Return true if system is GNU/Linux-based"
+  "Return true if system is GNU/Linux-based."
   (string-equal system-type "gnu/linux")
   )
 
 (defun system-type-is-freebsd ()
-  "Return true if system is FreeBSD"
+  "Return true if system is FreeBSD."
   (string-equal system-type "freebsd")
   )
 
 (defun hostname-is (hn)
-  "Return true if the system we are running on has the given hostname"
+  "Return true if the system we are running on has the given hostname."
   (or
-    (string-equal system-name hn)
-    (string-equal system-name (concat hn ".lan"))
+    (string-equal (system-name) hn)
+    (string-equal (system-name) (concat hn ".lan"))
     )
   )
 
@@ -245,6 +245,17 @@
               (set (make-local-variable 'company-backends) '(company-go))
               (company-mode))))
 
+(use-package flycheck
+  :ensure t
+  :config
+  (global-flycheck-mode))
+
+(use-package flycheck-color-mode-line
+  :ensure t)
+
+(use-package flycheck-pos-tip
+  :ensure t)
+
 (use-package flycheck-gometalinter
   :ensure t
   :config
@@ -266,6 +277,9 @@
   (progn
     (flycheck-gometalinter-setup)))
 
+(use-package flycheck-rust
+  :ensure t)
+
 (use-package rust-mode
   :ensure t
   :config
@@ -279,6 +293,11 @@
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode))
+
+(use-package flycheck-checkbashisms
+  :ensure t
+  :config
+  (flycheck-checkbashisms-setup))
 
 (use-package company-shell
   :ensure t
@@ -389,6 +408,9 @@
 (global-set-key (kbd "C-l") 'windmove-right)
 (define-key global-map (kbd "C-c t") 'insane-org-task-capture)
 (define-key global-map (kbd "C-c C-t") 'insane-things-todo)
+
+;; map extensions
+(add-to-list 'auto-mode-alist '("\\.cf\\'" . yaml-mode))
 
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
