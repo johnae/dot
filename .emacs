@@ -19,11 +19,11 @@
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
    (quote
-    ("af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
+    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -97,18 +97,21 @@
 
 (use-package web-mode
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode)))
+  :mode "\\.html?$")
 
 (use-package dockerfile-mode
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("Dockerfile.*\\'" . dockerfile-mode)))
+  :mode "Dockerfile.*")
 
 (use-package solarized-theme
   :ensure t
+  :init
+  (setq solarized-distinct-fringe-background t
+        solarized-use-variable-pitch nil
+        solarized-high-contrast-mode-line t
+        x-underline-at-descent-line t)
   :config
-  (load-theme 'solarized-dark t))
+  (load-theme 'solarized-dark))
 
 (use-package powerline
   :init
@@ -144,6 +147,7 @@
   (define-key evil-normal-state-map (kbd ", p") 'counsel-projectile-find-file)
   (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
   (define-key evil-normal-state-map (kbd ", s") 'swiper)
+  (define-key evil-normal-state-map (kbd "P") 'counsel-yank-pop)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
   (define-key evil-normal-state-map (kbd ", g") 'magit-status)
   (define-key evil-normal-state-map (kbd ", w") 'whitespace-cleanup)
@@ -204,8 +208,7 @@
 
 (use-package moonscript
  :ensure t
- :config
- (add-to-list 'auto-mode-alist '("Spookfile$" . moonscript-mode)))
+ :mode "Spookfile.*$")
 
 (use-package lua-mode
   :ensure t
@@ -254,28 +257,30 @@
   :ensure t)
 
 (use-package flycheck-pos-tip
-  :ensure t)
+  :ensure t
+  :config
+  (flycheck-pos-tip-mode))
 
 (use-package flycheck-gometalinter
   :ensure t
   :config
   ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-  (setq flycheck-gometalinter-vendor t)
-  ;; only show errors
-  (setq flycheck-gometalinter-errors-only t)
-  ;; only run fast linters
-  (setq flycheck-gometalinter-fast t)
-  ;; use in tests files
-  (setq flycheck-gometalinter-test t)
-  ;; disable linters
-  (setq flycheck-gometalinter-disable-linters '("gotype" "gocyclo"))
-  ;; Only enable selected linters
-  (setq flycheck-gometalinter-disable-all t)
-  (setq flycheck-gometalinter-enable-linters '("golint"))
-  ;; Set different deadline (default: 5s)
-  (setq flycheck-gometalinter-deadline "10s")
-  (progn
-    (flycheck-gometalinter-setup)))
+  (setq flycheck-gometalinter-vendor t
+        ;; only show errors
+        flycheck-gometalinter-errors-only t
+        ;; only run fast linters
+        flycheck-gometalinter-fast t
+        ;; use in tests files
+        flycheck-gometalinter-test t
+        ;; disable linters
+        flycheck-gometalinter-disable-linters '("gotype" "gocyclo")
+        ;; Only enable selected linters
+        flycheck-gometalinter-disable-all t
+        flycheck-gometalinter-enable-linters '("golint")
+        ;; Set different deadline (default: 5s)
+        flycheck-gometalinter-deadline "10s"
+        )
+  (flycheck-gometalinter-setup))
 
 (use-package flycheck-rust
   :ensure t)
@@ -293,6 +298,12 @@
   (add-hook 'rust-mode-hook #'racer-mode)
   (add-hook 'racer-mode-hook #'eldoc-mode)
   (add-hook 'racer-mode-hook #'company-mode))
+
+(use-package clojure-mode
+  :ensure t)
+
+(use-package cider
+  :ensure t)
 
 (use-package flycheck-checkbashisms
   :ensure t
@@ -381,7 +392,8 @@
   (show-paren-mode t))
 
 (use-package yaml-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.cf$")
 
 (use-package zoom-window
   :ensure t
@@ -395,8 +407,25 @@
   (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'slime-repl-mode)))
 
+(use-package undo-tree
+  :ensure t
+  :diminish undo-tree-mode
+  :config
+  (define-key evil-normal-state-map (kbd "U") 'undo-tree-visualize)
+  (global-undo-tree-mode)
+  (setq undo-tree-visualizer-diff t))
+
+;;(when (display-graphic-p)
 (menu-bar-mode -1)
 (tool-bar-mode -1)
+
+(setq locale-coding-system 'utf-8)
+(set-terminal-coding-system 'utf-8)
+(set-keyboard-coding-system 'utf-8)
+(set-selection-coding-system 'utf-8)
+(prefer-coding-system 'utf-8)
+(when (display-graphic-p)
+  (setq x-select-request-type '(UTF8_STRING COMPOUND_TEXT TEXT STRING)))
 
 (global-set-key (kbd "C-<up>") 'windmove-up)
 (global-set-key (kbd "C-k") 'windmove-up)
@@ -409,8 +438,8 @@
 (define-key global-map (kbd "C-c t") 'insane-org-task-capture)
 (define-key global-map (kbd "C-c C-t") 'insane-things-todo)
 
-;; map extensions
-(add-to-list 'auto-mode-alist '("\\.cf\\'" . yaml-mode))
+(setq browse-url-browser-function 'browse-url-generic
+      browse-url-generic-program "browse")
 
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
@@ -430,8 +459,6 @@
 ;; Highlight trailing whitespace.
 (setq-default show-trailing-whitespace t)
 (set-face-background 'trailing-whitespace "yellow")
-
-
 
 (setq temporary-file-directory "~/.emacs.d/tmp/")
 (unless (file-exists-p "~/.emacs.d/tmp")
