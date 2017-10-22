@@ -23,7 +23,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -271,9 +271,14 @@ See URL `https://github.com/nilnor/moonpick'."
 (use-package flycheck-color-mode-line
   :ensure t)
 
+(use-package flycheck-popup-tip
+  :ensure t)
+
 (use-package flycheck-pos-tip
   :ensure t
   :config
+  (setq flycheck-pos-tip-display-errors-tty-function #'flycheck-popup-tip-show-popup)
+  (setq flycheck-pos-tip-timeout 0)
   (flycheck-pos-tip-mode))
 
 (use-package flycheck-gometalinter
