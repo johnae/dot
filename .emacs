@@ -260,7 +260,10 @@ See URL `https://github.com/nilnor/moonpick'."
   :command ("moonpick" "--filename" source-original "-")
   :standard-input t
   :error-patterns
-  ((warning line-start "line " line ": " (message) line-end))
+  (
+   (warning line-start "line " line ": " (message) line-end)
+   (error line-start " [" line "] >> " (message) line-end)
+   )
   :modes (moonscript-mode))
 
 (add-to-list 'flycheck-checkers 'moonscript-moonpick)
