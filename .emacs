@@ -147,6 +147,7 @@
   (define-key evil-normal-state-map (kbd ", p") 'counsel-projectile-find-file)
   (define-key evil-normal-state-map (kbd ", f") 'counsel-find-file)
   (define-key evil-normal-state-map (kbd ", s") 'swiper)
+  (define-key evil-normal-state-map (kbd ", <up>") 'projectile-switch-project)
   (define-key evil-normal-state-map (kbd "P") 'counsel-yank-pop)
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
   (define-key evil-normal-state-map (kbd ", g") 'magit-status)
@@ -192,8 +193,7 @@
   (add-hook 'haskell-mode-hook 'intero-mode))
 
 (use-package elm-mode
-  :ensure t
-  :config)
+  :ensure t)
 
 (use-package jdee
   :ensure t
@@ -207,8 +207,8 @@
   (setq groovy-indent-offset 2))
 
 (use-package moonscript
- :ensure t
- :mode "Spookfile.*$")
+  :ensure t
+  :mode ("\\Spookfile.*\\'" . moonscript-mode))
 
 (use-package lua-mode
   :ensure t
@@ -252,6 +252,18 @@
   :ensure t
   :config
   (global-flycheck-mode))
+
+(flycheck-define-checker moonscript-moonpick
+  "A MoonScript syntax checker using moonpick.
+
+See URL `https://github.com/nilnor/moonpick'."
+  :command ("moonpick" "--filename" source-original "-")
+  :standard-input t
+  :error-patterns
+  ((warning line-start "line " line ": " (message) line-end))
+  :modes (moonscript-mode))
+
+(add-to-list 'flycheck-checkers 'moonscript-moonpick)
 
 (use-package flycheck-color-mode-line
   :ensure t)
