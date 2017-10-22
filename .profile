@@ -4,4 +4,7 @@ if [ "$0" = "/etc/gdm/Xsession" -a "$DESKTOP_SESSION" = "i3" ]; then
   if [ -e $HOME/.localrc ]; then
     source $HOME/.localrc
   fi
+  if [ -e $HOME/.profile.d/zsh/path.zsh ]; then
+      source $HOME/.profile.d/zsh/path.zsh
+  fi
 fi
