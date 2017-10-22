@@ -115,14 +115,13 @@
 
 (use-package powerline
   :init
-  (if (display-graphic-p)
-      (progn
-        (setq powerline-default-separator 'curve)
-        (setq powerline-height 20)))
-  (setq powerline-default-separator-dir '(right . left))
   :ensure t
   :config
-  (powerline-default-theme))
+  (powerline-default-theme)
+  (setq powerline-default-separator-dir '(right . left)
+        powerline-default-separator 'curve
+        powerline-height 20)
+  )
 
 (use-package airline-themes
   :ensure t
