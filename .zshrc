@@ -1,5 +1,4 @@
 export ZSH=$HOME/.profile.d
-export PROJECTS=~/Development
 export TERM="xterm-256color"
 
 setopt promptsubst

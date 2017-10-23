@@ -2,8 +2,9 @@ _NVIM=/usr/bin/nvim
 _FZFSH=/usr/share/fzf
 
 export VISUAL=vim
-export EDITOR="$VISUAL"
+export EDITOR=$VISUAL
 export _SCALING=2
+export PROJECTS=~/Development
 
 ## only do this when logged in over ssh
 if [ ! -z "$SSH_CONNECTION" ]; then
