@@ -6,15 +6,12 @@ else
   config=$HOME/.config/alacritty/alacritty.yml
 fi
 
-prefix=$HOME/Development
-projects=$prefix
-projects="$projects $prefix/eyeonid/core $prefix/eyeonid/deploy $prefix/eyeonid/hoard"
+jumpline=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | $(fzfcmd) --bind=ctrl-y:accept --tac)
 
-project=$(find $projects -maxdepth 1 -mindepth 1 -type d | cut -f 5- -d '/' | rofi -p "project >" -dmenu)
+project=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | rofi -p "project >" -dmenu)
 
-[[ -n $project ]] || exit
+[ -n $project ] || exit
 
-project_dir=$prefix/$project
 cat << EOF | last-command
-exec alacritty --config-file $config --working-directory $project_dir
+exec alacritty --config-file $config --working-directory $project
 EOF
