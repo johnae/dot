@@ -12,6 +12,8 @@
 
 (eval-when-compile
   (require 'use-package))
+(require 'diminish)
+(require 'bind-key)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -151,7 +153,7 @@
   (define-key evil-normal-state-map (kbd ", <down>") 'split-window-vertically)
   (define-key evil-normal-state-map (kbd ", g") 'magit-status)
   (define-key evil-normal-state-map (kbd ", w") 'whitespace-cleanup)
-  (define-key evil-normal-state-map (kbd ", <RET>") 'counsel-ag))
+  (define-key evil-normal-state-map (kbd ", <RET>") 'projectile-ag))
 
 (use-package evil-nerd-commenter
   :ensure t
