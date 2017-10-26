@@ -25,7 +25,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -136,6 +136,23 @@
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   )
 
+(use-package parinfer
+  :ensure t
+  :bind
+  (("C-," . parinfer-toggle-mode))
+  :init
+  (setq parinfer-extensions
+        '(defaults       ; should be included.
+           pretty-parens  ; different paren styles for different modes.
+           evil           ; If you use Evil.
+           smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+           smart-yank))   ; Yank behavior depend on mode.
+  (add-hook 'clojure-mode-hook #'parinfer-mode)
+  (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+  (add-hook 'scheme-mode-hook #'parinfer-mode)
+  (add-hook 'lisp-mode-hook #'parinfer-mode))
+
 (use-package evil-magit
   :ensure t)
 
@@ -227,7 +244,7 @@
         company-minimum-prefix-length 2
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil)
-  (add-hook 'after-init-hook 'global-company-mode))
+  (global-company-mode))
 
 (use-package company-quickhelp
   :ensure t
@@ -235,19 +252,28 @@
   (company-quickhelp-mode 1)
   (setq company-quickhelp-delay 0))
 
-(use-package company-go
-  :ensure t
-  :config)
-
 (use-package go-mode
+  :ensure t
+  )
+
+(use-package go-guru
+  :ensure t
+  :config
+  (go-guru-hl-identifier-mode))
+
+(use-package company-go
   :ensure t
   :config
   (setq gofmt-command "goimports")
+  (add-to-list 'company-backends 'company-go)
   (add-hook 'before-save-hook 'gofmt-before-save)
-  (add-hook 'go-mode-hook
-            (lambda()
-              (set (make-local-variable 'company-backends) '(company-go))
-              (company-mode))))
+  )
+
+
+(use-package go-eldoc
+  :ensure t
+  :config
+  (go-eldoc-setup))
 
 (use-package flycheck
   :ensure t
@@ -285,22 +311,9 @@ See URL `https://github.com/nilnor/moonpick'."
 (use-package flycheck-gometalinter
   :ensure t
   :config
-  ;; skips 'vendor' directories and sets GO15VENDOREXPERIMENT=1
-  (setq flycheck-gometalinter-vendor t
-        ;; only show errors
-        flycheck-gometalinter-errors-only t
-        ;; only run fast linters
-        flycheck-gometalinter-fast t
-        ;; use in tests files
-        flycheck-gometalinter-test t
-        ;; disable linters
-        flycheck-gometalinter-disable-linters '("gotype" "gocyclo")
-        ;; Only enable selected linters
-        flycheck-gometalinter-disable-all t
-        flycheck-gometalinter-enable-linters '("golint")
-        ;; Set different deadline (default: 5s)
-        flycheck-gometalinter-deadline "10s"
-        )
+  (setq flycheck-gometalinter-fast t
+        flycheck-gometalinter-tests t
+        flycheck-gometalinter-deadline "10s")
   (flycheck-gometalinter-setup))
 
 (use-package flycheck-rust
