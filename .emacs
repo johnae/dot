@@ -25,7 +25,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -108,11 +108,11 @@
 (use-package solarized-theme
   :ensure t
   :init
+  :config
   (setq solarized-distinct-fringe-background t
         solarized-use-variable-pitch nil
         solarized-high-contrast-mode-line t
         x-underline-at-descent-line t)
-  :config
   (load-theme 'solarized-dark))
 
 (use-package powerline
@@ -289,14 +289,16 @@ See URL `https://github.com/nilnor/moonpick'."
   :error-patterns
   (
    (warning line-start "line " line ": " (message) line-end)
-   (error line-start " [" line "] >> " (message) line-end)
-   )
+   (error line-start " [" line "] >> " (message) line-end))
+
   :modes (moonscript-mode))
 
 (add-to-list 'flycheck-checkers 'moonscript-moonpick)
 
-(use-package flycheck-color-mode-line
-  :ensure t)
+;;(use-package flycheck-status-emoji
+;;  :ensure t
+;;  :config
+;;  (flycheck-status-emoji-mode))
 
 (use-package flycheck-popup-tip
   :ensure t)
@@ -508,6 +510,7 @@ See URL `https://github.com/nilnor/moonpick'."
   (when (version< emacs-version "26.0")
     (add-to-list 'default-frame-alist '(font . "Source Code Pro-28"))
     (set-face-attribute 'default t :font "Source Code Pro-28")))
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
