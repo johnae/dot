@@ -58,4 +58,10 @@ do
   source $file
 done
 
+## allow local additional paths (don't check in this file)
+if [[ -a ~/.localpaths ]]
+then
+  source ~/.localpaths
+fi
+
 export PATH
