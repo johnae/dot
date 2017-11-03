@@ -1,0 +1,14 @@
+#!/bin/sh
+
+cmdline=$@
+name=$(echo "$cmdline" | awk '{print $1}')
+if [ "$_USE_NAME" ]; then
+    name=$_USE_NAME
+fi
+wsname=$(i3-msg -t get_workspaces | jq -r '.[] | select(.focused==true).name')
+
+if echo "$wsname" | grep -E '^[0-9]+$' > /dev/null; then
+    i3-msg "rename workspace to \"$wsname: $name\"" 2>&1 >/dev/null
+fi
+
+exec $cmdline

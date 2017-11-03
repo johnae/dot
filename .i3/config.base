@@ -9,7 +9,7 @@ exec_always --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_s
 bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
 
 # start a terminal
-bindsym $mod+Return exec $terminal
+bindsym $mod+Return exec _USE_NAME=term rofi-run $terminal
 
 # start a light bg terminal
 bindsym $mod+Shift+Return exec $terminal --config-file ~/.config/alacritty/alacritty-light.yml
@@ -72,7 +72,7 @@ bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display right && touch
 bindsym $mod+Shift+x exec --no-startup-id "~/.i3/external_display off"
 
 # start rofi (as a program launcher)
-bindsym $mod+d exec "rofi -show run"
+bindsym $mod+d exec rofi -show run -run-command "rofi-run {cmd}"
 
 # start rofi (as a window switcher)
 bindsym $mod+Tab exec "rofi -show window"
