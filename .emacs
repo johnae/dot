@@ -25,7 +25,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -133,6 +133,8 @@
 (use-package magit
   :ensure t
   :config
+  (setq magit-repository-directories
+        '( "~/Development" ))
   (add-hook 'magit-post-refresh-hook 'diff-hl-magit-post-refresh)
   )
 
@@ -450,6 +452,37 @@ See URL `https://github.com/nilnor/moonpick'."
   (define-key evil-normal-state-map (kbd "U") 'undo-tree-visualize)
   (global-undo-tree-mode)
   (setq undo-tree-visualizer-diff t))
+
+;; Sudo helper when editing files owned by root - taken from https://github.com/Fuco1/.emacs.d/blob/master/site-lisp/my-advices.el#L46
+(require 'tramp)
+(defadvice basic-save-buffer-2 (around fix-unwritable-save-with-sudo activate)
+  "When we save a buffer which is write-protected, try to sudo-save it.
+
+When the buffer is write-protected it is usually opened in
+read-only mode.  Use \\[read-only-mode] to toggle
+`read-only-mode', make your changes and \\[save-buffer] to save.
+Emacs will warn you that the buffer is write-protected and asks
+you to confirm if you really want to save.  If you answer yes,
+Emacs will use sudo tramp method to save the file and then
+reverts it, making it read-only again.  The buffer stays
+associated with the original non-sudo filename."
+  (condition-case err
+      (progn
+        ad-do-it)
+    (file-error
+     (when (string-prefix-p
+            "doing chmod: operation not permitted"
+            (downcase (error-message-string err)))
+       (let ((old-buffer-file-name buffer-file-name)
+             (success nil))
+         (unwind-protect
+             (progn
+               (setq buffer-file-name (concat "/sudo::" buffer-file-name))
+               (save-buffer)
+               (setq success t))
+           (setq buffer-file-name old-buffer-file-name)
+           (when success
+             (revert-buffer t t))))))))
 
 ;;(when (display-graphic-p)
 (menu-bar-mode -1)
