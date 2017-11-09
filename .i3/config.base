@@ -75,7 +75,7 @@ bindsym $mod+Shift+x exec --no-startup-id "~/.i3/external_display off"
 bindsym $mod+d exec rofi -show run -run-command "rofi-run {cmd}"
 
 # start rofi (as a window switcher)
-bindsym $mod+Tab exec "rofi -show window"
+bindsym $mod+Tab exec "rofi -show window -matching normal"
 
 # change focus
 bindsym $mod+Left focus left
