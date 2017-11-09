@@ -6,9 +6,7 @@ else
   config=$HOME/.config/alacritty/alacritty.yml
 fi
 
-jumpline=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | $(fzfcmd) --bind=ctrl-y:accept --tac)
-
-project=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | rofi -p "project >" -dmenu)
+project=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | rofi -matching normal -p "project >" -dmenu)
 
 [ -n $project ] || exit
 
