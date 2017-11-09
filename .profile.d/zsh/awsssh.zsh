@@ -29,7 +29,7 @@ function aws_instance_ssh() {
     zle && zle reset-prompt
     return 1
   fi
-  bastion=$(cat $tmp | grep -i bastion | tail -n1 | awk -F' ' '{print $NF}')
+  bastion=$(cat $tmp | grep -i "bastion ssh" | tail -n1 | awk -F' ' '{print $NF}')
   instance=$(cat $tmp | $(fzfcmd) --bind=ctrl-y:accept --tac | awk -F' ' '{print $NF}')
   rm -f $tmp
   if [[ -n ${instance} ]]; then
