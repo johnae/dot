@@ -25,33 +25,33 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
   (cl-every 'package-installed-p prelude-packages))
 
 (defun system-type-is-darwin ()
-  "Return true if system is darwin-based (Mac OS X)."
+  "Return non-nil if system is darwin-based (Mac OS X)."
   (string-equal system-type "darwin")
   )
 
 (defun system-type-is-linux ()
-  "Return true if system is GNU/Linux-based."
+  "Return non-nil if system is GNU/Linux-based."
   (string-equal system-type "gnu/linux")
   )
 
 (defun system-type-is-freebsd ()
-  "Return true if system is FreeBSD."
+  "Return non-nil if system is FreeBSD."
   (string-equal system-type "freebsd")
   )
 
-(defun hostname-is (hn)
-  "Return true if the system we are running on has the given hostname."
+(defun hostname-is (hostname)
+  "Return non-nil if the system we are running on has the given HOSTNAME."
   (or
-    (string-equal (system-name) hn)
-    (string-equal (system-name) (concat hn ".lan"))
-    )
+   (string-equal (system-name) hostname)
+   (string-equal (system-name) (concat hostname ".lan"))
+   )
   )
 
 (use-package auto-package-update
@@ -158,8 +158,10 @@
 (use-package evil-magit
   :ensure t)
 
+(setq evil-want-C-i-jump nil)
 (use-package evil
   :ensure t
+  :init
   :config
   (evil-mode 1)
   (define-key evil-normal-state-map (kbd ", <right>") 'split-window-horizontally)
@@ -241,11 +243,12 @@
 (use-package company
   :ensure t
   :diminish (company-mode . "")
-  :config
+  :init
   (setq company-idle-delay 0
         company-minimum-prefix-length 2
         company-dabbrev-ignore-case nil
         company-dabbrev-downcase nil)
+  :config
   (global-company-mode))
 
 (use-package company-quickhelp
@@ -296,11 +299,6 @@ See URL `https://github.com/nilnor/moonpick'."
   :modes (moonscript-mode))
 
 (add-to-list 'flycheck-checkers 'moonscript-moonpick)
-
-;;(use-package flycheck-status-emoji
-;;  :ensure t
-;;  :config
-;;  (flycheck-status-emoji-mode))
 
 (use-package flycheck-popup-tip
   :ensure t)
@@ -387,21 +385,32 @@ See URL `https://github.com/nilnor/moonpick'."
   :init
   (setq org-log-done 'time
         org-log-reschedule 'time
-        org-capture-templates '()
         org-src-fontify-natively t
         org-ellipsis " ⤵"
         org-agenda-files '("~/Dropbox/org/")
         org-directory '("~/Dropbox/org/")
         org-enforce-todo-dependencies t
         org-startup-with-beamer-mode t
+        org-export-coding-system 'utf-8
         org-todo-keywords
         '((sequence "TODO" "IN-PROGRESS" "WAITING" "|" "DONE" "CANCELED")))
   (setq org-capture-templates
         '(("a" "My TODO task format." entry
-            (file "~/Dropbox/org/todos.org")
-            "* TODO %?
+           (file "~/Dropbox/org/todos.org")
+           "* TODO %?
         SCHEDULED: %t")))
-  :ensure t)
+  :ensure t
+  :config
+  (add-hook 'org-mode-hook 'auto-revert-mode))
+
+(use-package evil-org
+  :ensure t
+  :after org
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme))))
 
 (defun insane-org-task-capture ()
   "Capture a task with the default template."
@@ -409,6 +418,7 @@ See URL `https://github.com/nilnor/moonpick'."
   (org-capture nil "a"))
 
 (defun insane-things-todo ()
+  "Return the default todos filepath."
   (interactive)
   (find-file (expand-file-name "~/Dropbox/org/todos.org")))
 
@@ -417,6 +427,26 @@ See URL `https://github.com/nilnor/moonpick'."
   :init
   (setq org-bullets-bullet-list '("◉"))
   (add-hook 'org-mode-hook 'org-bullets-mode))
+
+(use-package org-jira
+  :ensure t
+  :init
+  (getenv "USER")
+  (setq jiralib-url (getenv "JIRA_URL")
+        org-jira-working-dir "~/Dropbox/org/jira"
+        org-jira-use-status-as-todo t))
+
+(use-package alert
+  :ensure t
+  :init
+  (setq alert-default-style 'libnotify))
+
+(use-package org-alert
+  :ensure t
+  :init
+  (setq org-alert-notification-title "Todos                         ")
+  :config
+  (org-alert-enable))
 
 (use-package syndicate
   :ensure t)
@@ -435,7 +465,7 @@ See URL `https://github.com/nilnor/moonpick'."
 
 (use-package zoom-window
   :ensure t
-  :bind* ("C-x C-1" . zoom-window-zoom))
+  :bind* ("C-x C-z" . zoom-window-zoom))
 
 (use-package ac-slime
   :ensure t
@@ -509,6 +539,8 @@ associated with the original non-sudo filename."
 
 (setq browse-url-browser-function 'browse-url-generic
       browse-url-generic-program "browse")
+
+(setq revert-without-query '("*.org"))
 
 (setq mode-require-final-newline nil)
 (setq initial-scratch-message nil)
