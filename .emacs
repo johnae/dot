@@ -25,7 +25,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flycheck-kotlin ob-zsh ob-bash ob-typescript ob-kotlin ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -67,7 +67,7 @@
   (which-key-mode)
   :ensure t
   :config
-  (which-key-setup-side-window-right-bottom)
+  (which-key-setup-side-window-bottom)
   (setq which-key-sort-order 'which-key-key-order-alpha
         which-key-side-window-max-width 0.33
         which-key-idle-delay 0.05)
@@ -346,6 +346,11 @@ See URL `https://github.com/nilnor/moonpick'."
   :config
   (flycheck-checkbashisms-setup))
 
+(use-package flycheck-kotlin
+  :ensure t
+  :config
+  (flycheck-kotlin-setup))
+
 (use-package company-shell
   :ensure t
   :config)
@@ -379,6 +384,15 @@ See URL `https://github.com/nilnor/moonpick'."
   :config
   (add-hook 'prog-mode-hook 'highlight-numbers-mode))
 
+(use-package ob-go
+  :ensure t)
+
+(use-package ob-kotlin
+  :ensure t)
+
+(use-package ob-typescript
+  :ensure t)
+
 (use-package org
   :bind (:map org-mode-map
               ("C-c e" . org-edit-src-code))
@@ -401,7 +415,34 @@ See URL `https://github.com/nilnor/moonpick'."
         SCHEDULED: %t")))
   :ensure t
   :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((R . t)
+     (emacs-lisp . t)
+     (ruby . t)
+     (python . t)
+     (js . t)
+     (java . t)
+     (latex . t)
+     (haskell . t)
+     (clojure . t)
+     (go . t)
+     (shell . t)
+     (sql . t)
+     (sqlite . t)
+     (groovy . t)
+     (kotlin . t)
+     (typescript . t)
+     (kotlin . t)
+     (C . t)))
   (add-hook 'org-mode-hook 'auto-revert-mode))
+
+(org-babel-do-load-languages
+ 'org-babel-load-languages
+ '((R . t)
+   (emacs-lisp . nil)
+   ))
+
 
 (use-package evil-org
   :ensure t
@@ -441,12 +482,12 @@ See URL `https://github.com/nilnor/moonpick'."
   :init
   (setq alert-default-style 'libnotify))
 
-(use-package org-alert
-  :ensure t
-  :init
-  (setq org-alert-notification-title "Todos                         ")
-  :config
-  (org-alert-enable))
+;; (use-package org-alert
+;;   :ensure t
+;;   :init
+;;   (setq org-alert-notification-title "Todos")
+;;   :config
+;;   (org-alert-enable))
 
 (use-package syndicate
   :ensure t)
