@@ -3,6 +3,7 @@
 hn=$(cat /etc/hostname)
 
 if [ "daylight" = "$hn" -o "starlight" = "$hn" -o "milkyway" = "$hn" ]; then
-  xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1
-  xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1
+  xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Natural Scrolling Enabled" 1 || true
+  xinput set-prop "DLL075B:01 06CB:76AF Touchpad" "libinput Tapping Enabled" 1 || true
+  xinput set-prop "pointer:Surface Arc Mouse" "libinput Natural Scrolling Enabled" 1 || true
 fi
