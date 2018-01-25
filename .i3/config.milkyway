@@ -9,7 +9,7 @@ set $inactive-text-color #839496
 set $urgent-bg-color #d24939
 set $selected-color #9999FF
 set $font pango:System San Francisco Display, Awesome Bold 9
-set $lockcmd /usr/local/bin/lockscreen -t -e -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c
+set $lockcmd /usr/local/bin/lockscreen -k --force-clock -t -e -i /home/john/Pictures/lock.png --textcolor=ffffff00 --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=00000080 --ringvercolor=00000000 --separatorcolor=22222260 --insidevercolor=0000001c --ringwrongcolor=00000055 --insidewrongcolor=0000001c --timecolor=ffffffff --datecolor=ffffffff --timepos="-100:-50"
 set $terminal alacritty
 
 # lock screen

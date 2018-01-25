@@ -6,13 +6,16 @@ font $font
 exec_always --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
 
 # Shortcut to just redo above when external keyboard is reattached (without reloading i3)
-bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
+bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac; ~/.i3/touch_pad_conf"
 
 # start a terminal
 bindsym $mod+Return exec _USE_NAME=term rofi-run $terminal
 
 # start a light bg terminal
 bindsym $mod+Shift+Return exec $terminal --config-file ~/.config/alacritty/alacritty-light.yml
+
+# start a dark + large font terminal
+bindsym $mod+Control+Return exec $terminal --config-file ~/.config/alacritty/alacritty-large.yml
 
 # passmenu
 bindsym $mod+minus exec passmenu
@@ -51,7 +54,7 @@ bindsym $mod+Shift+h exec ff-hist
 bindsym $mod+period exec sh ~/.last_command
 
 # rename workspace
-bindsym $mod+n exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show rnw -modi rnw:rename-workspace
+bindsym $mod+n exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show "Rename workspace" -modi "Rename workspace":rename-workspace
 
 # actually toggle between left/right screen
 bindsym $mod+m move workspace to output right
