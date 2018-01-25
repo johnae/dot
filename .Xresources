@@ -19,4 +19,4 @@ rofi.eh: 2
 rofi.padding: 300
 rofi.fullscreen: true
 rofi.opacity: 85
-rofi.fuzzy: true
+rofi.matching: fuzzy

@@ -25,7 +25,7 @@
  '(jdee-server-dir "/home/john/.jars")
  '(package-selected-packages
    (quote
-    (flycheck-kotlin ob-zsh ob-bash ob-typescript ob-kotlin ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
+    (flx-ido nim-mode js2-mode calfw-org calfw flycheck-kotlin ob-zsh ob-bash ob-typescript ob-kotlin ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
  '(tramp-syntax (quote default) nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -58,8 +58,10 @@
   :ensure t
   :config
   (setq auto-package-update-delete-old-versions t
-        auto-package-update-interval 4)
-  (auto-package-update-maybe))
+        auto-package-update-interval 4
+        auto-package-update-prompt-before-update t)
+)
+;;  (auto-package-update-maybe))
 
 (use-package which-key
   :diminish (which-key-mode . "")
@@ -86,13 +88,24 @@
   (setq ivy-use-virtual-buffers t
         ivy-count-format "%d/%d "))
 
+(use-package flx-ido
+  :ensure t
+  :init
+  (ido-mode 1)
+  (ido-everywhere 1)
+  (flx-ido-mode 1)
+  :config
+  (setq ido-enable-flex-matching t
+        ido-use-faces nil)
+  )
+
 (use-package counsel-projectile
   :diminish (projectile-mode . "")
   :diminish (projectile-mode . "")
   :ensure t
   :config
   (projectile-mode)
-  (counsel-projectile-on))
+  (counsel-projectile-mode))
 
 (use-package pos-tip
   :ensure t)
@@ -240,6 +253,15 @@
   :ensure t
   :config)
 
+(setq nimsuggest-path "/home/john/Development/Nim/bin/nimsuggest")
+(use-package nim-mode
+  :ensure t
+  :config
+  (add-hook 'nim-mode-hook 'nimsuggest-mode))
+
+(add-hook 'nimsuggest-mode-hook 'company-mode)  ; auto complete package
+(add-hook 'nimsuggest-mode-hook 'flycheck-mode) ; auto linter package
+
 (use-package company
   :ensure t
   :diminish (company-mode . "")
@@ -274,11 +296,15 @@
   (add-hook 'before-save-hook 'gofmt-before-save)
   )
 
-
 (use-package go-eldoc
   :ensure t
   :config
   (go-eldoc-setup))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 
 (use-package flycheck
   :ensure t
@@ -393,6 +419,9 @@ See URL `https://github.com/nilnor/moonpick'."
 (use-package ob-typescript
   :ensure t)
 
+
+(setq org-agenda-files '("~/Dropbox/org/"))
+
 (use-package org
   :bind (:map org-mode-map
               ("C-c e" . org-edit-src-code))
@@ -443,7 +472,6 @@ See URL `https://github.com/nilnor/moonpick'."
    (emacs-lisp . nil)
    ))
 
-
 (use-package evil-org
   :ensure t
   :after org
@@ -462,6 +490,21 @@ See URL `https://github.com/nilnor/moonpick'."
   "Return the default todos filepath."
   (interactive)
   (find-file (expand-file-name "~/Dropbox/org/todos.org")))
+
+(use-package calfw
+  :ensure t
+  :config
+  (require 'calfw)
+  (require 'calfw-org)
+  (setq cfw:org-overwrite-default-keybinding t)
+  (defun mycalendar ()
+    (interactive)
+    (cfw:open-calendar-buffer
+     :contents-sources
+     (list
+      (cfw:org-create-source "Green")  ; orgmode source
+      )))
+  (setq cfw:org-overwrite-default-keybinding t))
 
 (use-package org-bullets
   :ensure t
@@ -611,6 +654,167 @@ associated with the original non-sudo filename."
 
 (add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
 (set-face-attribute 'default t :font "Source Code Pro-12")
+
+(setq european-date-style 'european)
+(setq calendar-set-date-style 'european)
+(setq calendar-week-start-day 1)
+(setq calendar-date-display-form
+      '((if dayname
+            (concat dayname ", "))
+        day " " monthname " " year))
+
+(setq calendar-time-display-form
+      '(24-hours ":" minutes))
+
+(defvar sv-hide-some-holidays nil
+  "Non-nil means some holidays won't show in the calendar.")
+
+(defun sv-easter (year)
+  "Calculate the date for Easter in YEAR."
+  (let* ((century (1+ (/ year 100)))
+         (shifted-epact (% (+ 14 (* 11 (% year 19))
+                              (- (/ (* 3 century) 4))
+                              (/ (+ 5 (* 8 century)) 25)
+                              (* 30 century))
+                           30))
+         (adjusted-epact (if (or (= shifted-epact 0)
+                                 (and (= shifted-epact 1)
+                                      (< 10 (% year 19))))
+                             (1+ shifted-epact)
+                           shifted-epact))
+         (paschal-moon (- (calendar-absolute-from-gregorian
+                           (list 4 19 year))
+                          adjusted-epact)))
+    (calendar-dayname-on-or-before 0 (+ paschal-moon 7))))
+
+(setq general-holidays
+      '((holiday-fixed 1 1 "Nyårsdagen")
+        (holiday-fixed 1 6 "Trettondedag jul")
+
+        (holiday-filter-visible-calendar
+         (mapcar
+          (lambda (dag)
+            (list (calendar-gregorian-from-absolute
+                   (+ (sv-easter displayed-year) (car dag)))
+                  (cadr dag)))
+          '((  -2 "Långfredagen")
+            (  -1 "Påskafton")
+            (   0 "Påskdagen")
+            (  +1 "Annandag påsk")
+            ( +39 "Kristi himmelfärdsdag")
+            ( +49 "Pingstdagen")
+            ( +50 "Annandag pingst"))))
+
+        (holiday-fixed 5 1 "Första maj")
+
+        (let ((midsommar-d (calendar-dayname-on-or-before
+                            6 (calendar-absolute-from-gregorian
+                               (list 6 26 displayed-year)))))
+          (holiday-filter-visible-calendar
+           (list
+            (list
+             (calendar-gregorian-from-absolute (1- midsommar-d))
+             "Midsommarafton")
+            (list
+             (calendar-gregorian-from-absolute midsommar-d)
+             "Midsommardagen")
+            ;; Alla helgons dag
+            (list
+             (calendar-gregorian-from-absolute
+              (calendar-dayname-on-or-before
+               6 (calendar-absolute-from-gregorian
+                  (list 11 6 displayed-year))))
+             "Alla helgons dag"))))
+
+        (holiday-fixed 12 25 "Juldagen")
+        (holiday-fixed 12 26 "Annandag jul")))
+
+(setq other-holidays
+      '((holiday-fixed 1 13 "Tjogondag Knut")
+        (unless sv-hide-some-holidays
+          (holiday-fixed 2 2 "Kyndelsmässodagen"))
+        (holiday-fixed 2 14 "Alla hjärtans dag")
+
+        (holiday-filter-visible-calendar
+         (list
+          (list
+           (calendar-gregorian-from-absolute
+            (calendar-dayname-on-or-before
+             2 (- (sv-easter displayed-year) 47)))
+           "Fettisdagen")))
+
+        (holiday-fixed 3 8 "Internationella kvinnodagen")
+        (holiday-fixed 3 25 "Vårfrudagen")
+
+        (holiday-filter-visible-calendar
+         (mapcar
+          (lambda (dag)
+            (list (calendar-gregorian-from-absolute
+                   (+ (sv-easter displayed-year) (car dag)))
+                  (cadr dag)))
+          (if sv-hide-some-holidays
+              '(( -3 "Skärtorsdagen"))
+            '(( -7 "Palmsöndagen")
+              ( -4 "Dymmelonsdagen")
+              ( -3 "Skärtorsdagen")))))
+
+        (unless sv-hide-some-holidays
+          (holiday-fixed 4 1 "Första april"))
+        (holiday-fixed 4 30 "Valborgsmässoafton")
+        (holiday-float 5 0 -1 "Mors dag")
+        (holiday-fixed 6 6 "Sveriges nationaldag")
+        (holiday-fixed 10 24 "FN-dagen")
+        (holiday-float 11 0 2 "Fars dag")
+        (unless sv-hide-some-holidays
+          (holiday-fixed 11 6 "Gustaf Adolfsdagen"))
+        (holiday-fixed 11 10 "Mårtensafton")
+        (holiday-float 12 0 -4 "Första advent" 24)
+        (holiday-float 12 0 -3 "Andra advent" 24)
+        (holiday-float 12 0 -2 "Tredje advent" 24)
+        (holiday-float 12 0 -1 "Fjärde advent" 24)
+        (holiday-fixed 12 10 "Nobeldagen")
+        (holiday-fixed 12 13 "Lucia")
+        (holiday-fixed 12 24 "Julafton")
+        (holiday-fixed 12 31 "Nyårsafton")))
+
+(setq solar-holidays
+      (if sv-hide-some-holidays
+          nil
+        '((if (fboundp 'atan)
+              (solar-equinoxes-solstices))
+          (if (progn
+                (require 'cal-dst)
+                t)
+              (funcall 'holiday-sexp calendar-daylight-savings-starts
+                       '(format "Sommartid börjar %s"
+                                (if
+                                    (fboundp 'atan)
+                                    (solar-time-string
+                                     (/ calendar-daylight-savings-starts-time
+                                        (float 60))
+                                     calendar-standard-time-zone-name)
+                                  ""))))
+          (funcall 'holiday-sexp calendar-daylight-savings-ends
+                   '(format "Vintertid börjar %s"
+                            (if
+                                (fboundp 'atan)
+                                (solar-time-string
+                                 (/ calendar-daylight-savings-ends-time
+                                    (float 60))
+                                 calendar-daylight-time-zone-name)
+                              ""))))))
+
+(setq calendar-holidays
+      (append general-holidays holiday-local-holidays
+              other-holidays solar-holidays))
+
+
+
+
+
+                                        ;(add-hook 'calendar-load-hook
+                                        ;          (lambda ()
+                                        ;            (calendar-set-date-style 'european)))
 
 (when (hostname-is "daylight")
   (when (version< emacs-version "26.0")
