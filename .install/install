@@ -2,6 +2,7 @@
 
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
+systemd_dir=/usr/lib/systemd
 
 if [ $(id -u) -ne 0 ]; then
   echo "Must be root"
@@ -27,6 +28,15 @@ if [ "$kernel" = "linux" ]; then
       cp $dir/systemd/enable/$unit /etc/systemd/system/$unit
       systemctl enable $unit
       systemctl start $unit
+    done
+    for hook in $(find $dir/systemd/hooks -type f); do
+      hook_dir=$systemd_dir/$(basename $(dirname $hook))
+      if [ -d $hook_dir ]; then
+          echo "Installing hook $hook in $hook_dir"
+          cp $hook $hook_dir/
+      else
+          echo "No such hook dir $hook_dir"
+      fi
     done
     echo "Please note that user services (eg. the ones with @ in"
     echo "their names) may need to be enabled after install!"
