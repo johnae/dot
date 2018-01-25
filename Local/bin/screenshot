@@ -5,4 +5,6 @@ OUTPUT_DIR=$HOME/Pictures/screenshots
 FMT=png
 
 mkdir -p $OUTPUT_DIR
+killall compton
 maim -s --format=$FMT $OUTPUT_DIR/$NAME.$FMT
+~/.i3/compton

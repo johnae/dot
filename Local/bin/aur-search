@@ -12,7 +12,7 @@ search() {
 }
 
 if [ -t 1 ]; then
-  search $WHAT | fzf
+  search $WHAT | fzf | awk '{print aur fetch $1}'
 else
   search $WHAT
 fi
