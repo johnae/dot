@@ -12,7 +12,7 @@
 
 (eval-when-compile
   (require 'use-package))
-(require 'diminish)
+;;(require 'diminish)
 (require 'bind-key)
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -20,13 +20,13 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   (quote
-    ("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default)))
- '(jdee-server-dir "/home/john/.jars")
+   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default))
+ '(eclim-eclipse-dirs '("~/eclipse/java-oxygen/eclipse"))
+ '(eclim-executable "~/.p2/pool/plugins/org.eclim_2.7.1/bin/eclim")
+ '(eclimd-default-workspace "~/Development")
  '(package-selected-packages
-   (quote
-    (flx-ido nim-mode js2-mode calfw-org calfw flycheck-kotlin ob-zsh ob-bash ob-typescript ob-kotlin ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company jdee elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package)))
- '(tramp-syntax (quote default) nil (tramp)))
+   '(company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
+ '(tramp-syntax 'default nil (tramp)))
 
 (defun prelude-packages-installed-p ()
   (cl-every 'package-installed-p prelude-packages))
@@ -53,6 +53,9 @@
    (string-equal (system-name) (concat hostname ".lan"))
    )
   )
+
+(use-package diminish
+  :ensure t)
 
 (use-package auto-package-update
   :ensure t
@@ -230,12 +233,6 @@
 (use-package elm-mode
   :ensure t)
 
-(use-package jdee
-  :ensure t
-  :config
-  (custom-set-variables
-   '(jdee-server-dir "/home/john/.jars")))
-
 (use-package groovy-mode
   :ensure t
   :config
@@ -372,10 +369,10 @@ See URL `https://github.com/nilnor/moonpick'."
   :config
   (flycheck-checkbashisms-setup))
 
-(use-package flycheck-kotlin
-  :ensure t
-  :config
-  (flycheck-kotlin-setup))
+;;(use-package flycheck-kotlin
+;;  :ensure t
+;;  :config
+;;  (flycheck-kotlin-setup))
 
 (use-package company-shell
   :ensure t
@@ -413,12 +410,11 @@ See URL `https://github.com/nilnor/moonpick'."
 (use-package ob-go
   :ensure t)
 
-(use-package ob-kotlin
-  :ensure t)
+;;(use-package ob-kotlin
+;;  :ensure t)
 
-(use-package ob-typescript
-  :ensure t)
-
+;;(use-package ob-typescript
+;;  :ensure t)
 
 (setq org-agenda-files '("~/Dropbox/org/"))
 
@@ -460,9 +456,8 @@ See URL `https://github.com/nilnor/moonpick'."
      (sql . t)
      (sqlite . t)
      (groovy . t)
-     (kotlin . t)
-     (typescript . t)
-     (kotlin . t)
+;;(kotlin . t)
+;;(typescript . t)
      (C . t)))
   (add-hook 'org-mode-hook 'auto-revert-mode))
 
@@ -491,20 +486,20 @@ See URL `https://github.com/nilnor/moonpick'."
   (interactive)
   (find-file (expand-file-name "~/Dropbox/org/todos.org")))
 
-(use-package calfw
-  :ensure t
-  :config
-  (require 'calfw)
-  (require 'calfw-org)
-  (setq cfw:org-overwrite-default-keybinding t)
-  (defun mycalendar ()
-    (interactive)
-    (cfw:open-calendar-buffer
-     :contents-sources
-     (list
-      (cfw:org-create-source "Green")  ; orgmode source
-      )))
-  (setq cfw:org-overwrite-default-keybinding t))
+;;(use-package calfw
+;;  :ensure t
+;;  :config
+;;  (require 'calfw)
+;;  (require 'calfw-org)
+;;  (setq cfw:org-overwrite-default-keybinding t)
+;;  (defun mycalendar ()
+;;    (interactive)
+;;    (cfw:open-calendar-buffer
+;;     :contents-sources
+;;     (list
+;;      (cfw:org-create-source "Green")  ; orgmode source
+;;      )))
+;;  (setq cfw:org-overwrite-default-keybinding t))
 
 (use-package org-bullets
   :ensure t
@@ -519,6 +514,28 @@ See URL `https://github.com/nilnor/moonpick'."
   (setq jiralib-url (getenv "JIRA_URL")
         org-jira-working-dir "~/Dropbox/org/jira"
         org-jira-use-status-as-todo t))
+
+(use-package eclim
+  :ensure t
+  :init
+  (custom-set-variables
+   '(eclim-eclipse-dirs '("~/eclipse/java-oxygen/eclipse"))
+   '(eclim-executable "~/.p2/pool/plugins/org.eclim_2.7.1/bin/eclim")
+   '(eclimd-default-workspace "~/Development")
+   )
+  (setq eclimd-autostart t)
+  (defun my-java-mode-hook ()
+    (eclim-mode t))
+  (add-hook 'java-mode-hook 'my-java-mode-hook))
+
+(use-package company-emacs-eclim
+  :ensure t
+  :init
+  (company-emacs-eclim-setup))
+
+(setq help-at-pt-display-when-idle t)
+(setq help-at-pt-timer-delay 0.1)
+(help-at-pt-set-timer)
 
 (use-package alert
   :ensure t

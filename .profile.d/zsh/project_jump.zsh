@@ -1,8 +1,8 @@
 function jump_to_project(){
     local jumpline
-    jumpline=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | $(fzfcmd) --bind=ctrl-y:accept --tac)
+    jumpline=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | sed "s|$HOME/||g" | $(fzfcmd) --bind=ctrl-y:accept --tac)
     if [[ -n ${jumpline} ]]; then
-      cd $jumpline
+      cd $HOME/$jumpline
     fi
     zle && zle reset-prompt
 }
