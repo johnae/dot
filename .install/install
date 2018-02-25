@@ -3,6 +3,8 @@
 dir=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
 kernel=$(uname -s | tr '[:upper:]' '[:lower:]')
 systemd_dir=/usr/lib/systemd
+x11_conf_dir=/etc/X11/xorg.conf.d
+bin_dir=/usr/local/bin
 
 if [ $(id -u) -ne 0 ]; then
   echo "Must be root"
@@ -41,5 +43,12 @@ if [ "$kernel" = "linux" ]; then
     echo "Please note that user services (eg. the ones with @ in"
     echo "their names) may need to be enabled after install!"
     systemctl daemon-reload
+  fi
+  if [ -d $x11_conf_dir ]; then
+      echo "Installing X11 configuration"
+      for conf in $(ls $dir/X11/xorg.conf.d); do
+          echo "Installing X11 config $conf in $x11_conf_dir"
+          cp $dir/X11/xorg.conf.d/$conf $x11_conf_dir/
+      done
   fi
 fi
