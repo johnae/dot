@@ -3,7 +3,7 @@
 PASSONLY=$1
 
 prefix=$(readlink -f ${PASSWORD_STORE_DIR-~/.password-store})
-password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | sed "s|$prefix/||g" | sed 's|.gpg$||g' | rofi -p "password >" -dmenu "$@")
+password_file=$(find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | sed "s|$prefix/||g" | sed 's|.gpg$||g' | rofi -normal-window -p "password >" -dmenu "$@")
 error_icon=~/Pictures/icons/essential/error.svg
 
 if [ "$password_file" = "" ]; then
