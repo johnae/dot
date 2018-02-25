@@ -8,5 +8,6 @@ _add_path $HOME/.luarocks/bin
 _add_path $HOME/.cargo/bin
 _add_path $HOME/.local/bin
 _add_path $HOME/Local/bin
+_add_path $HOME/Local/go/bin
 
 export PATH

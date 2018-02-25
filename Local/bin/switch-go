@@ -1,0 +1,30 @@
+#!/bin/sh
+set -e
+
+VERSION=$1
+shift
+CLEANUP=$1
+if [ -z "$VERSION" ]; then
+  echo "Please tell me which go version you want to use as the first argument"
+  exit 1
+fi
+
+GODIR=$HOME/Local
+
+cd $GODIR
+if [ ! -d "go$VERSION" ]; then
+    output=/tmp/go$VERSION.linux-amd64.tar.gz
+    curl -o $output https://dl.google.com/go/go$VERSION.linux-amd64.tar.gz
+    mkdir -p go$VERSION
+    tar -C go$VERSION --strip-components 1 -zxf $output
+    rm $output
+fi
+
+echo "Removing any previous link $GODIR/go"
+rm -f $GODIR/go
+echo "Linking $GODIR/go$VERSION to $GODIR/go"
+ln -s $GODIR/go$VERSION $GODIR/go
+
+if [ "$CLEANUP" = "cleanup" ]; then
+    rm -rf $GOPATH/pkg/linux_amd64
+fi

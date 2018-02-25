@@ -1,4 +1,6 @@
 GOPATH=$PROJECTS/go
+GOROOT=$HOME/Local/go
 PATH="$GOPATH/bin:$PATH"
 export GOPATH
+export GOROOT
 export PATH
