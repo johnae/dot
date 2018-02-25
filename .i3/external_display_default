@@ -3,6 +3,7 @@
 CMD="$1"
 BUILT_IN=$(xrandr | grep " connected" | awk '{print $1}' | head -n +1)
 DISPLAY_NAME=$(xrandr | grep " connected" | awk '{print $1}' | tail -n +2 | head -n +1)
+EXT_MODE="2560x1440"
 
 if [ "" = "$DISPLAY_NAME" ]; then
   exit 1
@@ -38,9 +39,9 @@ if [ "$CMD" = "toggle" ]; then
 fi
 
 if [ "$CMD" = "right" ]; then
-  xrandr --output $DISPLAY_NAME --mode "1920x1080" --right-of $BUILT_IN 2>/dev/null
+  xrandr --output $DISPLAY_NAME --mode "$EXT_MODE" --right-of $BUILT_IN 2>/dev/null
 elif [ "$CMD" = "left" ]; then
-  xrandr --output $DISPLAY_NAME --mode "1920x1080" --left-of $BUILT_IN 2>/dev/null
+  xrandr --output $DISPLAY_NAME --mode "$EXT_MODE" --left-of $BUILT_IN 2>/dev/null
 elif [ "$CMD" = "off" ]; then
   xrandr --output $DISPLAY_NAME --off 2>/dev/null
 fi

@@ -2,44 +2,41 @@
 # text rendering and scalability on retina/hidpi displays (thanks to pango).
 font $font
 
-# Map caps-lock to ctrl etc
-exec_always --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac"
-
 # Shortcut to just redo above when external keyboard is reattached (without reloading i3)
 bindsym $mod+Shift+t exec --no-startup-id "setxkbmap -layout se -option ctrl:nocaps,lv3:lalt_switch,compose:ralt,lv3:ralt_alt; sleep 1; setxkbmap -variant mac; ~/.i3/touch_pad_conf"
 
 # start a terminal
-bindsym $mod+Return exec _USE_NAME=term rofi-run $terminal
+bindsym $mod+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal
 
 # start a light bg terminal
-bindsym $mod+Shift+Return exec $terminal --config-file ~/.config/alacritty/alacritty-light.yml
+bindsym $mod+Shift+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal #--config-file ~/.config/alacritty/alacritty-light.yml
 
 # start a dark + large font terminal
-bindsym $mod+Control+Return exec $terminal --config-file ~/.config/alacritty/alacritty-large.yml
+bindsym $mod+Control+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal #--config-file ~/.config/alacritty/alacritty-large.yml
 
 # passmenu
-bindsym $mod+minus exec passmenu
+bindsym $mod+minus exec fzf-window fzf-passmenu
 
 # passmenu pass only
-bindsym $mod+Shift+minus exec passmenu passonly
+bindsym $mod+Shift+minus exec fzf-window fzf-passmenu-passonly
+
+for_window [class="fzf-window"] fullscreen enable
 
 # notes-menu
 bindsym $mod+Shift+n exec notes-menu
 
 # project select
-bindsym $mod+Shift+p exec project-select
+bindsym $mod+Shift+p exec fzf-window project-select
 
 # light background project select
-bindsym $mod+Shift+l exec project-select light
+bindsym $mod+Shift+l exec fzf-window project-select light
 
 # layout select
 # bindsym $mod+l exec i3-layout-select
 
 # mark / goto
-bindsym $mod+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show goto -modi goto:i3-goto
-
-
-bindsym $mod+Shift+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show mark -modi mark:i3-mark
+# bindsym $mod+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show goto -modi goto:i3-goto
+# bindsym $mod+Shift+g exec --no-startup-id rofi -no-fullscreen -width 50 -lines 1 -padding 10 -show mark -modi mark:i3-mark
 
 # screenshot
 bindsym $mod+x exec screenshot
@@ -48,7 +45,7 @@ bindsym $mod+x exec screenshot
 # bindsym $mod+Shift+h exec chrome-hist
 
 # firefox history search
-bindsym $mod+Shift+h exec ff-hist
+bindsym $mod+Shift+h exec fzf-window ff-hist
 
 # last command
 bindsym $mod+period exec sh ~/.last_command
@@ -71,11 +68,12 @@ bindsym XF86MonBrightnessUp exec xbacklight -inc 10 # increase screen brightness
 bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightness
 
 # External monitor on/off (work)
-bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display right && touch ~/Pictures/lock.jpg"
+bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display left && touch ~/Pictures/lock.jpg"
 bindsym $mod+Shift+x exec --no-startup-id "~/.i3/external_display off"
 
 # start rofi (as a program launcher)
-bindsym $mod+d exec rofi -show run -run-command "rofi-run {cmd}"
+#bindsym $mod+d exec rofi -show run -run-command "rofi-run {cmd}"
+bindsym $mod+d exec fzf-window fzf-run
 
 # start rofi (as a window switcher)
 bindsym $mod+Tab exec "rofi -show window -matching normal"

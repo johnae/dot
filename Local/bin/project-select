@@ -1,15 +1,24 @@
 #!/bin/sh
 
+export FZF_PROMPT="goto project >"
+cmd="st"
 if [ "$1" = "light" ]; then
-  config=$HOME/.config/alacritty/alacritty-light.yml
-else
-  config=$HOME/.config/alacritty/alacritty.yml
+  cmd="st-light"
+elif [ "$1" = "get-dir" ]; then
+  cmd="get-dir"
 fi
 
-project=$(find $PROJECTS -type f -name "config" | grep "\.git\/config" | sed 's|/\.git/config||g' | rofi -matching normal -p "project >" -dmenu)
+DIR=$(fd -d 8 -pHI -t f '.*\.git/config$' $PROJECTS | \
+    sed 's|/\.git/config||g' | \
+    sed "s|$HOME/||g" | \
+    fzf-fzf | \
+    xargs -I{} echo "$HOME/{}")
 
-[ -n $project ] || exit
-
-cat << EOF | last-command
-exec alacritty --config-file $config --working-directory $project
-EOF
+if [ "$DIR" != "" ]; then
+    if [ "$cmd" = "get-dir" ]; then
+        echo $DIR
+    else
+        cd $DIR
+        launch $cmd
+    fi
+fi

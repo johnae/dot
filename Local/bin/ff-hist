@@ -1,14 +1,14 @@
 #!/bin/sh
 
-DB=$HOME/.mozilla/firefox/*.dev-edition-default/places.sqlite
+DB=$HOME/.mozilla/firefox/*.dev-edition-default-*/places.sqlite
 SELECT="select title, url from moz_places ORDER BY last_visit_date DESC"
-BROWSER=firefox-developer
 
-item=$(sqlite3 $DB "$SELECT" | rofi -p "url >" -dmenu)
-url=$(echo -n "$item" | rev | cut -f 1 -d '|' | rev)
-
-if [ "$url" = "" ]; then
-  exit
-fi
-
-$BROWSER $url & disown
+export FZF_PROMPT="url history >"
+export FZF_MARGIN=0,0,0,0
+export FZF_HEIGHT=0
+export FZF_MIN_HEIGHT=0
+sqlite3 $DB "$SELECT" | \
+    fzf-fzf | \
+    rev | cut -f 1 -d '|' | rev | \
+    xargs -r -I{} echo "$BROWSER {}" | \
+    launch
