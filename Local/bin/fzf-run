@@ -1,0 +1,9 @@
+#!/bin/sh
+
+export FZF_PROMPT="run program >"
+export _SET_WS_NAME=y
+
+/usr/bin/zsh -c "whence -pm '*'" | \
+awk -F'/' '{print $NF}' | \
+fzf-fzf | \
+launch

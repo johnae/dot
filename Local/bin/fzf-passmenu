@@ -1,0 +1,47 @@
+#!/bin/sh
+
+export FZF_PROMPT="find password >"
+
+PASSFILE=$1
+if [ "$(basename $0)" = "fzf-passmenu-passonly" ]; then
+    PASSONLY=passonly
+fi
+prefix=$(readlink -f ${PASSWORD_STORE_DIR-~/.password-store})
+
+if [ -z "$PASSFILE" ]; then
+    find $prefix -type f -name "*.gpg" -not -path "$prefix/notes/*" | \
+        sed "s|$prefix/||g" | sed 's|.gpg$||g' | \
+        fzf-fzf | \
+        xargs -r -I{} echo "$0 {} $PASSONLY" | \
+        launch
+    exit
+fi
+
+if [ "$PASSFILE" = "" ]; then
+  exit
+fi
+
+error_icon=~/Pictures/icons/essential/error.svg
+
+getlogin() {
+  echo -n $(basename "$1")
+}
+
+getpass() {
+  echo "gpg --decrypt \"$prefix/$1.gpg\"" > /tmp/getpass.txt
+  echo -n $(gpg --decrypt "$prefix/$1.gpg" 2>/dev/null | head -1)
+}
+
+login=$(getlogin "$PASSFILE")
+pass=$(getpass "$PASSFILE")
+
+if [ "$pass" = "" ]; then
+  notify-send -i $error_icon -a "Password store" -u critical "Decrypt error" "Error decrypting password file, is your gpg card inserted?"
+else
+  if [ -z "$PASSONLY" ]; then
+    echo -n $login | xdotool type --clearmodifiers --file -
+    xdotool key Tab
+  fi
+  echo -n $pass | xdotool type --clearmodifiers --file -
+  xdotool key Return
+fi

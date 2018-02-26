@@ -1,0 +1,13 @@
+#!/bin/sh
+
+CMD=$1
+shift
+
+#exec alacritty -t "fzf-window" \
+#     --config-file ~/.config/alacritty/alacritty-fzf.yml \
+#     -e /usr/bin/zsh -c "$CMD $@"; kill \$PPID"
+if ps aux | grep '\-c fzf-window' | grep -v grep 2>&1 > /dev/null; then
+    exit
+fi
+exec st-hidpi -c "fzf-window" \
+     -e /usr/bin/zsh -c "$CMD $@"
