@@ -69,6 +69,7 @@ bindsym XF86MonBrightnessDown exec xbacklight -dec 10 # decrease screen brightne
 
 # External monitor on/off (work)
 bindsym $mod+Shift+o exec --no-startup-id "~/.i3/external_display left && touch ~/Pictures/lock.jpg"
+bindsym $mod+Ctrl+o exec --no-startup-id "~/.i3/external_display right && touch ~/Pictures/lock.jpg"
 bindsym $mod+Shift+x exec --no-startup-id "~/.i3/external_display off"
 
 # start rofi (as a program launcher)
