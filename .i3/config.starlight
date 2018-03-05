@@ -8,7 +8,7 @@ set $text-color #fdf6e3
 set $inactive-text-color #839496
 set $urgent-bg-color #d24939
 set $selected-color #9999FF
-set $font pango:System San Francisco Display, Awesome Bold 9
+set $font pango:System San Francisco Display, FontAwesome Bold 9
 set $lockcmd /usr/local/bin/lockscreen -k --force-clock -t -e -i /home/john/Pictures/lock.jpg --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=ffffff80 --ringvercolor=ffffff00 --separatorcolor=22222260 --insidevercolor=ffffff1c --ringwrongcolor=ffcccc55 --insidewrongcolor=ffffff1c --timecolor=ffffffff --datecolor=ffffffff --layoutcolor=ffffffff --verifcolor=ffffffff --timepos="100:50"
 
 
