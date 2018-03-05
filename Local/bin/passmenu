@@ -1,5 +1,6 @@
 #!/bin/sh
 
+setxkbmap ## fix issue with keyboard layout not being recognized
 PASSONLY=$1
 
 prefix=$(readlink -f ${PASSWORD_STORE_DIR-~/.password-store})

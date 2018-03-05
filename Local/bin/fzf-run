@@ -1,6 +1,6 @@
 #!/bin/sh
 
-export FZF_PROMPT="run program >"
+export FZF_PROMPT="run >"
 export _SET_WS_NAME=y
 
 /usr/bin/zsh -c "whence -pm '*'" | \

@@ -1,6 +1,7 @@
 #!/bin/sh
 
-export FZF_PROMPT="find password >"
+setxkbmap ## fix issue with keyboard layout not being recognized
+export FZF_PROMPT="type password >"
 
 PASSFILE=$1
 if [ "$(basename $0)" = "fzf-passmenu-passonly" ]; then

@@ -3,7 +3,7 @@
 DB=$HOME/.mozilla/firefox/*.dev-edition-default-*/places.sqlite
 SELECT="select title, url from moz_places ORDER BY last_visit_date DESC"
 
-export FZF_PROMPT="url history >"
+export FZF_PROMPT="browser history >"
 export FZF_MARGIN=0,0,0,0
 export FZF_HEIGHT=0
 export FZF_MIN_HEIGHT=0
