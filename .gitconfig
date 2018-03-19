@@ -6,7 +6,7 @@
   editor = TERM=xterm-24bits emacsclient -a "" -t
 [push]
   # only push current branch to tracking branch
-  default = tracking
+  default = upstream
 [merge]
   tool = fugitive
   conflictstyle = diff3
