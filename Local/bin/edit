@@ -2,7 +2,9 @@
 
 if [ "$(basename $0)" = "edit" ]; then
   exec emacsclient -n -a "" -c $@ 2>&1 >/dev/null
-else
+elif [ "$(basename $0)" = "edi" ]; then
   export TERM=xterm-24bits
   exec emacsclient -a "" -t $@
+else
+  exec emacsclient -a "" -c $@ 2>&1 >/dev/null
 fi

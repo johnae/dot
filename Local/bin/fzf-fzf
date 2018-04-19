@@ -1,15 +1,15 @@
 #!/bin/sh
 
+env > /tmp/fzf-env
+
 FZF_HEIGHT=${FZF_HEIGHT:-100}
 FZF_MIN_HEIGHT=${FZF_MIN_HEIGHT:-100}
-FZF_COLOR=${FZF_COLOR:-bw}
 FZF_MARGIN=${FZF_MARGIN:-5,5,5,5}
 FZF_PROMPT=${FZF_PROMPT:- >}
 FZF_OPTS=${FZF_OPTS:-"--reverse"}
 
 exec fzf --height=$FZF_HEIGHT \
     --min-height=$FZF_MIN_HEIGHT \
-    --color=$FZF_COLOR \
     --margin=$FZF_MARGIN \
     --prompt="$FZF_PROMPT" \
     --tac

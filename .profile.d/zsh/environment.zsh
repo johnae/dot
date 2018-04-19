@@ -1,2 +1,2 @@
-export VISUAL=edit
+export VISUAL=ed
 export EDITOR="$VISUAL"

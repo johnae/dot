@@ -84,46 +84,37 @@ render_timer: false
 # and cursor.background colors, otherwise invert the colors of the cursor.
 custom_cursor_colors: false
 
-# background_opacity: 0.95
-
-# Base16 Grayscale Light 256 - alacritty color config
-# Alexandre Gavioli (https://github.com/Alexx2/)
+# Base16 Tomorrow 256 - alacritty color config
+# Chris Kempson (http://chriskempson.com)
 colors:
   # Default colors
   primary:
-    background: '0xf7f7f7'
-    foreground: '0x464646'
-
+    background: '0xffffff'
+    foreground: '0x4d4d4c'
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
-    text: '0xf7f7f7'
-    cursor: '0x464646'
-
+    text: '0xffffff'
+    cursor: '0x4d4d4c'
   # Normal colors
   normal:
-    black:   '0xf7f7f7'
-    red:     '0x7c7c7c'
-    green:   '0x8e8e8e'
-    yellow:  '0xa0a0a0'
-    blue:    '0x686868'
-    magenta: '0x747474'
-    cyan:    '0x868686'
-    white:   '0x464646'
-
+    black:   '0xffffff'
+    red:     '0xc82829'
+    green:   '0x718c00'
+    yellow:  '0xeab700'
+    blue:    '0x4271ae'
+    magenta: '0x8959a8'
+    cyan:    '0x3e999f'
+    white:   '0x4d4d4c'
   # Bright colors
   bright:
-    black:   '0xababab'
-    red:     '0x7c7c7c'
-    green:   '0x8e8e8e'
-    yellow:  '0xa0a0a0'
-    blue:    '0x686868'
-    magenta: '0x747474'
-    cyan:    '0x868686'
-    white:   '0x464646'
-
-
-
-
+    black:   '0x8e908c'
+    red:     '0xc82829'
+    green:   '0x718c00'
+    yellow:  '0xeab700'
+    blue:    '0x4271ae'
+    magenta: '0x8959a8'
+    cyan:    '0x3e999f'
+    white:   '0x4d4d4c'
 
 
     ## Default colors

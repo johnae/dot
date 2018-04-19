@@ -38,7 +38,7 @@ TODAY=$(date +%Y%m%d)
 for i in {0..7}; do ((keep[$(date +%Y%m%d -d "-$i day")]++)); done
 
 HOSTNAME=$(hostname)
-BASEDIR=Backup
+BASEDIR=/storage
 NOLEADINGSLASH=$(echo $SOURCE | sed -s 's|^\/||g')
 BACKUP=$BASEDIR/$HOSTNAME/$NOLEADINGSLASH
 SSH="ssh -i $HOME/.ssh/id_rsa_backup"
