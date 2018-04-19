@@ -3,7 +3,8 @@
   email = john@insane.se
   signingkey = 0x04ED6F42C62F42E9
 [core]
-  editor = TERM=xterm-24bits emacsclient -a "" -t
+  editor = TERM=xterm-24
+  editor = emacsclient -c
 [push]
   # only push current branch to tracking branch
   default = upstream
@@ -41,4 +42,4 @@
 [rebase]
   autoStash = true
 [url "git@github.com:"]
-	insteadOf = https://github.com/
+  insteadOf = https://github.com/
