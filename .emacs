@@ -25,7 +25,7 @@
  '(eclim-executable "~/.p2/pool/plugins/org.eclim_2.7.1/bin/eclim")
  '(eclimd-default-workspace "~/Development")
  '(package-selected-packages
-   '(frames-only-mode stickyfunc-enhance tao-theme base16-theme scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
+   '(frames-only-mode stickyfunc-enhance base16-theme scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
  '(tramp-syntax 'default nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -88,7 +88,6 @@
 (use-package base16-theme
   :ensure t
   :config
-  (load-theme (intern (concat "base16-" (or (getenv "THEME") "grayscale-light"))))
   )
 
 (use-package ivy
@@ -140,7 +139,6 @@
 (use-package airline-themes
   :ensure t
   :config
-  (load-theme (intern (concat "airline-" (or (getenv "AIRLINETHEME") "solarized-gui"))))
   :after (base16-theme powerline))
 
 (use-package magit
@@ -811,6 +809,8 @@ associated with the original non-sudo filename."
     (add-to-list 'default-frame-alist '(font . "Source Code Pro-28"))
     (set-face-attribute 'default t :font "Source Code Pro-28")))
 
+(add-hook 'after-init-hook (lambda () (load-theme (intern (concat "base16-" (or (getenv "THEME") "grayscale-light"))))))
+(add-hook 'after-init-hook (lambda () (load-theme (intern (concat "airline-" (or (getenv "AIRLINETHEME") "solarized-gui"))))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
