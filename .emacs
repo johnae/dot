@@ -20,12 +20,12 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(custom-safe-themes
-   '("8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default))
+   '("721bb3cb432bb6be7c58be27d583814e9c56806c06b4077797074b009f322509" "ef04dd1e33f7cbd5aa3187981b18652b8d5ac9e680997b45dc5d00443e6a46e3" "0e0c37ee89f0213ce31205e9ae8bce1f93c9bcd81b1bcda0233061bb02c357a8" "086970da368bb95e42fd4ddac3149e84ce5f165e90dfc6ce6baceae30cf581ef" "12670281275ea7c1b42d0a548a584e23b9c4e1d2dabb747fd5e2d692bcd0d39b" "e1498b2416922aa561076edc5c9b0ad7b34d8ff849f335c13364c8f4276904f0" "760ce657e710a77bcf6df51d97e51aae2ee7db1fba21bbad07aab0fa0f42f834" "69e7e7069edb56f9ed08c28ccf0db7af8f30134cab6415d5cf38ec5967348a3c" "fec45178b55ad0258c5f68f61c9c8fd1a47d73b08fb7a51c15558d42c376083d" "cea3ec09c821b7eaf235882e6555c3ffa2fd23de92459751e18f26ad035d2142" "e30f381d0e460e5b643118bcd10995e1ba3161a3d45411ef8dfe34879c9ae333" "c79c2eadd3721e92e42d2fefc756eef8c7d248f9edefd57c4887fbf68f0a17af" "d21135150e22e58f8c656ec04530872831baebf5a1c3688030d119c114233c24" "c616e584f7268aa3b63d08045a912b50863a34e7ea83e35fcab8537b75741956" "b563a87aa29096e0b2e38889f7a5e3babde9982262181b65de9ce8b78e9324d5" "25c242b3c808f38b0389879b9cba325fb1fa81a0a5e61ac7cae8da9a32e2811b" "2a998a3b66a0a6068bcb8b53cd3b519d230dd1527b07232e54c8b9d84061d48d" "78c1c89192e172436dbf892bd90562bc89e2cc3811b5f9506226e735a953a9c6" "0c3b1358ea01895e56d1c0193f72559449462e5952bded28c81a8e09b53f103f" "527df6ab42b54d2e5f4eec8b091bd79b2fa9a1da38f5addd297d1c91aa19b616" "36746ad57649893434c443567cb3831828df33232a7790d232df6f5908263692" "3fa07dd06f4aff80df2d820084db9ecbc007541ce7f15474f1d956c846a3238f" "b59d7adea7873d58160d368d42828e7ac670340f11f36f67fa8071dbf957236a" "8cf1002c7f805360115700144c0031b9cfa4d03edc6a0f38718cef7b7cabe382" "64ca5a1381fa96cb86fd6c6b4d75b66dc9c4e0fc1288ee7d914ab8d2638e23a9" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "af717ca36fe8b44909c984669ee0de8dd8c43df656be67a50a1cf89ee41bde9a" "a94f1a015878c5f00afab321e4fef124b2fc3b823c8ddd89d360d710fc2bddfc" "9b1c580339183a8661a84f5864a6c363260c80136bd20ac9f00d7e1d662e936a" "251348dcb797a6ea63bbfe3be4951728e085ac08eee83def071e4d2e3211acc3" "3eb93cd9a0da0f3e86b5d932ac0e3b5f0f50de7a0b805d4eb1f67782e9eb67a4" "2b8dff32b9018d88e24044eb60d8f3829bd6bbeab754e70799b78593af1c3aba" "b181ea0cc32303da7f9227361bb051bbb6c3105bb4f386ca22a06db319b08882" default))
  '(eclim-eclipse-dirs '("~/eclipse/java-oxygen/eclipse"))
  '(eclim-executable "~/.p2/pool/plugins/org.eclim_2.7.1/bin/eclim")
  '(eclimd-default-workspace "~/Development")
  '(package-selected-packages
-   '(scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
+   '(frames-only-mode stickyfunc-enhance tao-theme base16-theme scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes moonscriT LUA-mode json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
  '(tramp-syntax 'default nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -78,11 +78,17 @@
         which-key-idle-delay 0.05)
   )
 
-(use-package ranger :ensure t
+(use-package ranger
+  :ensure t
   :commands (ranger)
   :bind (("C-x d" . deer))
   :config
-  (setq ranger-cleanup-eagerly t)
+  (setq ranger-cleanup-eagerly t))
+
+(use-package base16-theme
+  :ensure t
+  :config
+  (load-theme (intern (concat "base16-" (or (getenv "THEME") "grayscale-light"))))
   )
 
 (use-package ivy
@@ -121,16 +127,6 @@
   :ensure t
   :mode "Dockerfile.*")
 
-(use-package solarized-theme
-  :ensure t
-  :init
-  :config
-  (setq solarized-distinct-fringe-background t
-        solarized-use-variable-pitch nil
-        solarized-high-contrast-mode-line t
-        x-underline-at-descent-line t)
-  (load-theme 'solarized-dark))
-
 (use-package powerline
   :init
   :ensure t
@@ -144,7 +140,8 @@
 (use-package airline-themes
   :ensure t
   :config
-  (load-theme 'airline-dark))
+  (load-theme (intern (concat "airline-" (or (getenv "AIRLINETHEME") "solarized-gui"))))
+  :after (base16-theme powerline))
 
 (use-package magit
   :ensure t
@@ -374,11 +371,6 @@ See URL `https://github.com/nilnor/moonpick'."
   :config
   (flycheck-checkbashisms-setup))
 
-;;(use-package flycheck-kotlin
-;;  :ensure t
-;;  :config
-;;  (flycheck-kotlin-setup))
-
 (use-package company-shell
   :ensure t
   :config)
@@ -414,12 +406,6 @@ See URL `https://github.com/nilnor/moonpick'."
 
 (use-package ob-go
   :ensure t)
-
-;;(use-package ob-kotlin
-;;  :ensure t)
-
-;;(use-package ob-typescript
-;;  :ensure t)
 
 (setq org-agenda-files '("~/Dropbox/org/"))
 
@@ -469,8 +455,7 @@ See URL `https://github.com/nilnor/moonpick'."
 (org-babel-do-load-languages
  'org-babel-load-languages
  '((R . t)
-   (emacs-lisp . nil)
-   ))
+   (emacs-lisp . nil)))
 
 (use-package evil-org
   :ensure t
@@ -490,21 +475,6 @@ See URL `https://github.com/nilnor/moonpick'."
   "Return the default todos filepath."
   (interactive)
   (find-file (expand-file-name "~/Dropbox/org/todos.org")))
-
-;;(use-package calfw
-;;  :ensure t
-;;  :config
-;;  (require 'calfw)
-;;  (require 'calfw-org)
-;;  (setq cfw:org-overwrite-default-keybinding t)
-;;  (defun mycalendar ()
-;;    (interactive)
-;;    (cfw:open-calendar-buffer
-;;     :contents-sources
-;;     (list
-;;      (cfw:org-create-source "Green")  ; orgmode source
-;;      )))
-;;  (setq cfw:org-overwrite-default-keybinding t))
 
 (use-package org-bullets
   :ensure t
@@ -547,13 +517,6 @@ See URL `https://github.com/nilnor/moonpick'."
   :init
   (setq alert-default-style 'libnotify))
 
-;; (use-package org-alert
-;;   :ensure t
-;;   :init
-;;   (setq org-alert-notification-title "Todos")
-;;   :config
-;;   (org-alert-enable))
-
 (use-package syndicate
   :ensure t)
 
@@ -580,6 +543,11 @@ See URL `https://github.com/nilnor/moonpick'."
   (add-hook 'slime-repl-mode-hook 'set-up-slime-ac)
   (eval-after-load "auto-complete"
     '(add-to-list 'ac-modes 'slime-repl-mode)))
+
+(use-package frames-only-mode
+  :ensure t
+  :config
+  (frames-only-mode))
 
 (use-package undo-tree
   :ensure t
@@ -674,8 +642,8 @@ associated with the original non-sudo filename."
 (setq make-backup-files nil) ; don't create backup~ files
 (setq auto-save-default nil) ; don't create #autosave# files
 
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-12"))
-(set-face-attribute 'default t :font "Source Code Pro-12")
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+(set-face-attribute 'default t :font "Source Code Pro-14")
 
 (setq european-date-style 'european)
 (setq calendar-set-date-style 'european)
