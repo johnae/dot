@@ -1,0 +1,8 @@
+#!/bin/sh
+
+set -x
+
+TH=$(basename $0 | sed 's|terminal||g')
+
+CONFIG=$HOME/.config/alacritty/alacritty$TH.yml
+alacritty --config-file $CONFIG $@
