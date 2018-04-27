@@ -3,7 +3,6 @@
 CMD=$@
 
 if [ -z "$CMD" ]; then
-    stty min 0 time 5
     read CMD
 fi
 

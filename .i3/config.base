@@ -12,13 +12,16 @@ bindsym $mod+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal
 bindsym $mod+Shift+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal-light
 
 # start a light + large font terminal
-bindsym $mod+Control+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal-light-large
+bindsym $mod+Control+Return exec _SET_WS_NAME=y _USE_NAME=term launch $terminal-large
 
 # passmenu
 bindsym $mod+minus exec fzf-window fzf-passmenu
 
 # passmenu pass only
 bindsym $mod+Shift+minus exec fzf-window fzf-passmenu-passonly
+
+# passmenu pass only no submit
+bindsym $mod+Control+minus exec NOSUBMIT=y fzf-window fzf-passmenu-passonly
 
 # create new password input
 bindsym $mod+Shift+m exec input-window "read-input login | xargs -I{} new-password {}"

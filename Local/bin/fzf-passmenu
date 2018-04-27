@@ -44,5 +44,7 @@ else
     xdotool key Tab
   fi
   echo -n $pass | xdotool type --clearmodifiers --file -
-  xdotool key Return
+  if [ -z "$NOSUBMIT" ]; then
+      xdotool key Return
+  fi
 fi
