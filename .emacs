@@ -642,8 +642,8 @@ associated with the original non-sudo filename."
 (setq make-backup-files nil) ; don't create backup~ files
 (setq auto-save-default nil) ; don't create #autosave# files
 
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
-(set-face-attribute 'default t :font "Source Code Pro-14")
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
+(set-face-attribute 'default t :font "Source Code Pro-16")
 
 (setq european-date-style 'european)
 (setq calendar-set-date-style 'european)
