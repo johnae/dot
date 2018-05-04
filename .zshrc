@@ -1,4 +1,5 @@
 export ZSH=$HOME/.profile.d
+export LZSH=$HOME/.profile.local.d
 export TERM="xterm-256color"
 
 setopt promptsubst
@@ -18,6 +19,9 @@ fi
 typeset -U config_files
 config_files=($ZSH/**/*.zsh(N))
 
+typeset -U local_config_files
+local_config_files=($LZSH/**/*.zsh(N))
+
 hn=$(hostname)
 typeset -U host_config_files
 host_config_files=($ZSH/**/*.zsh.$hn(N))
@@ -28,8 +32,18 @@ do
   source $file
 done
 
+for file in ${(M)local_config_files:#*/path.zsh}
+do
+  source $file
+done
+
 # load functions
 for file in ${(M)config_files:#*/functions.zsh}
+do
+  source $file
+done
+
+for file in ${(M)local_config_files:#*/functions.zsh}
 do
   source $file
 done
@@ -54,6 +68,12 @@ done
 
 # load everything host specific but paths and functions
 for file in ${${host_config_files:#*/path.zsh.$hn}:#*/functions.zsh.$hn}
+do
+  source $file
+done
+
+# load everything local
+for file in ${${local_confi_files:#*/path.zsh}:#*/functions.zsh}
 do
   source $file
 done
