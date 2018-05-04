@@ -25,7 +25,7 @@
  '(eclim-executable "~/.p2/pool/plugins/org.eclim_2.7.1/bin/eclim")
  '(eclimd-default-workspace "~/Development")
  '(package-selected-packages
-   '(frames-only-mode stickyfunc-enhance base16-theme scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
+   '(string-inflection frames-only-mode stickyfunc-enhance base16-theme scala-mode company-emacs-eclim eclim cider clojure-mode lua-mode moonscript flx-ido nim-mode js2-mode ob-zsh ob-bash ob-go org-alert alert org-jira sudo-save flycheck-status-emoji parinfer go-guru go-eldoc flycheck-popup-tip flycheck-clojure flycheck-inline flycheck-checkbashisms flycheck-rust flycheck-pos-tip flycheck-color-mode-line telephone-line telephone-line-config auto-package-update syndicate evil-org evil-org-mode evil-magit ranger which-key direnv git-gutter-fringe diff-hl diff-hl-mode linum-relative flycheck-gometalinter racer rust-mode org-present-mode epresent ivy evil-nerd-commenter company-statistics go-mode company-shell company-go git-gutter-fringe+ fringe-helper git-gutter+ company-quickhelp helm-company elm-mode nlinum-hl helm-ag helm-projectile zoom-window yaml-mode prog-mode org-bullets highlight-numbers markdown-mode dockerfile-mode nlinum nlinum-relative ac-slime web-mode auto-complete ethan-wspace groovy-mode airline-themes json-mode git-gutter evil-leader lua intero powerline evil helm magit use-package))
  '(tramp-syntax 'default nil (tramp)))
 
 (defun prelude-packages-installed-p ()
@@ -303,7 +303,18 @@
   :config
   (setq js2-strict-missing-semi-warning nil)
   (setq js2-missing-semi-one-line-override t)
+  (setq js-indent-level 2)
   (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
+
+;; Cycle between snake case, camel case, etc.
+(use-package string-inflection
+  :ensure t
+  :config
+  (global-set-key (kbd "C-c i") 'string-inflection-cycle)
+  (global-set-key (kbd "C-c C") 'string-inflection-camelcase)        ;; Force to CamelCase
+  (global-set-key (kbd "C-c L") 'string-inflection-lower-camelcase)  ;; Force to lowerCamelCase
+  (global-set-key (kbd "C-c J") 'string-inflection-java-style-cycle) ;; Cycle through Java styles
+  )
 
 (use-package flycheck
   :ensure t
