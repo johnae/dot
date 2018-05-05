@@ -73,7 +73,7 @@ do
 done
 
 # load everything local
-for file in ${${local_confi_files:#*/path.zsh}:#*/functions.zsh}
+for file in ${${local_config_files:#*/path.zsh}:#*/functions.zsh}
 do
   source $file
 done
