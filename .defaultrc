@@ -1,5 +1,10 @@
 _NVIM=/usr/bin/nvim
 _FZFSH=/usr/share/fzf
+for SPATH in ${(s.:.)XDG_DATA_DIRS}; do
+  if [ -e "$SPATH/fzf" ]; then
+    _FZFSH=$SPATH/fzf
+  fi
+done
 
 export VISUAL=vim
 export EDITOR=$VISUAL
