@@ -13,3 +13,12 @@ fi
 echo "" >> $HOME/.i3/config
 echo "## config.base" >> $HOME/.i3/config
 cat $HOME/.i3/config.base >> $HOME/.i3/config
+
+echo "" >> $HOME/.i3/config
+if [ -e $HOME/.i3/bar.$HN ]; then
+  echo "## bar.$HN" >> $HOME/.i3/config
+  cat $HOME/.i3/bar.$HN >> $HOME/.i3/config
+else
+  echo "## bar.default" >> $HOME/.i3/config
+  cat $HOME/.i3/bar.default >> $HOME/.i3/config
+fi

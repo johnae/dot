@@ -1,7 +1,6 @@
 #!/bin/sh
 
-GPG2=/usr/bin/gpg2
-command -v $GPG2 > /dev/null 2>&1 || { echo >&2 "'$GPG2' is required for this script. Aborting."; exit 1; } 
+command -v gpg2 > /dev/null 2>&1 || { echo >&2 "'$GPG2' is required for this script. Aborting."; exit 1; } 
 
 echo "Removing cached keys and restarting gpg-agent"
 rm -rf ~/.gnupg/private-keys-v1.d && killall gpg-agent && source ~/.profile.d/gnupg/start.zsh

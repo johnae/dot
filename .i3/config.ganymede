@@ -1,0 +1,71 @@
+# alt would be Mod1
+set $mod Mod4
+
+set $darkbase00 #101010
+set $darkbase01 #252525
+set $darkbase02 #464646
+set $darkbase03 #525252
+set $darkbase04 #ababab
+set $darkbase05 #b9b9b9
+set $darkbase06 #e3e3e3
+set $darkbase07 #f7f7f7
+set $darkbase08 #7c7c7c
+set $darkbase09 #999999
+set $darkbase0A #a0a0a0
+set $darkbase0B #8e8e8e
+set $darkbase0C #868686
+set $darkbase0D #686868
+set $darkbase0E #747474
+set $darkbase0F #5e5e5e
+
+#
+# You can use these variables anywhere in the i3 configuration file.
+set $base00 #f7f7f7
+set $base01 #e3e3e3
+set $base02 #b9b9b9
+set $base03 #ababab
+set $base04 #525252
+set $base06 #252525
+set $base07 #101010
+set $base08 #7c7c7c
+set $base09 #999999
+set $base0A #a0a0a0
+set $base0B #8e8e8e
+set $base0C #868686
+set $base0D #686868
+set $base0E #747474
+set $base0F #5e5e5e
+
+set $base00 #fcfcfc
+set $base01 #fafafa
+set $base02 #f6f6f6
+set $base03 #f1f1f1
+set $base04 #e8e8e8
+set $base05 #464646
+#set $base05 #dadada
+set $base06 #c3c3c3
+set $base07 #9e9e9e
+set $base08 #616161
+set $base09 #3c3c3c
+set $base0A #252525
+set $base0B #171717
+set $base0C #0e0e0e
+set $base0D #090909
+set $base0E #050505
+set $base0F #5e5e5e
+
+
+set $bg-color #4A90E2
+set $border-color $bg-color
+set $inactive-bg-color #000000
+set $text-color #fdf6e3
+set $inactive-text-color #839496
+set $urgent-bg-color #d24939
+set $selected-color #9999FF
+set $font pango:System San Francisco Display, FontAwesome 9
+set $lockcmd /usr/local/bin/lockscreen -k --force-clock -t -e -i /home/john/Pictures/lock.jpg --insidecolor=ffffff1c --ringcolor=ffffff3e --linecolor=ffffff00 --keyhlcolor=ffffff80 --ringvercolor=ffffff00 --separatorcolor=22222260 --insidevercolor=ffffff1c --ringwrongcolor=ffcccc55 --insidewrongcolor=ffffff1c --timecolor=ffffffff --datecolor=ffffffff --layoutcolor=ffffffff --verifcolor=ffffffff --timepos="100:50"
+
+set $terminal terminal
+
+# lock screen
+bindsym Control+$mod+l exec loginctl lock-session
