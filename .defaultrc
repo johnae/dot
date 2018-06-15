@@ -1,10 +1,10 @@
 _NVIM=/usr/bin/nvim
 _FZFSH=/usr/share/fzf
-for SPATH in ${(s.:.)XDG_DATA_DIRS}; do
+while IFS=: read -d: -r SPATH; do
   if [ -e "$SPATH/fzf" ]; then
     _FZFSH=$SPATH/fzf
   fi
-done
+done <<< "${XDG_DATA_DIRS:+"${XDG_DATA_DIRS}:"}"
 
 export VISUAL=vim
 export EDITOR=$VISUAL
