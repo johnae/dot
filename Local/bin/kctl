@@ -1,0 +1,17 @@
+#!/bin/sh
+
+TUNNEL=kubetunnel
+
+if [ "$1" = "stop-tunnel" ]; then
+  if ssh -O check $TUNNEL 2>&1 > /dev/null; then
+    ssh -O exit $TUNNEL
+  fi
+  exit
+fi
+
+if ! ssh -qf -N $TUNNEL 2>&1 > /dev/null; then
+  echo "ERROR: couldn't start $TUNNEL" >&2
+  exit 1
+fi
+
+kubectl --server=https://127.0.0.1:6443 --insecure-skip-tls-verify=true $@
