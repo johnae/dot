@@ -10,6 +10,12 @@ export EDITOR=$VISUAL
 export _SCALING=2
 export PROJECTS=~/Development
 
+if command -v firefox-developer-edition > /dev/null; then
+  export BROWSER=firefox-developer-edition
+elif command -v firefox > /dev/null; then
+  export BROWSER=firefox
+fi
+
 if [ -e .config/syncthing/config.xml ]; then
    SYNCTHING_API_KEY=$(cat .config/syncthing/config.xml | grep apikey | awk -F">|</" '{print $2}')
    if [ "$SYNCTHING_API_KEY" != "" ]; then
