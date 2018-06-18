@@ -4,10 +4,18 @@ if command -v fzf-share 2>&1 >/dev/null; then
   _FZFSH=$(fzf-share)
 fi
 
+export QT_STYLE_OVERRIDE=gtk
 export VISUAL=vim
 export EDITOR=$VISUAL
 export _SCALING=2
 export PROJECTS=~/Development
+
+if [ -e .config/syncthing/config.xml ]; then
+   SYNCTHING_API_KEY=$(cat .config/syncthing/config.xml | grep apikey | awk -F">|</" '{print $2}')
+   if [ "$SYNCTHING_API_KEY" != "" ]; then
+      export SYNCTHING_API_KEY
+   fi
+fi
 
 ## only do this when logged in over ssh
 if [ ! -z "$SSH_CONNECTION" ]; then
