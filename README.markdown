@@ -1,4 +1,4 @@
-# My Dotfiles
+# My Dotfiles (and nix expressions)
 
 These are the dotfiles I use to customize Arch Linux (mostly). I used to use something called homeshick which linked files into my home but I've since opted to use an arguably simpler approach.
 
@@ -8,6 +8,16 @@ The ```.profile.d``` has been divided up into many files named by feature and co
 eg ```path.zsh``` sets up the path. Those, by the way, always run first. ```aliases.zsh``` sets up some aliases. Should be pretty straightforward.
 
 See ```.zshrc``` for the ordering and how it runs. There's also hostname based config files.
+
+## Emacs
+
+See [README.org](.config/nixpkgs/packages/emacs/README.org) for emacs configuration - handled through the [nix package manager](https:nixos.org). Emacs configuration is untangled from that org file. Install it like this:
+
+`nix-env -iA nixos.my-emacs`
+
+or if not on NixOS:
+
+`nix-env -iA nixpkgs.my-emacs`
 
 
 ## Installation
@@ -42,31 +52,6 @@ home push
 
 Etc. It's just git with some special env vars for management. It's all in the repo files.
 
-## Neovim bootstrap
-
-I'm using dein, https://github.com/Shougo/dein.vim, to manage plugins. This needs to be somewhat manually installed first. Like this (when in home dir):
-
-```sh
-curl https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh > /tmp/dein-installer.sh
-sh /tmp/dein-installer.sh .cache/dein
-```
-
-You will also want to install python2 and python3 + pip (for https://github.com/Shougo/deoplete.nvim). Then for both 2 and 3 install neovim. Probably a user install, like this:
-
-```sh
-pip install --user neovim ## for python2.x
-pip3 install --user neovim ## for python3.x
-```
-
-The golang completion uses gocode (see https://github.com/zchee/deoplete-go). That can be installed like this:
-
-```sh
-go get -u github.com/nsf/gocode
-```
-
-One neovim caveat is currently that if neovim is opened when CWD=$HOME it won't be able to install plugins because GIT_DIR and GIT_WORK_TREE will be set
-for home git repo (and will interfere with deins pulling of plugins). The reason it is this way (for now anyway) is that I enjoy git gutter in vim even
-for the things I change in my dotfiles. Maybe there's a workaround I'll implement sometime.
 
 ## Local settings
 
