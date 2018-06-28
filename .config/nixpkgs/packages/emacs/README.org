@@ -2,12 +2,12 @@
 #+AUTHOR: John Axel Eriksson
 
 This is my emacs configuration in the form of an org file. It is meant to be used with org babel tangle
-to extract the actual configuration (to default.el). Since I also use (NixOS)[https://nixos.org] (and/or
+to extract the actual configuration (to default.el). Since I also use [[https://nixos.org][NixOS]] (and/or
 the nix package manager) it is together with nix expressions this is meant to happen. Basically - this
 should (and does) work nicely as a nix overlay.
 
 
-### Early init
+** Early init
 
 First off, some tricks to speed up emacs initialization. Upping the gc threshold means we should
 be able to avoid garbage collection (several times) during initialization.
@@ -34,7 +34,7 @@ during initialization.
 #+END_SRC
 
 
-### Initialization of packages
+** Initialization of packages
 
 Now we disable all package archives so that we can completely rely on the nix expressions
 for package installation.
@@ -46,7 +46,7 @@ for package installation.
 #+END_SRC
 
 
-Initialize use-package.
+Initialize [[https://github.com/jwiegley/use-package][use-package]].
 
 #+BEGIN_SRC elisp :tangle default.el
 (eval-and-compile
@@ -57,9 +57,9 @@ Initialize use-package.
 #+END_SRC
 
 
-### Packages
+** Packages
 
-The famous [org mode](https://orgmode.org/). Default settings I use and stuff.
+The famous [[https://orgmode.org/][org mode]]. Default settings I use and stuff.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package org
@@ -126,7 +126,7 @@ normally use, this isn't a problem.
 #+END_SRC
 
 
-So (evil)[https://github.com/emacs-evil/evil] is vim for emacs. A better vim basically ;-).
+So [[https://github.com/emacs-evil/evil][evil]] is vim for emacs. A better vim basically ;-).
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; vim for emacs
@@ -147,8 +147,8 @@ So (evil)[https://github.com/emacs-evil/evil] is vim for emacs. A better vim bas
   (define-key evil-normal-state-map (kbd ", <RET>") 'projectile-ag))
 #+END_SRC
 
-[Evil nerd commenter](https://github.com/redguardtoo/evil-nerd-commenter) let's me comment out one of more lines. In
-Evil mode this is done using C-c i (multiple lines by selecting a region). A reimplementation of the vim version.
+[[https://github.com/redguardtoo/evil-nerd-commenter][Evil nerd commenter]] let's me comment out one of more lines. In Evil mode this is done using
+C-c i (multiple lines by selecting a region). A reimplementation of the vim version.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package evil-nerd-commenter
@@ -158,7 +158,7 @@ Evil mode this is done using C-c i (multiple lines by selecting a region). A rei
 #+END_SRC
 
 
-Evil keybindings for [org-mode](https://orgmode.org/). See [https://github.com/Somelauw/evil-org-mode](https://github.com/Somelauw/evil-org-mode). Yay.
+Evil keybindings for [[https://orgmode.org/][org-mode]]. See [[https://github.com/Somelauw/evil-org-mode][https://github.com/Somelauw/evil-org-mode]]. Yay.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package evil-org
@@ -179,7 +179,7 @@ Evil keybindings for magit. Woohoo.
 
 
 Which key will show (in a popup) any possible continuations of a currently entered incomplete command.
-See: https://github.com/justbur/emacs-which-key
+See: [[https://github.com/justbur/emacs-which-key][https://github.com/justbur/emacs-which-key]]
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; show unfinished key sequence options automatically
@@ -198,7 +198,7 @@ See: https://github.com/justbur/emacs-which-key
 
 Completion tools.
 
-See: https://github.com/abo-abo/swiper
+See: [[https://github.com/abo-abo/swiper][https://github.com/abo-abo/swiper]]
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; completions
@@ -211,7 +211,7 @@ See: https://github.com/abo-abo/swiper
 
 Counsel integration for projectile.
 
-See: https://github.com/ericdanan/counsel-projectile
+See: [[https://github.com/ericdanan/counsel-projectile][https://github.com/ericdanan/counsel-projectile]]
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; for projects yeah :-)
@@ -223,7 +223,7 @@ See: https://github.com/ericdanan/counsel-projectile
 #+END_SRC
 
 
-See: https://www.emacswiki.org/emacs/PosTip
+See: [[https://www.emacswiki.org/emacs/PosTip][https://www.emacswiki.org/emacs/PosTip]]
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; get tooltips at point
@@ -235,7 +235,7 @@ See: https://www.emacswiki.org/emacs/PosTip
 
 
 For editing html, css etc.
-See: https://github.com/fxbois/web-mode
+See: [[https://github.com/fxbois/web-mode][https://github.com/fxbois/web-mode]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package web-mode
@@ -258,7 +258,7 @@ For editing nix expressions.
 #+END_SRC
 
 
-Allows integrating nix with emacs - project specific. See: [https://github.com/shlevy/nix-buffer](https://github.com/shlevy/nix-buffer).
+Allows integrating nix with emacs - project specific. See: [[https://github.com/shlevy/nix-buffer][https://github.com/shlevy/nix-buffer]].
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; supports using a dir-locals.nix (kind of like a default.nix)
@@ -275,7 +275,7 @@ Allows integrating nix with emacs - project specific. See: [https://github.com/s
 #+END_SRC
 
 
-Magit is possibly the most awesome git integration of any editor out there. It's awesome anyway.
+[[https://magit.vc/][Magit]] is possibly the most awesome git integration of any editor out there. It's awesome anyway.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; the awesome git emacs interface
@@ -316,9 +316,9 @@ Helps with the fringe? :-)
 
 
 Direnv integration for emacs.
-See: https://github.com/wbolster/emacs-direnv
+See: [[https://github.com/wbolster/emacs-direnv][https://github.com/wbolster/emacs-direnv]]
 and ofc
-https://direnv.net/
+[[https://direnv.net/][https://direnv.net/]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package direnv
@@ -391,13 +391,11 @@ Mode for groovy. Disabled atm.
 #+END_SRC
 
 
-Company is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends
+[[http://company-mode.github.io/][Company]] is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends
 and front-ends to retrieve and display completion candidates.
 
 It comes with several back-ends such as Elisp, Clang, Semantic, Eclim, Ropemacs, Ispell, CMake, BBDB, Yasnippet, dabbrev,
 etags, gtags, files, keywords and a few others.
-
-See: http://company-mode.github.io/
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package company
@@ -414,7 +412,7 @@ See: http://company-mode.github.io/
 
 
 Show documentation popups when idling on a completion candidate.
-See: https://github.com/expez/company-quickhelp
+See: [[https://github.com/expez/company-quickhelp][https://github.com/expez/company-quickhelp]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package company-quickhelp
@@ -446,8 +444,7 @@ This allows me to toggle between snake case, camel case etc.
 #+END_SRC
 
 
-Syntax checking for emacs.
-See: http://www.flycheck.org/en/latest/
+[[http://www.flycheck.org/en/latest/][Flycheck]] is "Syntax checking for emacs".
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package flycheck
@@ -506,7 +503,7 @@ This enables syntax checking / linting for moonscript. Defined right here. Disab
 
 
 For showing errors in terminal (pos-tip doesn't do that - see below).
-See: https://github.com/flycheck/flycheck-popup-tip
+See: [[https://github.com/flycheck/flycheck-popup-tip][https://github.com/flycheck/flycheck-popup-tip]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package flycheck-popup-tip)
@@ -514,7 +511,7 @@ See: https://github.com/flycheck/flycheck-popup-tip
 
 
 For showing errors under point. Refers to above for similar terminal functionality.
-See: https://github.com/flycheck/flycheck-pos-tip
+See: [[https://github.com/flycheck/flycheck-pos-tip][https://github.com/flycheck/flycheck-pos-tip]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package flycheck-pos-tip
@@ -571,7 +568,7 @@ Sometimes I edit markdown.
 
 
 Highlights numbers in source code.
-See: https://github.com/Fanael/highlight-numbers
+See: [[https://github.com/Fanael/highlight-numbers][https://github.com/Fanael/highlight-numbers]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package highlight-numbers
@@ -581,7 +578,7 @@ See: https://github.com/Fanael/highlight-numbers
 
 
 UndoTree let's me visualize the past state of a buffer.
-See: https://www.emacswiki.org/emacs/UndoTree
+See: [[https://www.emacswiki.org/emacs/UndoTree][https://www.emacswiki.org/emacs/UndoTree]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package undo-tree
@@ -595,7 +592,7 @@ See: https://www.emacswiki.org/emacs/UndoTree
 
 Frames only mode makes emacs play nicely with tiling window managers (such as i3). It uses
 new operating system windows instead of emacs internal ones.
-See: https://github.com/davidshepherd7/frames-only-mode
+See: [[https://github.com/davidshepherd7/frames-only-mode][https://github.com/davidshepherd7/frames-only-mode]]
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package frames-only-mode
@@ -612,7 +609,7 @@ Using control-x control-z to zoom in / out a window (eg. "fullscreen" it).
 #+END_SRC
 
 
-### Other configuration
+** Other configuration
 
 Define a function to set the powerline theme. This is so that when using emacsclient we
 can just call this rather than duplicate code. So we need to be able to set the theme more
