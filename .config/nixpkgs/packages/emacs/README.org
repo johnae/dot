@@ -223,6 +223,19 @@ See: [[https://github.com/ericdanan/counsel-projectile][https://github.com/ericd
 #+END_SRC
 
 
+This will name buffers with the project relative path to the file name rather than
+just the file name. Useful in larger projects.
+
+#+BEGIN_SRC elisp :tangle default.el
+(defun my-project-relative-buffer-name ()
+  (ignore-errors
+    (rename-buffer
+     (file-relative-name buffer-file-name (projectile-project-root)))))
+
+(add-hook 'find-file-hook #'my-project-relative-buffer-name)
+#+END_SRC
+
+
 See: [[https://www.emacswiki.org/emacs/PosTip][https://www.emacswiki.org/emacs/PosTip]]
 
 #+BEGIN_SRC elisp :tangle default.el
