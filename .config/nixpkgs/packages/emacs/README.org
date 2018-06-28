@@ -1,10 +1,13 @@
 #+TITLE: Emacs configuration
 #+AUTHOR: John Axel Eriksson
 
-This is my emacs configuration in the form of an org file. It is meant to be used with ob-tangle
-to extract the actual configuration (to default.el). Since I also use NixOS it is together with
-nix expressions this is meant to happen.
+This is my emacs configuration in the form of an org file. It is meant to be used with org babel tangle
+to extract the actual configuration (to default.el). Since I also use (NixOS)[https://nixos.org] (and/or
+the nix package manager) it is together with nix expressions this is meant to happen. Basically - this
+should (and does) work nicely as a nix overlay.
 
+
+### Early init
 
 First off, some tricks to speed up emacs initialization. Upping the gc threshold means we should
 be able to avoid garbage collection (several times) during initialization.
@@ -31,6 +34,8 @@ during initialization.
 #+END_SRC
 
 
+### Initialization of packages
+
 Now we disable all package archives so that we can completely rely on the nix expressions
 for package installation.
 
@@ -38,17 +43,6 @@ for package installation.
 ;; Make unpure packages archives unavailable
 (setq package-archives nil)
 (setq package-enable-at-startup nil)
-#+END_SRC
-
-
-We don't want any scratch message at all. Unfortunately, because the emacs devs don't want a sysadmin
-to disable the startup screen for users (or something like that), we can't disable that from here. Must
-be added to a user's .emacs or init.el.
-
-#+BEGIN_SRC elisp :tangle default.el
-;; inhibit-startup-screen has to be in .emacs - see emacs source
-;; for why
-(setq initial-scratch-message "")
 #+END_SRC
 
 
@@ -63,26 +57,9 @@ Initialize use-package.
 #+END_SRC
 
 
-Disable some things I'm not interested in, like tool bars and menu bars.
+### Packages
 
-#+BEGIN_SRC elisp :tangle default.el
-;; No menus or anything like that thanks
-(tool-bar-mode -1)
-;; (scroll-bar-mode -1) ;; scrollbars are still nice though
-(blink-cursor-mode -1)
-(menu-bar-mode -1)
-#+END_SRC
-
-
-This is a nice font :-).
-
-#+BEGIN_SRC elisp :tangle default.el
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
-(set-face-attribute 'default t :font "Source Code Pro-16")
-#+END_SRC
-
-
-The famous org. Default settings I use and stuff.
+The famous [org mode](https://orgmode.org/). Default settings I use and stuff.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package org
@@ -140,8 +117,8 @@ Showing org bullets as utf8 characters seemed like a cool thing.
 #+END_SRC
 
 
-In a terminal, TAB corresponds to C-i so that's an issue. Otherwise, for the GUI emacs,
-which I normally use, this isn't a problem.
+In a terminal, TAB corresponds to C-i so that's an issue. For the GUI emacs, which I
+normally use, this isn't a problem.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; so TAB works in a terminal too
@@ -149,7 +126,7 @@ which I normally use, this isn't a problem.
 #+END_SRC
 
 
-So evil is vim for emacs. A better vim basically ;-).
+So (evil)[https://github.com/emacs-evil/evil] is vim for emacs. A better vim basically ;-).
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; vim for emacs
@@ -170,9 +147,8 @@ So evil is vim for emacs. A better vim basically ;-).
   (define-key evil-normal-state-map (kbd ", <RET>") 'projectile-ag))
 #+END_SRC
 
-
-Evil nerd commenter let's me comment out one of more lines. In Evil mode this is done using C-c i (multiple lines by
-selecting a region).
+[Evil nerd commenter](https://github.com/redguardtoo/evil-nerd-commenter) let's me comment out one of more lines. In
+Evil mode this is done using C-c i (multiple lines by selecting a region). A reimplementation of the vim version.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package evil-nerd-commenter
@@ -182,7 +158,7 @@ selecting a region).
 #+END_SRC
 
 
-Evil keybindings for org-mode. Yay.
+Evil keybindings for [org-mode](https://orgmode.org/). See [https://github.com/Somelauw/evil-org-mode](https://github.com/Somelauw/evil-org-mode). Yay.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package evil-org
@@ -282,7 +258,7 @@ For editing nix expressions.
 #+END_SRC
 
 
-Allows integrating nix with emacs - project specific.
+Allows integrating nix with emacs - project specific. See: [https://github.com/shlevy/nix-buffer](https://github.com/shlevy/nix-buffer).
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; supports using a dir-locals.nix (kind of like a default.nix)
@@ -350,6 +326,9 @@ https://direnv.net/
   (direnv-mode))
 #+END_SRC
 
+
+Highlights uncommitted changes.
+
 #+BEGIN_SRC elisp :tangle default.el
 (use-package diff-hl
   :config
@@ -371,6 +350,18 @@ Some simple modes for a few languages.
 
 (use-package yaml-mode
   :mode "\\.cf$")
+
+(use-package scala-mode
+  :interpreter
+  ("scala" . scala-mode))
+
+(use-package js2-mode
+  :ensure t
+  :config
+  (setq js2-strict-missing-semi-warning nil)
+  (setq js2-missing-semi-one-line-override t)
+  (setq js-indent-level 2)
+  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 #+END_SRC
 
 
@@ -384,20 +375,21 @@ Intero is an awesome haskell environment for emacs. It's disabled now because it
 #+END_SRC
 
 
-Mode for elm. Disable atm.
+Mode for elm. Disabled atm.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; (use-package elm-mode)
 #+END_SRC
 
 
-Mode for groovy. Disable atm.
+Mode for groovy. Disabled atm.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; (use-package groovy-mode
 ;;   :config
 ;;   (setq groovy-indent-offset 2))
 #+END_SRC
+
 
 Company is a text completion framework for Emacs. The name stands for "complete anything". It uses pluggable back-ends
 and front-ends to retrieve and display completion candidates.
@@ -431,27 +423,11 @@ See: https://github.com/expez/company-quickhelp
   (setq company-quickhelp-delay 0))
 #+END_SRC
 
-Show documentation popups nixos configuration options.
+
+Show documentation popups for nixos configuration options.
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package company-nixos-options)
-#+END_SRC
-
-
-Modes for additional languages.
-
-#+BEGIN_SRC elisp :tangle default.el
-(use-package scala-mode
-  :interpreter
-  ("scala" . scala-mode))
-
-(use-package js2-mode
-  :ensure t
-  :config
-  (setq js2-strict-missing-semi-warning nil)
-  (setq js2-missing-semi-one-line-override t)
-  (setq js-indent-level 2)
-  (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode)))
 #+END_SRC
 
 
@@ -509,8 +485,7 @@ Go mode and other go stuff.
 #+END_SRC
 
 
-This enables syntax checking / linting for moonscript. Defined right here. Disabled
-until I get around to adding the dependencies.
+This enables syntax checking / linting for moonscript. Defined right here. Disabled for now.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; (flycheck-define-checker moonscript-moonpick
@@ -530,14 +505,15 @@ until I get around to adding the dependencies.
 #+END_SRC
 
 
-For showing errors in terminal (pos-tip - see below - doesn't do that).
+For showing errors in terminal (pos-tip doesn't do that - see below).
 See: https://github.com/flycheck/flycheck-popup-tip
 
 #+BEGIN_SRC elisp :tangle default.el
 (use-package flycheck-popup-tip)
 #+END_SRC
 
-For showing errors under point. Refers to above for terminal above.
+
+For showing errors under point. Refers to above for similar terminal functionality.
 See: https://github.com/flycheck/flycheck-pos-tip
 
 #+BEGIN_SRC elisp :tangle default.el
@@ -580,7 +556,7 @@ This will highlight matching parentheses. Some additional configuration for that
 #+END_SRC
 
 
-Electric pair-mode will help with matching parentheses, quotes etc. Only in prog mode though thanks.
+Electric pair-mode will help with matching parentheses, quotes etc. Only used for prog mode.
 
 #+BEGIN_SRC elisp :tangle default.el
 (add-hook 'prog-mode-hook 'electric-pair-mode)
@@ -616,6 +592,7 @@ See: https://www.emacswiki.org/emacs/UndoTree
   (setq undo-tree-visualizer-diff t))
 #+END_SRC
 
+
 Frames only mode makes emacs play nicely with tiling window managers (such as i3). It uses
 new operating system windows instead of emacs internal ones.
 See: https://github.com/davidshepherd7/frames-only-mode
@@ -635,9 +612,11 @@ Using control-x control-z to zoom in / out a window (eg. "fullscreen" it).
 #+END_SRC
 
 
+### Other configuration
+
 Define a function to set the powerline theme. This is so that when using emacsclient we
 can just call this rather than duplicate code. So we need to be able to set the theme more
-than "once" depending on whether we use the emacsclient or not.
+than once depending on whether we use the emacsclient or not.
 
 #+BEGIN_SRC elisp :tangle default.el
 (defun my-powerline-theme ()
@@ -661,8 +640,7 @@ Define the overall theme somewhere for reuse.
 #+END_SRC
 
 
-To make themes work nicely with emacsclient we need to set the theme when the client connects. It's
-just how it is I suppose.
+This is where we recognize whether emacsclient is being used or not and if it is we'll set the theme as necessary.
 
 #+BEGIN_SRC elisp :tangle default.el
 (defvar my:theme-window-loaded nil)
@@ -726,6 +704,36 @@ Define some keybindings I like for moving between splits/windows.
 #+END_SRC
 
 
+We don't want any scratch message at all. Unfortunately, because the emacs devs don't want a sysadmin
+to disable the startup screen for users (or something like that), we can't disable that from here. Must
+be added to a user's .emacs or init.el.
+
+#+BEGIN_SRC elisp :tangle default.el
+;; inhibit-startup-screen has to be in .emacs - see emacs source
+;; for why
+(setq initial-scratch-message "")
+#+END_SRC
+
+
+Disable some things I'm not interested in, like tool bars and menu bars.
+
+#+BEGIN_SRC elisp :tangle default.el
+;; No menus or anything like that thanks
+(tool-bar-mode -1)
+;; (scroll-bar-mode -1) ;; scrollbars are still nice though
+(blink-cursor-mode -1)
+(menu-bar-mode -1)
+#+END_SRC
+
+
+This is a nice font :-).
+
+#+BEGIN_SRC elisp :tangle default.el
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
+(set-face-attribute 'default t :font "Source Code Pro-16")
+#+END_SRC
+
+
 Did I mention I like utf8? I like utf8.
 
 #+BEGIN_SRC elisp :tangle default.el
@@ -753,7 +761,7 @@ Fix the scrolling which isn't very nice by default in my opinion.
 #+END_SRC
 
 
-What's the browser you use? I use a shell script called browse which deals with all that.
+I use a shell script called browse which launches the browser I use - so emacs also calls that script.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; use "browse" as the command to open a web browser
@@ -762,7 +770,7 @@ What's the browser you use? I use a shell script called browse which deals with 
 #+END_SRC
 
 
-Some default settings now.
+Some other general settings.
 
 #+BEGIN_SRC elisp :tangle default.el
 (setq mode-require-final-newline nil)
@@ -782,7 +790,12 @@ Some default settings now.
 (setq backup-inhibited t)
 (setq make-backup-files nil) ; don't create backup~ files
 (setq auto-save-default nil) ; don't create #autosave# files
+#+END_SRC
 
+
+Finally, since I'm in Europe, I'd like dates and such to be displayed in the expected European formats.
+
+#+BEGIN_SRC elisp :tangle default.el
 (setq european-date-style 'european)
 (setq calendar-set-date-style 'european)
 (setq calendar-week-start-day 1)
