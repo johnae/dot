@@ -178,6 +178,18 @@ Evil keybindings for magit. Woohoo.
 #+END_SRC
 
 
+Avy is kind of like vim motion. It lets you jump to certain text using a
+character based decision tree.
+See: [[https://github.com/abo-abo/avy][https://github.com/abo-abo/avy]]
+
+#+BEGIN_SRC elisp :tangle default.el
+(use-package avy
+  :config
+  (global-set-key (kbd "C-¨") 'avy-goto-char)
+)
+#+END_SRC
+
+
 Which key will show (in a popup) any possible continuations of a currently entered incomplete command.
 See: [[https://github.com/justbur/emacs-which-key][https://github.com/justbur/emacs-which-key]]
 
@@ -739,8 +751,8 @@ Disable some things I'm not interested in, like tool bars and menu bars.
 This is a nice font :-).
 
 #+BEGIN_SRC elisp :tangle default.el
-(add-to-list 'default-frame-alist '(font . "Source Code Pro-16"))
-(set-face-attribute 'default t :font "Source Code Pro-16")
+(add-to-list 'default-frame-alist '(font . "Source Code Pro-14"))
+(set-face-attribute 'default t :font "Source Code Pro-14")
 #+END_SRC
 
 

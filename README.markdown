@@ -11,7 +11,7 @@ See ```.zshrc``` for the ordering and how it runs. There's also hostname based c
 
 ## Emacs
 
-See [README.org](.config/nixpkgs/packages/emacs/README.org) for emacs configuration - handled through the [nix package manager](https:nixos.org). Emacs configuration is untangled from that org file. Install it like this:
+See [README.org](.config/nixpkgs/packages/my-emacs/README.org) for emacs configuration - handled through the [nix package manager](https:nixos.org). Emacs configuration is untangled from that org file. Install it like this:
 
 `nix-env -iA nixos.my-emacs`
 
