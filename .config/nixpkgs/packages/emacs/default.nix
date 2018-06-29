@@ -10,10 +10,6 @@ let
      emacs --batch --quick -l ob-tangle --eval "(org-babel-tangle-file \"README.org\")"
   '';
 
-in
-
-rec {
-
   emacsPackages =
     pkgs.emacsPackagesNg.overrideScope
     (self: super: {
@@ -22,106 +18,107 @@ rec {
         use-package;
     });
 
-  emacs = emacsPackages.emacsWithPackages (epkgs: with epkgs; [
-    use-package
 
-    # Interface
-    bind-key
-    company
-    ivy counsel swiper
-    projectile  # project management
-    counsel-projectile
-    ripgrep  # search
-    which-key  # display keybindings after incomplete command
+in
 
-    # Themes
-    diminish
-    all-the-icons
-    powerline
-    spaceline
-    spaceline-all-the-icons
-    zerodark-theme
+emacsPackages.emacsWithPackages (epkgs: with epkgs; [
+  use-package
 
-    # Delimiters
-    smartparens
-    linum-relative
-    fringe-helper
+  # Interface
+  bind-key
+  company
+  ivy counsel swiper
+  projectile  # project management
+  counsel-projectile
+  ripgrep  # search
+  which-key  # display keybindings after incomplete command
 
-    highlight-numbers
+  # Themes
+  diminish
+  all-the-icons
+  powerline
+  spaceline
+  spaceline-all-the-icons
+  zerodark-theme
 
-    # Evil
-    avy
-    evil
-    evil-org ## or syndicate?
-    evil-magit
-    evil-indent-textobject
-    evil-nerd-commenter
-    ## evil-cleverparens ## use lispyville / lispy instead?
+  # Delimiters
+  smartparens
+  linum-relative
+  fringe-helper
 
-    undo-tree
-    frames-only-mode
-    zoom-window
+  highlight-numbers
 
-    # Git
-    # git-auto-commit-mode
-    # git-timemachine
-    magit
-    diff-hl
+  # Evil
+  avy
+  evil
+  evil-org ## or syndicate?
+  evil-magit
+  evil-indent-textobject
+  evil-nerd-commenter
+  ## evil-cleverparens ## use lispyville / lispy instead?
 
-    # Helpers
-    direnv
+  undo-tree
+  frames-only-mode
+  zoom-window
 
-    # Language support
-    moonscript
-    lua-mode
-    json-mode
-    yaml-mode
-    markdown-mode
+  # Git
+  # git-auto-commit-mode
+  # git-timemachine
+  magit
+  diff-hl
 
-    company-quickhelp
+  # Helpers
+  direnv
 
-    # Go
-    go-mode
-    company-go
-    go-guru
-    go-eldoc
-    flycheck-gometalinter
-    ob-go
+  # Language support
+  moonscript
+  lua-mode
+  json-mode
+  yaml-mode
+  markdown-mode
 
-    flycheck-checkbashisms
+  company-quickhelp
 
-    auto-compile
-    flycheck
-    flycheck-popup-tip
-    flycheck-pos-tip
+  # Go
+  go-mode
+  company-go
+  go-guru
+  go-eldoc
+  flycheck-gometalinter
+  ob-go
 
-    string-inflection
+  flycheck-checkbashisms
 
-    markdown-mode
-    pkgs.ledger
-    yaml-mode
-    web-mode
-    pos-tip
-    dockerfile-mode
-    scala-mode
-    js2-mode
+  auto-compile
+  flycheck
+  flycheck-popup-tip
+  flycheck-pos-tip
 
-    # Haskell
-    haskell-mode
-    flycheck-haskell
-    company-ghci  # provide completions from inferior ghci
+  string-inflection
 
-    # Org
-    org org-ref evil-org org-bullets
+  markdown-mode
+  pkgs.ledger
+  yaml-mode
+  web-mode
+  pos-tip
+  dockerfile-mode
+  scala-mode
+  js2-mode
 
-    # Rust
-    rust-mode cargo flycheck-rust
+  # Haskell
+  haskell-mode
+  flycheck-haskell
+  company-ghci  # provide completions from inferior ghci
 
-    # Nix
-    nix-mode nix-buffer nixos-options company-nixos-options nix-sandbox
+  # Org
+  org org-ref evil-org org-bullets
 
-    # config file
-    emacsConfig
-  ]);
+  # Rust
+  rust-mode cargo flycheck-rust
 
-}
+  # Nix
+  nix-mode nix-buffer nixos-options company-nixos-options nix-sandbox
+
+  # config file
+  emacsConfig
+])
