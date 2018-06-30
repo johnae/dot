@@ -3,8 +3,12 @@ self: super: {
     name = "default-packages";
     paths = with self; [
           my-emacs
-          # latest.firefox-beta-bin
           firefox-devedition-bin
+          dropbox
+          signal-desktop
+          google-cloud-sdk
+          docker-credential-gcr
+          awscli
     ];
   };
 }
