@@ -20,6 +20,17 @@ or if not on NixOS:
 `nix-env -iA nixpkgs.my-emacs`
 
 
+## Default packages
+
+So even if above would give me my emacs with the packages and config I want, I prefer installing it through the "meta" package [default-packages](.config/nixpkgs/overlays/default-packages.nix) - like this:
+
+`nix-env -iA nixos.default-packages`
+
+or if not on nixos:
+
+`nix-env -iA nixpkgs.default-packages`
+
+
 ## Installation
 
 First off, this is only for zsh since that's the shell I use. So it wont' work with anything else. In addition, off the top of my head, these tools are required for it to work reasonanly well:
