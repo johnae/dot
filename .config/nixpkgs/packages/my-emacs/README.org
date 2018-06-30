@@ -69,7 +69,7 @@ The famous [[https://orgmode.org/][org mode]]. Default settings I use and stuff.
   (setq org-log-done 'time
         org-log-reschedule 'time
         org-src-fontify-natively t
-        org-ellipsis " ⤵"
+        org-ellipsis " ↘"
         org-agenda-files '("~/Dropbox/org/")
         org-directory '("~/Dropbox/org/")
         org-enforce-todo-dependencies t
@@ -247,6 +247,21 @@ just the file name. Useful in larger projects.
 (add-hook 'find-file-hook #'my-project-relative-buffer-name)
 #+END_SRC
 
+
+Sorting and filtering for company and ivy.
+See: [[https://github.com/raxod502/prescient.el][https://github.com/raxod502/prescient.el]]
+
+#+BEGIN_SRC elisp :tangle default.el
+(use-package prescient
+   :config
+   (prescient-persist-mode))
+(use-package ivy-prescient
+   :config
+   (ivy-prescient-mode))
+(use-package company-prescient
+   :config
+   (company-prescient-mode))
+#+END_SRC
 
 See: [[https://www.emacswiki.org/emacs/PosTip][https://www.emacswiki.org/emacs/PosTip]]
 
