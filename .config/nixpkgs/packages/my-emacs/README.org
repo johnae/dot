@@ -299,19 +299,20 @@ For editing nix expressions.
 
 
 Allows integrating nix with emacs - project specific. See: [[https://github.com/shlevy/nix-buffer][https://github.com/shlevy/nix-buffer]].
+Disabled as I believe direnv will do everything I need.
 
 #+BEGIN_SRC elisp :tangle default.el
 ;; supports using a dir-locals.nix (kind of like a default.nix)
-(use-package nix-buffer
-  :commands nix-buffer
-  :preface
-  (defun turn-on-nix-buffer ()
-    (when (and (not noninteractive)
-          (not (eq (aref (buffer-name) 0) ?\s))
-          (not (file-remote-p default-directory)))
-      (nix-buffer)))
-  :hook (after-change-major-mode . turn-on-nix-buffer)
-  )
+;; (use-package nix-buffer
+;;   :commands nix-buffer
+;;   :preface
+;;   (defun turn-on-nix-buffer ()
+;;     (when (and (not noninteractive)
+;;           (not (eq (aref (buffer-name) 0) ?\s))
+;;           (not (file-remote-p default-directory)))
+;;       (nix-buffer)))
+;;   :hook (after-change-major-mode . turn-on-nix-buffer)
+;;   )
 #+END_SRC
 
 
@@ -489,7 +490,9 @@ This allows me to toggle between snake case, camel case etc.
 #+BEGIN_SRC elisp :tangle default.el
 (use-package flycheck
   :config
-  (global-flycheck-mode))
+  (global-flycheck-mode)
+  (add-hook 'flycheck-before-syntax-check-hook 'direnv-update-environment)
+)
 #+END_SRC
 
 
