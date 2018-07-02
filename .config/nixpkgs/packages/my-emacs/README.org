@@ -491,6 +491,8 @@ This allows me to toggle between snake case, camel case etc.
 (use-package flycheck
   :config
   (global-flycheck-mode)
+  (setq flycheck-idle-change-delay 2.0)
+  ;; (setq flycheck-check-syntax-automatically '(mode-enabled save))
   (add-hook 'flycheck-before-syntax-check-hook 'direnv-update-environment)
 )
 #+END_SRC
@@ -513,11 +515,13 @@ Go mode and other go stuff.
   )
 
 (use-package flycheck-gometalinter
+  :after flycheck
   :config
   (setq flycheck-gometalinter-fast t
-        flycheck-gometalinter-tests t
+        flycheck-gometalinter-test t
         flycheck-gometalinter-deadlines "10s")
-  (flycheck-gometalinter-setup))
+  (progn
+    (flycheck-gometalinter-setup)))
 
 (use-package go-eldoc
   :config
