@@ -9,6 +9,8 @@ self: super: {
           google-cloud-sdk
           docker-credential-gcr
           awscli
+          slack
+          direnv
     ];
   };
 }
