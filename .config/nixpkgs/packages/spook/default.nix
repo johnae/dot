@@ -1,14 +1,14 @@
 { stdenv, fetchgit, gnumake, gcc, wget, perl, cacert }:
 
 stdenv.mkDerivation rec {
-  version = "0.9.5-pre1";
+  version = "0.9.5-pre4";
   name = "spook-${version}";
   SPOOK_VERSION = version;
 
   src = fetchgit {
     url = https://github.com/johnae/spook.git;
-    rev = "ec5be50ca6d18874187492576e2b5fd4dfbcdd90";
-    sha256 = "1ilamaj0lcrvncqmvgv3aqvvmvw7sqf0xqx1hk8ja6198djv07ha";
+    rev = "2458aedb7a177ee60f3dce306a698fe95ced2c56";
+    sha256 = "05jnrq4i8ylh241l9qj4ynz1vxjxdhyb9321wm4jwq8baq20nknf";
     fetchSubmodules = true;
   };
 
