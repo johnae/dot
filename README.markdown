@@ -1,5 +1,7 @@
 # My Dotfiles (and nix expressions)
 
+I don't use these anymore as I've switched to [NixOS](https://nixos.org). Please see [nixdot](https://github.com/johnae/nixdot) for what I use now.
+
 These are the dotfiles I use to customize Arch Linux (mostly). I used to use something called homeshick which linked files into my home but I've since opted to use an arguably simpler approach.
 
 The ```.profile.d``` has been divided up into many files named by feature and contained within similarly named directory, eg:
